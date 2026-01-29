@@ -212,10 +212,15 @@ function App() {
           <div className="relative">
             {/* ABOUT US Title - Always positioned to overlap the image */}
             <div className={`absolute top-6 md:top-10 z-20 ${language === 'ar' ? 'right-[5%] md:right-[8.5%]' : 'left-4 md:left-[3.5rem]'}`}>
-              <h2 className={`text-4xl md:text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-left' : ''}`}>
+              {/* Mobile: Single line */}
+              <h2 className={`md:hidden text-3xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-right' : ''}`}>
+                {language === 'ar' ? 'من نحن' : 'ABOUT US'}
+              </h2>
+              {/* Desktop: Two lines */}
+              <h2 className={`hidden md:block text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-left' : ''}`}>
                 {t.about.title.split('\n')[0]}
               </h2>
-              <h2 className={`text-4xl md:text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white -mt-1 md:-mt-2 ${language === 'ar' ? 'text-left' : 'text-right'}`}>
+              <h2 className={`hidden md:block text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white -mt-2 ${language === 'ar' ? 'text-left' : 'text-right'}`}>
                 {t.about.title.split('\n')[1]}
               </h2>
             </div>

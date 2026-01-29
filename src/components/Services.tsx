@@ -330,7 +330,7 @@ export default function Services() {
               ))}
             </div>
 
-            <div className="relative mt-8 pt-4 h-12 flex items-center justify-between">
+            <div className="relative mt-8 pt-4 h-12 hidden md:flex items-center justify-between">
               {canScroll && (
                 <div className={`absolute ${language === 'ar' ? 'left-0' : 'right-0'} flex items-center gap-4`}>
                   <button

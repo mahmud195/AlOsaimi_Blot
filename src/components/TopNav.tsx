@@ -37,21 +37,24 @@ export default function TopNav({ activeSection }: TopNavProps) {
     <>
       <nav className={`fixed top-0 left-0 right-0 z-50 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 transition-all duration-300 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
         <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between transition-all duration-300">
-          {/* Hamburger Menu Button - Mobile Only */}
+          {/* Mobile: Hamburger on left, Logo center, Language right */}
+          {/* Desktop: Logo left, Nav center, Language right */}
+
+          {/* Hamburger Menu Button - Mobile Only (left side on mobile) */}
           <button
-            className={`md:hidden text-aoc-white/80 hover:text-aoc-white transition-colors ${language === 'ar' ? 'order-3' : 'order-1'}`}
+            className="md:hidden text-aoc-white/80 hover:text-aoc-white transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
-          {/* Logo - Centered on Mobile */}
-          <a href="#home" className={`h-10 w-auto transition-all duration-300 ${language === 'ar' ? 'order-2' : 'order-2 md:order-1'}`}>
+          {/* Logo */}
+          <a href="#home" className="h-10 w-auto transition-all duration-300 md:flex-none absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
             <img src={aocLogo} alt="AOC Logo" className="h-full w-auto" />
           </a>
 
-          {/* Desktop Navigation */}
-          <div className={`hidden md:flex items-center gap-8 transition-all duration-300 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+          {/* Desktop Navigation - Center */}
+          <div className={`hidden md:flex items-center gap-8 transition-all duration-300 flex-1 justify-center ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
             {navItems.map((item) => (
               <a
                 key={item.id}
@@ -66,8 +69,8 @@ export default function TopNav({ activeSection }: TopNavProps) {
             ))}
           </div>
 
-          {/* Language Switcher */}
-          <div className={`flex items-center gap-6 transition-all duration-300 ${language === 'ar' ? 'order-1' : 'order-3'}`}>
+          {/* Language Switcher - Right side */}
+          <div className="flex items-center gap-6 transition-all duration-300">
             <div className="relative">
               <button
                 onClick={() => setShowLangDropdown(!showLangDropdown)}

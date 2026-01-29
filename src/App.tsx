@@ -6,8 +6,7 @@ import { useLanguage } from './LanguageContext';
 import { translations } from './translations';
 import aocLogo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Icon White.png';
 import aocLogoFull from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Logo White.png';
-// Video hosted on Cloudinary CDN for faster loading
-const heroVideoUrl = 'https://res.cloudinary.com/di3a9q1d9/video/upload/AOC_x_BF_H_No_Subtitles_n2iknt.mp4';
+import heroVideo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Video/AOC_x_BF_H_No_Subtitles.mp4';
 import aboutImage from './assets/asset_16.png';
 import beFoundLogo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/BeFound Sigment.png';
 
@@ -130,7 +129,7 @@ function App() {
             preload="auto"
             className="w-full h-full object-cover"
           >
-            <source src={heroVideoUrl} type="video/mp4" />
+            <source src={heroVideo} type="video/mp4" />
           </video>
           <div className="absolute inset-0 bg-gradient-to-b from-aoc-black/60 via-aoc-indigo/20 to-aoc-black/70" />
         </div>

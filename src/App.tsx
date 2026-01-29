@@ -1,5 +1,5 @@
 import { ChevronDown, ArrowRight, Linkedin, Instagram, Facebook } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import TopNav from './components/TopNav';
 import Services from './components/Services';
 import { useLanguage } from './LanguageContext';
@@ -22,6 +22,8 @@ function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [introComplete, setIntroComplete] = useState(false);
   const [introPhase, setIntroPhase] = useState<'closed' | 'opening' | 'done'>('closed');
+  const [videoLoaded, setVideoLoaded] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const observerOptions = {
@@ -54,7 +56,7 @@ function App() {
     console.log('Form submitted:', formData);
   };
 
-  // Intro animation sequence
+  // Intro animation sequence - waits for video to load
   useEffect(() => {
     // Disable scrolling during intro
     document.body.style.overflow = 'hidden';
@@ -64,20 +66,35 @@ function App() {
       setIntroPhase('opening');
     }, 1000);
 
-    // Complete intro after animation
-    const completeTimer = setTimeout(() => {
-      setIntroPhase('done');
-      setIntroComplete(true);
-      // Re-enable scrolling
-      document.body.style.overflow = '';
-    }, 2000);
-
     return () => {
       clearTimeout(openTimer);
-      clearTimeout(completeTimer);
       document.body.style.overflow = '';
     };
   }, []);
+
+  // Complete intro when video is loaded or after max wait time
+  useEffect(() => {
+    if (introPhase === 'opening') {
+      const completeIntro = () => {
+        setIntroPhase('done');
+        setIntroComplete(true);
+        document.body.style.overflow = '';
+      };
+
+      // If video already loaded, complete after short animation
+      if (videoLoaded) {
+        const timer = setTimeout(completeIntro, 1000);
+        return () => clearTimeout(timer);
+      }
+
+      // Max wait time of 5 seconds, then complete anyway
+      const maxWaitTimer = setTimeout(completeIntro, 5000);
+
+      return () => {
+        clearTimeout(maxWaitTimer);
+      };
+    }
+  }, [introPhase, videoLoaded]);
 
   return (
     <div className={`bg-aoc-black text-aoc-white overflow-x-hidden ${language === 'ar' ? 'rtl' : 'ltr'}`}>
@@ -122,11 +139,13 @@ function App() {
       <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-aoc-indigo">
           <video
+            ref={videoRef}
             autoPlay
             muted
             loop
             playsInline
             preload="auto"
+            onCanPlayThrough={() => setVideoLoaded(true)}
             className="w-full h-full object-cover"
           >
             <source src={heroVideo} type="video/mp4" />

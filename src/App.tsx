@@ -21,7 +21,7 @@ function App() {
   });
   const [activeSection, setActiveSection] = useState('home');
   const [introComplete, setIntroComplete] = useState(false);
-  const [introPhase, setIntroPhase] = useState<'closed' | 'opening' | 'done'>('closed');
+  const [introPhase, setIntroPhase] = useState<'closed' | 'entering' | 'opening' | 'done'>('closed');
 
   useEffect(() => {
     const observerOptions = {
@@ -59,20 +59,26 @@ function App() {
     // Disable scrolling during intro
     document.body.style.overflow = 'hidden';
 
-    // Start opening after a brief pause
+    // Start entering phase (logos slide in)
+    const enterTimer = setTimeout(() => {
+      setIntroPhase('entering');
+    }, 100);
+
+    // Start opening phase after logos are in position
     const openTimer = setTimeout(() => {
       setIntroPhase('opening');
-    }, 1000);
+    }, 1200);
 
-    // Complete intro after animation
+    // Complete intro after animation (1.5s opening time)
     const completeTimer = setTimeout(() => {
       setIntroPhase('done');
       setIntroComplete(true);
       // Re-enable scrolling
       document.body.style.overflow = '';
-    }, 2000);
+    }, 2700);
 
     return () => {
+      clearTimeout(enterTimer);
       clearTimeout(openTimer);
       clearTimeout(completeTimer);
       document.body.style.overflow = '';
@@ -86,30 +92,34 @@ function App() {
         <div className="fixed inset-0 z-[100] pointer-events-none">
           {/* Top Half - slides up */}
           <div
-            className={`absolute left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 flex items-end justify-center transition-all duration-1000 ease-out ${introPhase === 'closed' ? 'top-0 h-1/2' : 'top-0 h-[72px]'
+            className={`absolute left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 flex items-end justify-center transition-all ${introPhase === 'opening' || introPhase === 'done' ? 'duration-[1500ms] ease-[cubic-bezier(0.4,0,0.2,1)] top-0 h-[72px]' : 'duration-700 ease-out top-0 h-1/2'
               }`}
           >
             <img
               src={aocLogoFull}
               alt="AOC Logo"
-              className={`transition-all duration-1000 ease-out ${introPhase === 'closed'
-                ? 'h-12 mb-4'
-                : 'h-10 absolute left-8 top-1/2 -translate-y-1/2'
+              className={`transition-all ${introPhase === 'closed'
+                ? 'duration-300 ease-out h-12 mb-4 translate-x-[100vw] opacity-0'
+                : introPhase === 'entering'
+                  ? 'duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] h-12 mb-4 translate-x-0 opacity-100'
+                  : 'duration-[1500ms] ease-[cubic-bezier(0.4,0,0.2,1)] h-10 absolute left-8 top-1/2 -translate-y-1/2 translate-x-0 opacity-100'
                 }`}
             />
           </div>
 
           {/* Bottom Half - slides down */}
           <div
-            className={`absolute left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 flex items-start justify-center transition-all duration-1000 ease-out ${introPhase === 'closed' ? 'bottom-0 h-1/2' : 'bottom-0 h-12'
+            className={`absolute left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 flex items-start justify-center transition-all ${introPhase === 'opening' || introPhase === 'done' ? 'duration-[1500ms] ease-[cubic-bezier(0.4,0,0.2,1)] bottom-0 h-12' : 'duration-700 ease-out bottom-0 h-1/2'
               }`}
           >
             <img
               src={aocLogo}
               alt="AOC Icon"
-              className={`transition-all duration-1000 ease-out ${introPhase === 'closed'
-                ? 'h-16 mt-4'
-                : 'h-10 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 opacity-0'
+              className={`transition-all ${introPhase === 'closed'
+                ? 'duration-300 ease-out h-16 mt-4 -translate-x-[100vw] opacity-0'
+                : introPhase === 'entering'
+                  ? 'duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] h-16 mt-4 translate-x-0 opacity-100'
+                  : 'duration-[1500ms] ease-[cubic-bezier(0.4,0,0.2,1)] h-10 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 opacity-0'
                 }`}
             />
           </div>

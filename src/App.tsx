@@ -120,12 +120,13 @@ function App() {
 
       {/* Hero Video Section */}
       <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-aoc-indigo">
           <video
             autoPlay
             muted
             loop
             playsInline
+            preload="auto"
             className="w-full h-full object-cover"
           >
             <source src={heroVideo} type="video/mp4" />

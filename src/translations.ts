@@ -2,6 +2,7 @@ export const translations = {
   en: {
     nav: {
       logo: 'ARCHCORP',
+      home: 'Home',
       about: 'About',
       services: 'Services',
       projects: 'Projects',
@@ -9,15 +10,20 @@ export const translations = {
       contact: 'Contact'
     },
     hero: {
-      title: 'DESIGN . INNOVATION . TECHNOLOGY'
+      title: 'DESIGN . INNOVATION . TECHNOLOGY . '
     },
     about: {
       title: 'ABOUT\nUS',
-      paragraph1: 'ALOSAIMI CONSULTING is a premier architectural and engineering consultancy dedicated to delivering innovative design solutions. With a foundation built on trust and excellence, we transform visions into remarkable structures that stand the test of time.',
-      paragraph2: 'Our multidisciplinary team brings together expertise in architecture, engineering, and technology to create spaces that inspire and endure. We believe in design that not only meets functional requirements but elevates the human experience.'
+      paragraph1: 'Al Osaimi Consulting Office is a trusted partner dedicated to advancing the future of urban development and engineering. Guided by extensive expertise and an ambitious vision, we strive to build stronger connections with our clients while reinforcing our presence in the Kingdom of Saudi Arabia and pursuing continuous expansion beyond its borders.',
+      paragraph2: 'At Al Osaimi Consulting, we place quality and innovation at the core of everything we do, delivering engineering solutions that exceed standards and meet the aspirations of our clients, affirming our mission to lead in the world of engineering consultancy.'
     },
     services: {
       title: 'OUR\nSERVICES',
+      location: 'LOCATION',
+      aboutLabel: 'ABOUT',
+      scroll: 'Scroll',
+      readMore: 'Read More',
+      builtOn: 'Built on a solid foundation of trust and driven by a relentless passion for excellence, we create innovative solutions that contribute to building a sustainable future.',
       intro: 'We provide comprehensive architectural and engineering solutions tailored to transform your vision into exceptional built environments. Our services span from conceptual design through project delivery, combining innovative thinking with technical excellence.',
       architecture: {
         title: 'ARCHITECTURE',
@@ -83,6 +89,7 @@ export const translations = {
   ar: {
     nav: {
       logo: 'آرتشكورب',
+      home: 'الرئيسية',
       about: 'حول',
       services: 'الخدمات',
       projects: 'المشاريع',
@@ -90,15 +97,20 @@ export const translations = {
       contact: 'اتصل'
     },
     hero: {
-      title: 'التصميم . الابتكار . التكنولوجيا'
+      title: 'التصميم          .          الابتكار     .     التكنولوجيا          .          '
     },
     about: {
-      title: 'حولنا',
-      paragraph1: 'نحن استوديو تصميم متعدد التخصصات متخصص في إنشاء مساحات معمارية استثنائية تدمج الشكل والوظيفة بسلاسة. يجمع نهجنا بين التفكير التصميمي المبتكر والتكنولوجيا المتقدمة لتقديم مشاريع تصمد أمام اختبار الزمن.',
-      paragraph2: 'مع أكثر من عقرين من الخبرة، أصبحنا قادة في العمارة الشركاتية، حيث نخلق بيئات تلهم وترفع التجربة الإنسانية.'
+      title: 'من\nنحن',
+      paragraph1: 'مكتب العصيمي للاستشارات شريك موثوق مكرس للنهوض بمستقبل التنمية العمرانية والهندسة. مسترشدين بخبرة واسعة ورؤية طموحة، نسعى لبناء روابط أقوى مع عملائنا مع تعزيز حضورنا في المملكة العربية السعودية ومتابعة التوسع المستمر خارج حدودها.',
+      paragraph2: 'في العصيمي للاستشارات، نضع الجودة والابتكار في صميم كل ما نقوم به، ونقدم حلولاً هندسية تتجاوز المعايير وتلبي تطلعات عملائنا، مؤكدين على مهمتنا في الريادة في عالم الاستشارات الهندسية.'
     },
     services: {
       title: 'خدماتنا',
+      location: 'الموقع',
+      aboutLabel: 'نبذة',
+      scroll: 'تصفح',
+      readMore: 'اقرأ المزيد',
+      builtOn: 'بُنيت على أساس متين من الثقة ومدفوعة بشغف لا هوادة فيه للتميز، نعمل على إيجاد حلول مبتكرة تساهم في بناء مستقبل مستدام.',
       intro: 'نقدم حلولاً معمارية وهندسية شاملة مصممة خصيصاً لتحويل رؤيتك إلى بيئات مبنية استثنائية. تمتد خدماتنا من التصميم الأولي حتى تسليم المشروع، حيث نجمع بين التفكير المبتكر والتميز التقني.',
       architecture: {
         title: 'العمارة',

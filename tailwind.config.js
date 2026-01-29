@@ -10,7 +10,7 @@ export default {
         'aoc-white': '#F2F2F2',
       },
       fontFamily: {
-        'space-grotesk': ['Space Grotesk', 'sans-serif'],
+        'darker-grotesque': ['Darker Grotesque', 'sans-serif'],
         'inter-tight': ['Inter Tight', 'sans-serif'],
       },
       keyframes: {
@@ -18,6 +18,18 @@ export default {
           '0%, 100%': { transform: 'scale(1)' },
           '50%': { transform: 'scale(1.1)' },
         },
+        marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-25%)' },
+        },
+        marqueeReverse: {
+          '0%': { transform: 'translateX(-25%)' },
+          '100%': { transform: 'translateX(0%)' },
+        },
+      },
+      animation: {
+        marquee: 'marquee 20s linear infinite',
+        'marquee-reverse': 'marqueeReverse 20s linear infinite',
       },
     },
   },

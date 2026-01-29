@@ -13,20 +13,36 @@ interface Service {
 }
 
 function ServiceModal({ service, isOpen, onClose, language }: { service: Service | null; isOpen: boolean; onClose: () => void; language: string }) {
+  // Disable page scroll when modal is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen]);
+
   if (!isOpen || !service) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4">
-      <div className={`bg-aoc-indigo max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-lg ${language === 'ar' ? 'rtl' : ''}`}>
-        <div className="sticky top-0 bg-aoc-indigo flex items-center justify-between p-6 border-b border-aoc-gold/30">
-          <h3 className="text-3xl font-space-grotesk font-light tracking-[0.15em] uppercase text-aoc-gold">
+    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div
+        className={`bg-aoc-indigo max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-lg ${language === 'ar' ? 'rtl text-right' : ''}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Native Bar Header - Glassmorphism */}
+        <div className="sticky top-0 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 flex items-center justify-center p-4 relative z-10">
+          <h3 className="text-2xl font-darker-grotesque font-light tracking-[0.15em] uppercase text-aoc-gold text-center">
             {service.title}
           </h3>
           <button
             onClick={onClose}
-            className="text-aoc-white hover:text-aoc-gold transition-colors"
+            className={`absolute ${language === 'ar' ? 'left-4' : 'right-4'} w-10 h-10 rounded-full bg-aoc-black/50 border border-white/20 flex items-center justify-center text-aoc-white hover:text-aoc-gold hover:border-aoc-gold transition-all`}
           >
-            <X size={28} />
+            <X size={20} />
           </button>
         </div>
 
@@ -35,6 +51,7 @@ function ServiceModal({ service, isOpen, onClose, language }: { service: Service
             <img
               src={service.image}
               alt={service.title}
+              loading="lazy"
               className="w-full h-full object-cover"
             />
           </div>
@@ -42,18 +59,18 @@ function ServiceModal({ service, isOpen, onClose, language }: { service: Service
           <div className="space-y-4">
             <div>
               <p className="text-sm font-inter-tight font-light tracking-[0.2em] uppercase text-aoc-gold mb-2">
-                LOCATION
+                {language === 'ar' ? 'الموقع' : 'LOCATION'}
               </p>
               <p className="text-aoc-white text-lg font-inter-tight font-light">
                 {service.place}
               </p>
             </div>
 
-            <div className="w-24 h-[1px] bg-aoc-gold" />
+            <div className={`w-24 h-[1px] bg-aoc-gold ${language === 'ar' ? 'ml-auto' : ''}`} />
 
             <div>
-              <h4 className="text-xl font-space-grotesk font-light tracking-[0.1em] uppercase text-aoc-white mb-4">
-                ABOUT
+              <h4 className="text-xl font-darker-grotesque font-light tracking-[0.1em] uppercase text-aoc-white mb-4">
+                {language === 'ar' ? 'نبذة' : 'ABOUT'}
               </h4>
               <p className="text-aoc-white/70 text-base font-inter-tight font-light leading-relaxed">
                 {service.fullDescription}
@@ -73,7 +90,6 @@ export default function Services() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScroll, setCanScroll] = useState(false);
-  const lastScrollLeft = useRef(0);
   const isScrollButtonPressed = useRef(false);
   const [isButtonPressed, setIsButtonPressed] = useState(false);
   const scrollAnimationRef = useRef<number | null>(null);
@@ -139,28 +155,6 @@ export default function Services() {
     setIsDragging(false);
   };
 
-  const scrollLeft = () => {
-    if (carouselRef.current) {
-      if (carouselRef.current.scrollLeft <= 300) {
-        carouselRef.current.scrollLeft = carouselRef.current.scrollWidth - carouselRef.current.clientWidth;
-      } else {
-        carouselRef.current.scrollBy({ left: -300, behavior: 'smooth' });
-      }
-    }
-  };
-
-  const scrollRight = () => {
-    if (carouselRef.current) {
-      const maxScroll = carouselRef.current.scrollWidth - carouselRef.current.clientWidth;
-      const currentScroll = carouselRef.current.scrollLeft;
-
-      if (currentScroll + 300 >= maxScroll) {
-        carouselRef.current.scrollLeft = 0;
-      } else {
-        carouselRef.current.scrollBy({ left: 300, behavior: 'smooth' });
-      }
-    }
-  };
 
   const handleScrollButtonDown = () => {
     isScrollButtonPressed.current = true;
@@ -168,15 +162,27 @@ export default function Services() {
     const carousel = carouselRef.current;
     if (!carousel) return;
 
+    const isRTL = language === 'ar';
+
     const scroll = () => {
       if (isScrollButtonPressed.current) {
         const maxScroll = carousel.scrollWidth - carousel.clientWidth;
         const currentScroll = carousel.scrollLeft;
 
-        if (currentScroll + 8 >= maxScroll) {
-          carousel.scrollLeft = 0;
+        if (isRTL) {
+          // For RTL: scroll from right to left (negative direction)
+          if (currentScroll - 8 <= 0) {
+            carousel.scrollLeft = maxScroll;
+          } else {
+            carousel.scrollLeft -= 8;
+          }
         } else {
-          carousel.scrollLeft += 8;
+          // For LTR: scroll from left to right (positive direction)
+          if (currentScroll + 8 >= maxScroll) {
+            carousel.scrollLeft = 0;
+          } else {
+            carousel.scrollLeft += 8;
+          }
         }
         scrollAnimationRef.current = requestAnimationFrame(scroll);
       }
@@ -249,26 +255,24 @@ export default function Services() {
   };
 
   return (
-    <section id="services" className={`min-h-screen flex items-center py-24 ${language === 'ar' ? 'rtl' : ''}`} style={{ backgroundColor: 'rgb(0, 48, 135)' }}>
-      <div className="max-w-screen-2xl mx-auto px-8 w-full">
-        <div className={`grid md:grid-cols-3 gap-16 items-center ${language === 'ar' ? 'rtl' : ''}`}>
-          <div className={`space-y-8 ${language === 'ar' ? 'md:order-2' : ''}`}>
-            <h2 className="text-5xl md:text-6xl font-space-grotesk font-extralight tracking-[0.2em] uppercase leading-tight text-aoc-white">
+    <section id="services" className={`min-h-screen flex items-start pt-4 md:pt-0 pb-4 ${language === 'ar' ? 'rtl' : ''}`} style={{ backgroundColor: 'rgb(0, 48, 135)' }}>
+      <div className="max-w-screen-2xl mx-auto px-4 md:px-8 w-full">
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 items-start md:items-center ${language === 'ar' ? 'rtl' : ''}`}>
+          <div className={`space-y-4 md:space-y-8 ${language === 'ar' ? 'md:order-2 text-right' : ''}`}>
+            <h2 className={`text-3xl md:text-6xl font-darker-grotesque font-extralight tracking-[0.15em] md:tracking-[0.2em] uppercase leading-tight text-aoc-white mt-0 md:-mt-20 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
               {t.services.title}
             </h2>
 
-            <div className="w-24 h-[1px] bg-aoc-gold" />
-
-            <p className="text-aoc-white/80 text-base font-inter-tight font-light leading-relaxed">
+            <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed ${language === 'ar' ? 'text-right' : ''}`}>
               {t.services.intro}
             </p>
 
-            <p className="text-aoc-white/80 text-base font-inter-tight font-light leading-relaxed">
-              Built on a solid foundation of trust and driven by a relentless passion for excellence, we create innovative solutions that contribute to building a sustainable future.
+            <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed ${language === 'ar' ? 'text-right' : ''}`}>
+              {t.services.builtOn}
             </p>
           </div>
 
-          <div className={`md:col-span-2 relative ${language === 'ar' ? 'md:order-1' : ''}`}>
+          <div className={`md:col-span-2 relative mt-4 md:mt-16 ${language === 'ar' ? 'md:order-1' : ''}`}>
             <div
               ref={carouselRef}
               className={`flex gap-6 overflow-x-auto pb-4 ${language === 'ar' ? 'flex-row-reverse' : ''} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
@@ -299,27 +303,28 @@ export default function Services() {
                     <img
                       src={service.image}
                       alt={service.title}
+                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <h3 className="text-2xl font-space-grotesk font-light tracking-[0.12em] uppercase text-aoc-white">
+                    <div className="absolute bottom-0 left-0 right-0 p-6 text-center">
+                      <h3 className="text-2xl font-darker-grotesque font-light tracking-[0.12em] uppercase text-aoc-white">
                         {service.title}
                       </h3>
                     </div>
                   </div>
 
-                  <p className="text-aoc-white/70 text-sm font-inter-tight font-light leading-relaxed mb-4">
+                  <p className="text-aoc-white/70 text-sm font-inter-tight font-light leading-relaxed mb-4 text-center">
                     {service.description}
                   </p>
 
                   <button
                     onClick={() => handleReadMore(service)}
-                    className="text-sm font-inter-tight font-light tracking-[0.1em] uppercase text-blue-300 hover:text-aoc-white transition-colors underline"
+                    className="text-sm font-inter-tight font-light tracking-[0.1em] uppercase text-blue-300 hover:text-aoc-white transition-colors underline block mx-auto"
                   >
-                    Read More
+                    {t.services.readMore}
                   </button>
                 </div>
               ))}
@@ -327,21 +332,21 @@ export default function Services() {
 
             <div className="relative mt-8 pt-4 h-12 flex items-center justify-between">
               {canScroll && (
-                <div className="absolute right-0 flex items-center gap-4">
+                <div className={`absolute ${language === 'ar' ? 'left-0' : 'right-0'} flex items-center gap-4`}>
                   <button
                     onMouseDown={handleScrollButtonDown}
                     onMouseUp={handleScrollButtonUp}
                     onMouseLeave={handleScrollButtonUp}
-                    className={`flex items-center gap-4 px-8 py-3 rounded-full border-2 border-aoc-gold/50 hover:border-aoc-gold hover:bg-aoc-gold/5 transition-all group ${isButtonPressed ? 'scale-90 bg-aoc-gold/15 border-aoc-gold' : 'scale-100'}`}
+                    className={`flex items-center gap-4 px-8 py-3 rounded-full border-2 border-aoc-gold/50 hover:border-aoc-gold hover:bg-aoc-gold/5 transition-all group ${isButtonPressed ? 'scale-90 bg-aoc-gold/15 border-aoc-gold' : 'scale-100'} ${language === 'ar' ? 'flex-row-reverse' : ''}`}
                     style={{
                       transform: isButtonPressed ? 'scale(0.92)' : 'scale(1)',
                       transition: 'transform 0.15s ease-out'
                     }}
                   >
                     <span className="text-aoc-gold font-inter-tight font-light tracking-[0.15em] uppercase text-sm group-hover:tracking-[0.2em] transition-all">
-                      Scroll
+                      {t.services.scroll}
                     </span>
-                    <ChevronRight size={20} className="text-aoc-gold animate-pulse" />
+                    <ChevronRight size={20} className={`text-aoc-gold animate-pulse ${language === 'ar' ? 'rotate-180' : ''}`} />
                   </button>
                 </div>
               )}

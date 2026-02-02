@@ -143,15 +143,9 @@ function App() {
           <div className="absolute inset-0 bg-gradient-to-b from-aoc-black/60 via-aoc-indigo/20 to-aoc-black/70" />
         </div>
 
-        {/* Centered Logo - positioned at exact center */}
-        <div className="absolute top-[55%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 flex flex-col items-center">
-          <div className="w-40 h-auto mb-8">
-            <img src={aocLogo} alt="AOC Logo" className="w-full h-auto" />
-          </div>
-        </div>
 
         {/* Scrolling Banner - positioned below center */}
-        <div className="absolute top-[60%] left-0 right-0 z-20 w-screen overflow-hidden">
+        <div className={`absolute left-0 right-0 z-20 w-screen overflow-hidden ${language === 'ar' ? 'top-[65%]' : 'top-[60%]'}`}>
           <div className={`flex ${language === 'ar' ? 'animate-marquee-reverse' : 'animate-marquee'} whitespace-nowrap`}>
             <span className="text-7xl md:text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
               {t.hero.title}

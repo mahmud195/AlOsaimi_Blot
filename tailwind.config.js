@@ -20,16 +20,16 @@ export default {
         },
         marquee: {
           '0%': { transform: 'translateX(0%)' },
-          '100%': { transform: 'translateX(-25%)' },
+          '100%': { transform: 'translateX(-50%)' },
         },
         marqueeReverse: {
-          '0%': { transform: 'translateX(-25%)' },
+          '0%': { transform: 'translateX(-50%)' },
           '100%': { transform: 'translateX(0%)' },
         },
       },
       animation: {
-        marquee: 'marquee 20s linear infinite',
-        'marquee-reverse': 'marqueeReverse 20s linear infinite',
+        marquee: 'marquee 30s linear infinite',
+        'marquee-reverse': 'marqueeReverse 30s linear infinite',
       },
     },
   },

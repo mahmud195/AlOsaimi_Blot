@@ -12,6 +12,7 @@ export default {
       fontFamily: {
         'darker-grotesque': ['Darker Grotesque', 'sans-serif'],
         'inter-tight': ['Inter Tight', 'sans-serif'],
+        'fustat': ['Fustat', 'sans-serif'],
       },
       keyframes: {
         zoom: {

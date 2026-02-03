@@ -1,3 +1,6 @@
+/* Google Fonts - Fustat for Arabic */
+@import url('https://fonts.googleapis.com/css2?family=Fustat:wght@200;300;400;500;600;700;800&display=swap');
+
 /* Local Font Imports - Darker Grotesque */
 @font-face {
   font-family: 'Darker Grotesque';
@@ -113,6 +116,21 @@
 
   .rtl * {
     transition: transform 0.3s ease-in-out, margin 0.3s ease-in-out, padding 0.3s ease-in-out;
+  }
+
+  /* Fustat font for Arabic headings and navigation */
+  .rtl h1,
+  .rtl h2,
+  .rtl h3,
+  .rtl h4,
+  .rtl h5,
+  .rtl h6 {
+    font-family: 'Fustat', sans-serif;
+  }
+
+  .rtl nav,
+  .rtl nav * {
+    font-family: 'Fustat', sans-serif;
   }
 }
 

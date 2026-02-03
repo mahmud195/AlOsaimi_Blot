@@ -27,6 +27,15 @@ function App() {
   // Configurable banner speed (pixels per frame) - adjust this value to control speed
   const BANNER_SPEED = 2;
 
+  // Scroll to top on page load/reload
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    // Also prevent scroll restoration by the browser
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+  }, []);
+
   useEffect(() => {
     const observerOptions = {
       root: null,

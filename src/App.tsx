@@ -197,7 +197,9 @@ function App() {
           <div
             className="flex whitespace-nowrap"
             style={{
-              transform: `translateX(${-(bannerOffset % 2000)}px)`
+              transform: language === 'ar'
+                ? `translateX(${bannerOffset % 3000}px)`
+                : `translateX(${-(bannerOffset % 2000)}px)`
             }}
           >
             <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">

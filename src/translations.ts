@@ -97,7 +97,7 @@ export const translations = {
       contact: 'اتصل'
     },
     hero: {
-      title: 'الدقة                         •                         الابتكار                         •                         الثقة                         •                         '
+      title: 'الدقة                                                          •                                                          الابتكار                                                          •                                                          الثقة                                                          •                                                          '
     },
     about: {
       title: 'من\nنحن',

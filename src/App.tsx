@@ -195,34 +195,42 @@ function App() {
         {/* Scrolling Banner - positioned below center */}
         <div className={`absolute left-0 right-0 z-20 w-screen overflow-hidden ${language === 'ar' ? 'top-[65%]' : 'top-[70%]'}`}>
           {language === 'ar' ? (
-            /* Arabic Banner - 3 words spread across full width */
+            /* Arabic Banner - CSS animation for seamless loop */
             <div
-              className="w-full px-8"
-              style={{
-                transform: `translateX(${bannerOffset % 2000}px)`
-              }}
+              className="flex whitespace-nowrap animate-marquee-reverse"
+              style={{ width: 'max-content' }}
             >
-              <div className="flex justify-between items-center w-full">
-                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">الدقة</span>
-                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">•</span>
-                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">الابتكار</span>
-                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">•</span>
-                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">الثقة</span>
-                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">•</span>
-                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">الدقة</span>
-                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">•</span>
-                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">الابتكار</span>
-                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">•</span>
-                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">الثقة</span>
-              </div>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الدقة</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الابتكار</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الثقة</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الدقة</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الابتكار</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الثقة</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
+              {/* Duplicate for seamless loop */}
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الدقة</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الابتكار</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الثقة</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الدقة</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الابتكار</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الثقة</span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
             </div>
           ) : (
-            /* English Banner */
+            /* English Banner - CSS animation for seamless loop */
             <div
-              className="flex whitespace-nowrap"
-              style={{
-                transform: `translateX(${-(bannerOffset % 2000)}px)`
-              }}
+              className="flex whitespace-nowrap animate-marquee"
+              style={{ width: 'max-content' }}
             >
               <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
                 {t.hero.title}

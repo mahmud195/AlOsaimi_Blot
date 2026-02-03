@@ -195,10 +195,13 @@ function App() {
         {/* Scrolling Banner - positioned below center */}
         <div className={`absolute left-0 right-0 z-20 w-screen overflow-hidden ${language === 'ar' ? 'top-[65%]' : 'top-[70%]'}`}>
           {language === 'ar' ? (
-            /* Arabic Banner - CSS animation for seamless loop */
+            /* Arabic Banner - scroll-based movement (left to right) */
             <div
-              className="flex whitespace-nowrap animate-marquee-reverse"
-              style={{ width: 'max-content' }}
+              className="flex whitespace-nowrap"
+              style={{
+                width: 'max-content',
+                transform: `translateX(${(bannerOffset % 3000) - 1500}px)`
+              }}
             >
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الدقة</span>
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
@@ -206,13 +209,6 @@ function App() {
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الثقة</span>
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الدقة</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الابتكار</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الثقة</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
-              {/* Duplicate for seamless loop */}
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الدقة</span>
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الابتكار</span>
@@ -227,10 +223,13 @@ function App() {
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-8">•</span>
             </div>
           ) : (
-            /* English Banner - CSS animation for seamless loop */
+            /* English Banner - scroll-based movement (right to left) */
             <div
-              className="flex whitespace-nowrap animate-marquee"
-              style={{ width: 'max-content' }}
+              className="flex whitespace-nowrap"
+              style={{
+                width: 'max-content',
+                transform: `translateX(${-(bannerOffset % 2000)}px)`
+              }}
             >
               <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
                 {t.hero.title}

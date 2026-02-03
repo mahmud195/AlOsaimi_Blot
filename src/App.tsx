@@ -193,29 +193,29 @@ function App() {
 
 
         {/* Scrolling Banner - positioned below center */}
-        <div className={`absolute left-0 right-0 z-20 w-screen overflow-hidden ${language === 'ar' ? 'top-[75%]' : 'top-[70%]'}`}>
+        <div className={`absolute left-0 right-0 z-20 w-screen overflow-hidden ${language === 'ar' ? 'top-[65%]' : 'top-[70%]'}`}>
           <div
             className="flex whitespace-nowrap"
             style={{
               transform: `translateX(${-(bannerOffset % 2000)}px)`
             }}
           >
-            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white" style={{ transform: language === 'ar' ? 'scaleX(1.3)' : 'none' }}>
+            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
               {t.hero.title}
             </span>
-            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white" style={{ transform: language === 'ar' ? 'scaleX(1.3)' : 'none' }}>
+            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
               {t.hero.title}
             </span>
-            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white" style={{ transform: language === 'ar' ? 'scaleX(1.3)' : 'none' }}>
+            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
               {t.hero.title}
             </span>
-            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white" style={{ transform: language === 'ar' ? 'scaleX(1.3)' : 'none' }}>
+            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
               {t.hero.title}
             </span>
-            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white" style={{ transform: language === 'ar' ? 'scaleX(1.3)' : 'none' }}>
+            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
               {t.hero.title}
             </span>
-            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white" style={{ transform: language === 'ar' ? 'scaleX(1.3)' : 'none' }}>
+            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
               {t.hero.title}
             </span>
           </div>

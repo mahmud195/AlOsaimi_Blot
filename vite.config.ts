@@ -2,10 +2,10 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  base: '/AlOsaimi_Blot/',
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/AlOsaimi_Blot/' : '/',
   plugins: [react()],
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
-});
+}));

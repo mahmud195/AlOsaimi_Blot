@@ -200,7 +200,7 @@ function App() {
               className="flex whitespace-nowrap"
               style={{
                 width: 'max-content',
-                transform: `translateX(${(bannerOffset % 3000) - 1500}px)`
+                transform: `translateX(${-500 + (bannerOffset % 2000)}px)`
               }}
             >
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-16">الدقة</span>

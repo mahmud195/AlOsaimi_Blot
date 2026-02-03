@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useLanguage } from '../LanguageContext';
 import { translations } from '../translations';
 import aocLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Logo White.png';
+import aocMobileLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOCMobile.png';
 
 interface TopNavProps {
   activeSection: string;
@@ -48,9 +49,12 @@ export default function TopNav({ activeSection }: TopNavProps) {
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
-          {/* Logo */}
+          {/* Logo - Different for mobile and desktop */}
           <a href="#home" className="h-10 w-auto transition-all duration-300 md:flex-none absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-            <img src={aocLogo} alt="AOC Logo" className="h-full w-auto" />
+            {/* Mobile Logo */}
+            <img src={aocMobileLogo} alt="AOC Logo" className="h-full w-auto md:hidden" />
+            {/* Desktop Logo */}
+            <img src={aocLogo} alt="AOC Logo" className="h-full w-auto hidden md:block" />
           </a>
 
           {/* Desktop Navigation - Center */}

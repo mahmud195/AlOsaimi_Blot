@@ -198,7 +198,7 @@ function App() {
             className="flex whitespace-nowrap"
             style={{
               transform: language === 'ar'
-                ? `translateX(${bannerOffset % 3000}px)`
+                ? `translateX(${-2000 + (bannerOffset % 3000)}px)`
                 : `translateX(${-(bannerOffset % 2000)}px)`
             }}
           >

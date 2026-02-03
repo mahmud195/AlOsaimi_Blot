@@ -21,7 +21,8 @@ function App() {
   });
   const [activeSection, setActiveSection] = useState('home');
   const [introComplete, setIntroComplete] = useState(false);
-  const [introPhase, setIntroPhase] = useState<'closed' | 'entering' | 'opening' | 'done'>('closed');
+  const [introPhase, setIntroPhase] = useState<'initial' | 'drawing' | 'revealing' | 'expanding' | 'done'>('initial');
+  const [circleSize, setCircleSize] = useState(150); // Initial circle radius in px
   const [bannerOffset, setBannerOffset] = useState(0);
   const isScrollingRef = useRef(false);
   const scrollTimeoutRef = useRef<number | null>(null);
@@ -102,32 +103,47 @@ function App() {
     console.log('Form submitted:', formData);
   };
 
-  // Intro animation sequence
+  // Intro animation sequence - Circle reveal
   useEffect(() => {
     // Disable scrolling during intro
     document.body.style.overflow = 'hidden';
 
-    // Start entering phase (logos slide in)
-    const enterTimer = setTimeout(() => {
-      setIntroPhase('entering');
+    // Start drawing phase (circle draws around center)
+    const drawTimer = setTimeout(() => {
+      setIntroPhase('drawing');
     }, 100);
 
-    // Start opening phase after logos are in position
-    const openTimer = setTimeout(() => {
-      setIntroPhase('opening');
-    }, 1200);
+    // Start revealing phase (inside circle becomes clear)
+    const revealTimer = setTimeout(() => {
+      setIntroPhase('revealing');
+    }, 1500);
 
-    // Complete intro after animation (1.5s opening time)
+    // Start expanding phase (circle grows to reveal everything)
+    const expandTimer = setTimeout(() => {
+      setIntroPhase('expanding');
+      // Animate circle size from 150 to cover full screen
+      let size = 150;
+      const expandAnimation = setInterval(() => {
+        size += 50;
+        setCircleSize(size);
+        if (size >= Math.max(window.innerWidth, window.innerHeight) * 1.5) {
+          clearInterval(expandAnimation);
+        }
+      }, 16);
+    }, 2500);
+
+    // Complete intro after animation
     const completeTimer = setTimeout(() => {
       setIntroPhase('done');
       setIntroComplete(true);
       // Re-enable scrolling
       document.body.style.overflow = '';
-    }, 2700);
+    }, 4000);
 
     return () => {
-      clearTimeout(enterTimer);
-      clearTimeout(openTimer);
+      clearTimeout(drawTimer);
+      clearTimeout(revealTimer);
+      clearTimeout(expandTimer);
       clearTimeout(completeTimer);
       document.body.style.overflow = '';
     };
@@ -135,42 +151,100 @@ function App() {
 
   return (
     <div className={`bg-aoc-black text-aoc-white overflow-x-hidden ${language === 'ar' ? 'rtl' : 'ltr'}`}>
-      {/* Intro Animation Overlay */}
+      {/* Intro Animation Overlay - Circle Reveal */}
       {!introComplete && (
-        <div className="fixed inset-0 z-[100] pointer-events-none">
-          {/* Top Half - slides up */}
+        <div className="fixed inset-0 z-[100] pointer-events-none overflow-hidden">
+          {/* Glassy blur overlay - covers everything except the circle */}
           <div
-            className={`absolute left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 flex items-end justify-center transition-all ${introPhase === 'opening' || introPhase === 'done' ? 'duration-[1500ms] ease-[cubic-bezier(0.4,0,0.2,1)] top-0 h-[72px]' : 'duration-700 ease-out top-0 h-1/2'
-              }`}
-          >
-            <img
-              src={aocLogoFull}
-              alt="AOC Logo"
-              className={`transition-all ${introPhase === 'closed'
-                ? 'duration-300 ease-out h-12 mb-4 translate-x-[100vw] opacity-0'
-                : introPhase === 'entering'
-                  ? 'duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] h-12 mb-4 translate-x-0 opacity-100'
-                  : 'duration-[1500ms] ease-[cubic-bezier(0.4,0,0.2,1)] h-10 absolute left-8 top-1/2 -translate-y-1/2 translate-x-0 opacity-100'
-                }`}
-            />
-          </div>
+            className="absolute inset-0 transition-opacity duration-500"
+            style={{
+              background: introPhase === 'initial' ? 'rgba(0, 0, 0, 0.3)' : 'transparent',
+              backdropFilter: introPhase === 'initial' || introPhase === 'drawing' ? 'blur(12px)' : 'none',
+              WebkitBackdropFilter: introPhase === 'initial' || introPhase === 'drawing' ? 'blur(12px)' : 'none',
+              opacity: introPhase === 'expanding' || introPhase === 'done' ? 0 : 1,
+            }}
+          />
 
-          {/* Bottom Half - slides down */}
-          <div
-            className={`absolute left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 flex items-start justify-center transition-all ${introPhase === 'opening' || introPhase === 'done' ? 'duration-[1500ms] ease-[cubic-bezier(0.4,0,0.2,1)] bottom-0 h-12' : 'duration-700 ease-out bottom-0 h-1/2'
-              }`}
+          {/* SVG Circle reveal mask */}
+          <svg
+            className="absolute inset-0 w-full h-full"
+            style={{
+              opacity: introPhase === 'done' ? 0 : 1,
+              transition: 'opacity 0.5s ease-out'
+            }}
           >
-            <img
-              src={aocLogo}
-              alt="AOC Icon"
-              className={`transition-all ${introPhase === 'closed'
-                ? 'duration-300 ease-out h-16 mt-4 -translate-x-[100vw] opacity-0'
-                : introPhase === 'entering'
-                  ? 'duration-700 ease-[cubic-bezier(0.25,0.46,0.45,0.94)] h-16 mt-4 translate-x-0 opacity-100'
-                  : 'duration-[1500ms] ease-[cubic-bezier(0.4,0,0.2,1)] h-10 absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 opacity-0'
-                }`}
+            <defs>
+              {/* Mask for clear circle area */}
+              <mask id="circleMask">
+                <rect width="100%" height="100%" fill="white" />
+                <circle
+                  cx="50%"
+                  cy="50%"
+                  r={introPhase === 'expanding' ? circleSize : 150}
+                  fill="black"
+                  style={{
+                    opacity: introPhase === 'initial' ? 0 : 1,
+                    transition: 'r 0.016s linear, opacity 0.3s ease-out'
+                  }}
+                />
+              </mask>
+            </defs>
+
+            {/* Glassy blur background with circle cutout */}
+            <rect
+              width="100%"
+              height="100%"
+              fill="rgba(0, 0, 0, 0.3)"
+              mask="url(#circleMask)"
+              style={{
+                opacity: introPhase === 'revealing' || introPhase === 'expanding' || introPhase === 'done' ?
+                  (introPhase === 'done' ? 0 : (introPhase === 'expanding' ? Math.max(0, 1 - (circleSize - 150) / 500) : 1)) : 0,
+                transition: 'opacity 0.3s ease-out'
+              }}
             />
-          </div>
+
+            {/* Circle stroke drawing animation - starts from 12 o'clock clockwise */}
+            <circle
+              cx="50%"
+              cy="50%"
+              r={introPhase === 'expanding' ? circleSize : 150}
+              fill="none"
+              stroke="rgba(195, 165, 110, 0.8)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              style={{
+                strokeDasharray: introPhase === 'expanding' ? circleSize * 2 * Math.PI : 150 * 2 * Math.PI,
+                strokeDashoffset: introPhase === 'initial' ? 150 * 2 * Math.PI :
+                  introPhase === 'drawing' ? 0 : 0,
+                transform: 'rotate(-90deg)',
+                transformOrigin: '50% 50%',
+                transition: introPhase === 'drawing' ? 'stroke-dashoffset 1.4s ease-in-out' :
+                  introPhase === 'expanding' ? 'r 0.016s linear, stroke-dasharray 0.016s linear' : 'none',
+                opacity: introPhase === 'done' ? 0 : 1
+              }}
+            />
+          </svg>
+
+          {/* Inner clear circle with clip-path */}
+          <div
+            className="absolute inset-0 transition-all"
+            style={{
+              clipPath: introPhase === 'initial' ? 'circle(0% at 50% 50%)' :
+                introPhase === 'drawing' ? 'circle(0% at 50% 50%)' :
+                  introPhase === 'revealing' ? `circle(${150}px at 50% 50%)` :
+                    introPhase === 'expanding' ? `circle(${circleSize}px at 50% 50%)` :
+                      'circle(100% at 50% 50%)',
+              WebkitClipPath: introPhase === 'initial' ? 'circle(0% at 50% 50%)' :
+                introPhase === 'drawing' ? 'circle(0% at 50% 50%)' :
+                  introPhase === 'revealing' ? `circle(${150}px at 50% 50%)` :
+                    introPhase === 'expanding' ? `circle(${circleSize}px at 50% 50%)` :
+                      'circle(100% at 50% 50%)',
+              transition: introPhase === 'revealing' ? 'clip-path 0.5s ease-out' :
+                introPhase === 'expanding' ? 'clip-path 0.016s linear' : 'clip-path 0.3s ease-out',
+              backdropFilter: 'blur(0px)',
+              WebkitBackdropFilter: 'blur(0px)',
+            }}
+          />
         </div>
       )}
 

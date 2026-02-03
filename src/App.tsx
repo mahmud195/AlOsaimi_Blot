@@ -194,33 +194,56 @@ function App() {
 
         {/* Scrolling Banner - positioned below center */}
         <div className={`absolute left-0 right-0 z-20 w-screen overflow-hidden ${language === 'ar' ? 'top-[65%]' : 'top-[70%]'}`}>
-          <div
-            className="flex whitespace-nowrap"
-            style={{
-              transform: language === 'ar'
-                ? `translateX(${-2000 + (bannerOffset % 3000)}px)`
-                : `translateX(${-(bannerOffset % 2000)}px)`
-            }}
-          >
-            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
-              {t.hero.title}
-            </span>
-            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
-              {t.hero.title}
-            </span>
-            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
-              {t.hero.title}
-            </span>
-            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
-              {t.hero.title}
-            </span>
-            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
-              {t.hero.title}
-            </span>
-            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
-              {t.hero.title}
-            </span>
-          </div>
+          {language === 'ar' ? (
+            /* Arabic Banner - 3 words spread across full width */
+            <div
+              className="w-full px-8"
+              style={{
+                transform: `translateX(${bannerOffset % 2000}px)`
+              }}
+            >
+              <div className="flex justify-between items-center w-full">
+                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">الدقة</span>
+                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">•</span>
+                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">الابتكار</span>
+                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">•</span>
+                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">الثقة</span>
+                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">•</span>
+                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">الدقة</span>
+                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">•</span>
+                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">الابتكار</span>
+                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">•</span>
+                <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white">الثقة</span>
+              </div>
+            </div>
+          ) : (
+            /* English Banner */
+            <div
+              className="flex whitespace-nowrap"
+              style={{
+                transform: `translateX(${-(bannerOffset % 2000)}px)`
+              }}
+            >
+              <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+                {t.hero.title}
+              </span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+                {t.hero.title}
+              </span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+                {t.hero.title}
+              </span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+                {t.hero.title}
+              </span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+                {t.hero.title}
+              </span>
+              <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+                {t.hero.title}
+              </span>
+            </div>
+          )}
         </div>
 
         {/* Scroll Indicator - Left Side */}

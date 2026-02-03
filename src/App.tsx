@@ -22,6 +22,7 @@ function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [introComplete, setIntroComplete] = useState(false);
   const [introPhase, setIntroPhase] = useState<'closed' | 'entering' | 'opening' | 'done'>('closed');
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   useEffect(() => {
     const observerOptions = {
@@ -47,6 +48,15 @@ function App() {
     return () => {
       sections.forEach((section) => observer.unobserve(section));
     };
+  }, []);
+
+  // Scroll-based banner movement
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollPosition(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -146,23 +156,30 @@ function App() {
 
         {/* Scrolling Banner - positioned below center */}
         <div className={`absolute left-0 right-0 z-20 w-screen overflow-hidden ${language === 'ar' ? 'top-[65%]' : 'top-[60%]'}`}>
-          <div className={`flex ${language === 'ar' ? 'animate-marquee-reverse' : 'animate-marquee'} whitespace-nowrap`}>
-            <span className="text-7xl md:text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+          <div
+            className="flex whitespace-nowrap"
+            style={{
+              transform: language === 'ar'
+                ? `translateX(${scrollPosition * 0.5}px)`
+                : `translateX(${-scrollPosition * 0.5}px)`
+            }}
+          >
+            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
               {t.hero.title}
             </span>
-            <span className="text-7xl md:text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
               {t.hero.title}
             </span>
-            <span className="text-7xl md:text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
               {t.hero.title}
             </span>
-            <span className="text-7xl md:text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
               {t.hero.title}
             </span>
-            <span className="text-7xl md:text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
               {t.hero.title}
             </span>
-            <span className="text-7xl md:text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+            <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
               {t.hero.title}
             </span>
           </div>

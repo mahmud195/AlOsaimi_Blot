@@ -10,7 +10,7 @@ export const translations = {
       contact: 'Contact'
     },
     hero: {
-      title: 'TRUST   •   INNOVATION   •   EXCELLENCE   •   RELIABILITY   •   RESOURCEFULNESS   •   '
+      title: 'PRECISION   •   INNOVATION   •   TRUST   •   PRECISION   •   INNOVATION   •   TRUST   •   '
     },
     about: {
       title: 'ABOUT\nUS',
@@ -97,7 +97,7 @@ export const translations = {
       contact: 'اتصل'
     },
     hero: {
-      title: 'الثقة       •       الابتكار       •       التميز       •       المصداقية       •       الإبتكار العملي       •       '
+      title: 'الدقة       •       الابتكار       •       الثقة       •       الدقة       •       الابتكار       •       الثقة       •       '
     },
     about: {
       title: 'من\nنحن',

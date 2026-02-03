@@ -193,7 +193,7 @@ function App() {
 
 
         {/* Scrolling Banner - positioned below center */}
-        <div className={`absolute left-0 right-0 z-20 w-screen overflow-hidden ${language === 'ar' ? 'top-[75%]' : 'top-[70%]'}`}>
+        <div className={`absolute left-0 right-0 z-20 w-screen overflow-hidden ${language === 'ar' ? 'top-[80%]' : 'top-[75%]'}`}>
           <div
             className="flex whitespace-nowrap"
             style={{

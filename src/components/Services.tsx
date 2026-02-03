@@ -298,7 +298,7 @@ export default function Services() {
                 >
                   <div
                     onClick={() => handleReadMore(service)}
-                    className="relative w-72 h-72 overflow-hidden mb-6 rounded-full border-2 border-aoc-gold/30 group-hover:border-aoc-gold transition-all duration-300"
+                    className="relative w-72 h-72 overflow-hidden mb-6 border-2 border-aoc-gold/30 group-hover:border-aoc-gold transition-all duration-300"
                   >
                     <img
                       src={service.image}
@@ -307,7 +307,7 @@ export default function Services() {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent rounded-full" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
                     <div className="absolute bottom-8 left-0 right-0 px-4 text-center">
                       <h3 className="text-xl font-darker-grotesque font-light tracking-[0.12em] uppercase text-aoc-white">

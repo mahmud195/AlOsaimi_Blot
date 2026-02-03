@@ -1,5 +1,5 @@
 import { ChevronDown, ArrowRight, Linkedin, Instagram, Facebook } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import TopNav from './components/TopNav';
 import Services from './components/Services';
 import { useLanguage } from './LanguageContext';
@@ -22,7 +22,13 @@ function App() {
   const [activeSection, setActiveSection] = useState('home');
   const [introComplete, setIntroComplete] = useState(false);
   const [introPhase, setIntroPhase] = useState<'closed' | 'entering' | 'opening' | 'done'>('closed');
-  const [scrollPosition, setScrollPosition] = useState(0);
+  const [bannerOffset, setBannerOffset] = useState(0);
+  const isScrollingRef = useRef(false);
+  const scrollTimeoutRef = useRef<number | null>(null);
+  const animationRef = useRef<number | null>(null);
+
+  // Configurable banner speed (pixels per frame) - adjust this value to control speed
+  const BANNER_SPEED = 2;
 
   useEffect(() => {
     const observerOptions = {
@@ -50,13 +56,45 @@ function App() {
     };
   }, []);
 
-  // Scroll-based banner movement
+  // Continuous banner movement when scrolling
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollPosition(window.scrollY);
+    const animate = () => {
+      if (isScrollingRef.current) {
+        setBannerOffset(prev => prev + BANNER_SPEED);
+        animationRef.current = requestAnimationFrame(animate);
+      }
     };
+
+    const handleScroll = () => {
+      if (!isScrollingRef.current) {
+        isScrollingRef.current = true;
+        animationRef.current = requestAnimationFrame(animate);
+      }
+
+      // Clear existing timeout
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+
+      // Stop animation after scrolling stops
+      scrollTimeoutRef.current = window.setTimeout(() => {
+        isScrollingRef.current = false;
+        if (animationRef.current) {
+          cancelAnimationFrame(animationRef.current);
+        }
+      }, 100);
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (animationRef.current) {
+        cancelAnimationFrame(animationRef.current);
+      }
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -160,8 +198,8 @@ function App() {
             className="flex whitespace-nowrap"
             style={{
               transform: language === 'ar'
-                ? `translateX(${scrollPosition * 0.5}px)`
-                : `translateX(${-scrollPosition * 0.5}px)`
+                ? `translateX(${bannerOffset % 2000}px)`
+                : `translateX(${-(bannerOffset % 2000)}px)`
             }}
           >
             <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">

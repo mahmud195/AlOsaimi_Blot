@@ -31,11 +31,7 @@ function App() {
   const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
   const [isHovering, setIsHovering] = useState(false);
 
-  // Viewport dimensions for circle centering
-  const [viewportSize, setViewportSize] = useState({
-    width: typeof window !== 'undefined' ? window.innerWidth : 1920,
-    height: typeof window !== 'undefined' ? window.innerHeight : 1080
-  });
+
 
   // Scroll animations for sections (triggerOnce: false to repeat animations)
   const aboutAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
@@ -130,14 +126,7 @@ function App() {
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
 
-    // Update viewport size
-    setViewportSize({ width: window.innerWidth, height: window.innerHeight });
 
-    // Handle resize to keep circle centered
-    const handleResize = () => {
-      setViewportSize({ width: window.innerWidth, height: window.innerHeight });
-    };
-    window.addEventListener('resize', handleResize);
 
     // Disable scrolling during intro
     document.body.style.overflow = 'hidden';
@@ -198,7 +187,6 @@ function App() {
       clearTimeout(revealTimer);
       clearTimeout(expandTimer);
       clearTimeout(completeTimer);
-      window.removeEventListener('resize', handleResize);
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
     };

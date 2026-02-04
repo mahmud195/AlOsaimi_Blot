@@ -286,7 +286,7 @@ export default function Services() {
           >
             <div
               ref={carouselRef}
-              className={`flex gap-6 overflow-x-auto pb-4 ${language === 'ar' ? 'flex-row-reverse' : ''} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+              className={`flex gap-10 overflow-x-auto pb-4 ${language === 'ar' ? 'flex-row-reverse' : ''} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
               style={{
                 scrollBehavior: 'auto',
                 scrollbarWidth: 'none',
@@ -305,18 +305,18 @@ export default function Services() {
               {services.map((service, index) => (
                 <div
                   key={service.id}
-                  className={`flex-shrink-0 w-72 group cursor-pointer card-deal card-stack-${index} ${cardsAnimation.isVisible ? 'visible' : ''}`}
+                  className={`flex-shrink-0 w-80 group cursor-pointer card-deal card-stack-${index} ${cardsAnimation.isVisible ? 'visible' : ''}`}
                   style={{ transitionDelay: `${index * 0.2}s` }}
                 >
                   <div
                     onClick={() => handleReadMore(service)}
-                    className="relative w-72 h-72 overflow-hidden mb-6 border-2 border-aoc-gold/30 group-hover:border-aoc-gold transition-all duration-300"
+                    className="relative w-80 h-80 overflow-hidden mb-6 origin-top hover:scale-[1.02] transition-transform duration-200 ease-out"
                   >
                     <img
                       src={service.image}
                       alt={service.title}
                       loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="w-full h-full object-cover"
                     />
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />

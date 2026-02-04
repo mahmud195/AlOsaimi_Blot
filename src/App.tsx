@@ -6,6 +6,7 @@ import { useLanguage } from './LanguageContext';
 import { translations } from './translations';
 import { useScrollAnimation } from './hooks/useScrollAnimation';
 import heroVideo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Video/AOC_x_BF_H_No_Subtitles_compressed.mp4';
+import videoPoster from './assets/video_poster.jpg';
 import aboutImage from './assets/asset_16.png';
 import beFoundLogo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/BeFound Sigment.png';
 
@@ -292,6 +293,7 @@ function App() {
               muted
               loop
               playsInline
+              poster={videoPoster}
               className="absolute inset-0 w-full h-full object-cover"
             >
               <source src={heroVideo} type="video/mp4" />

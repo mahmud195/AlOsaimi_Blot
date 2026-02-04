@@ -1,4 +1,4 @@
-import { Globe, Menu, X } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import { useLanguage } from '../LanguageContext';
 import { translations } from '../translations';
@@ -10,16 +10,10 @@ interface TopNavProps {
 }
 
 export default function TopNav({ activeSection }: TopNavProps) {
-  const { language, setLanguage } = useLanguage();
-  const [showLangDropdown, setShowLangDropdown] = useState(false);
+  const { language } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const t = translations[language];
   const isActive = (section: string) => activeSection === section;
-
-  const handleLanguageChange = (lang: 'en' | 'ar') => {
-    setLanguage(lang);
-    setShowLangDropdown(false);
-  };
 
   const navItems = [
     { id: 'home', href: '#home', label: t.nav.home },
@@ -73,37 +67,6 @@ export default function TopNav({ activeSection }: TopNavProps) {
             ))}
           </div>
 
-          {/* Language Switcher - Right side */}
-          <div className="flex items-center gap-6 transition-all duration-300">
-            <div className="relative">
-              <button
-                onClick={() => setShowLangDropdown(!showLangDropdown)}
-                className="flex items-center gap-2 text-aoc-white/80 hover:text-aoc-white transition-colors"
-              >
-                <Globe size={16} />
-                <span className="text-xs font-inter-tight font-light tracking-[0.2em] uppercase">{t.language}</span>
-              </button>
-
-              {showLangDropdown && (
-                <div className="absolute top-full right-0 mt-2 bg-aoc-black/95 backdrop-blur-sm border border-aoc-gold/30 rounded overflow-hidden z-50">
-                  <button
-                    onClick={() => handleLanguageChange('en')}
-                    className={`block w-full px-4 py-2 text-xs font-inter-tight font-light tracking-[0.2em] uppercase text-left hover:bg-aoc-gold/10 transition-colors ${language === 'en' ? 'text-aoc-gold' : 'text-aoc-white/80'
-                      }`}
-                  >
-                    ENGLISH
-                  </button>
-                  <button
-                    onClick={() => handleLanguageChange('ar')}
-                    className={`block w-full px-4 py-2 text-xs font-inter-tight font-light tracking-[0.2em] uppercase text-left hover:bg-aoc-gold/10 transition-colors ${language === 'ar' ? 'text-aoc-gold' : 'text-aoc-white/80'
-                      }`}
-                  >
-                    العربية
-                  </button>
-                </div>
-              )}
-            </div>
-          </div>
         </div>
       </nav>
 

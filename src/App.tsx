@@ -4,6 +4,7 @@ import TopNav from './components/TopNav';
 import Services from './components/Services';
 import { useLanguage } from './LanguageContext';
 import { translations } from './translations';
+import { useScrollAnimation } from './hooks/useScrollAnimation';
 import heroVideo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Video/AOC_x_BF_H_No_Subtitles.mp4';
 import aboutImage from './assets/asset_16.png';
 import beFoundLogo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/BeFound Sigment.png';
@@ -35,6 +36,14 @@ function App() {
     width: typeof window !== 'undefined' ? window.innerWidth : 1920,
     height: typeof window !== 'undefined' ? window.innerHeight : 1080
   });
+
+  // Scroll animations for sections
+  const aboutAnimation = useScrollAnimation<HTMLDivElement>();
+  const aboutTitleAnimation = useScrollAnimation<HTMLDivElement>();
+  const aboutImageAnimation = useScrollAnimation<HTMLDivElement>();
+  const aboutTextAnimation = useScrollAnimation<HTMLDivElement>();
+  const projectsAnimation = useScrollAnimation<HTMLDivElement>();
+  const contactAnimation = useScrollAnimation<HTMLDivElement>();
 
   // Configurable banner speed (pixels per frame) - adjust this value to control speed
   const BANNER_SPEED = 2;
@@ -394,11 +403,14 @@ function App() {
       </section>
 
       <section id="about" className="min-h-screen bg-aoc-indigo flex items-center py-24">
-        <div className={`max-w-screen-2xl mx-auto px-4 md:px-8 w-full ${language === 'ar' ? 'rtl' : ''}`}>
+        <div ref={aboutAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 md:px-8 w-full ${language === 'ar' ? 'rtl' : ''}`}>
           {/* Container with relative positioning for overlapping elements */}
           <div className="relative">
             {/* ABOUT US Title - Always positioned to overlap the image */}
-            <div className={`absolute top-6 md:top-10 z-20 ${language === 'ar' ? 'right-[5%] md:right-[8.5%]' : 'left-4 md:left-[3.5rem]'}`}>
+            <div
+              ref={aboutTitleAnimation.ref}
+              className={`absolute top-6 md:top-10 z-20 animate-slide-right ${aboutTitleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'right-[5%] md:right-[8.5%]' : 'left-4 md:left-[3.5rem]'}`}
+            >
               {/* Mobile: Single line */}
               <h2 className={`md:hidden text-3xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-right' : ''}`}>
                 {language === 'ar' ? 'من نحن' : 'ABOUT US'}
@@ -415,7 +427,10 @@ function App() {
             {/* Main content - Flex column on mobile, relative positioning on desktop */}
             <div className="relative w-full flex flex-col md:block">
               {/* Image container with decorative circle */}
-              <div className={`relative pt-16 md:pt-16 w-[80%] md:w-[50%] mx-auto ${language === 'ar' ? 'md:mr-[15%] md:ml-auto' : 'md:ml-[17%] md:mr-auto'}`}>
+              <div
+                ref={aboutImageAnimation.ref}
+                className={`relative pt-16 md:pt-16 w-[80%] md:w-[50%] mx-auto animate-fade-in delay-200 ${aboutImageAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:mr-[15%] md:ml-auto' : 'md:ml-[17%] md:mr-auto'}`}
+              >
                 {/* Decorative Circle - visible on all screens */}
                 <div className={`absolute z-10 w-16 h-16 md:w-32 md:h-32 rounded-full border-2 border-aoc-gold top-[55%] -translate-y-1/2 ${language === 'ar' ? '-right-8 md:-right-16' : '-left-8 md:-left-16'}`} />
 
@@ -431,7 +446,10 @@ function App() {
               </div>
 
               {/* Text content - below image on mobile, overlapping on desktop */}
-              <div className={`relative md:absolute z-10 p-4 md:p-12 mt-6 md:mt-0 md:top-1/2 md:-translate-y-1/4 w-full md:w-[60%] ${language === 'ar' ? 'md:left-0 text-right' : 'md:right-0'}`}>
+              <div
+                ref={aboutTextAnimation.ref}
+                className={`relative md:absolute z-10 p-4 md:p-12 mt-6 md:mt-0 md:top-1/2 md:-translate-y-1/4 w-full md:w-[60%] animate-slide-up delay-400 ${aboutTextAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:left-0 text-right' : 'md:right-0'}`}
+              >
                 <div className="space-y-4 md:space-y-6">
                   <p className={`text-aoc-white/80 text-sm md:text-[1.35rem] font-inter-tight font-light leading-relaxed ${language === 'ar' ? 'text-right' : ''}`}>
                     {t.about.paragraph1}
@@ -460,7 +478,10 @@ function App() {
           <div className="absolute inset-0 bg-gradient-to-t from-aoc-black/90 via-aoc-indigo/50 to-transparent" />
         </div>
 
-        <div className={`relative z-10 max-w-screen-2xl mx-auto px-8 py-24 w-full ${language === 'ar' ? 'rtl' : ''}`}>
+        <div
+          ref={projectsAnimation.ref}
+          className={`relative z-10 max-w-screen-2xl mx-auto px-8 py-24 w-full animate-slide-up ${projectsAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'rtl' : ''}`}
+        >
           <div className="max-w-2xl space-y-6">
             <div className="text-sm font-inter-tight font-light tracking-[0.3em] uppercase text-aoc-gold">
               {t.projects.featured}
@@ -521,7 +542,10 @@ function App() {
       </section>
 
       <section id="contact" className={`min-h-screen bg-aoc-indigo flex items-center py-24 ${language === 'ar' ? 'rtl' : ''}`}>
-        <div className={`max-w-3xl mx-auto px-8 w-full ${language === 'ar' ? 'text-right' : ''}`}>
+        <div
+          ref={contactAnimation.ref}
+          className={`max-w-3xl mx-auto px-8 w-full animate-slide-up ${contactAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'text-right' : ''}`}
+        >
           <h2 className="text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mb-4 leading-tight text-aoc-gold">
             {t.contact.title}
           </h2>

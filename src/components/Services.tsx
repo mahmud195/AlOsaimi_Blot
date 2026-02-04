@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { X, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
 import { translations } from '../translations';
+import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 interface Service {
   id: string;
@@ -93,6 +94,10 @@ export default function Services() {
   const isScrollButtonPressed = useRef(false);
   const [isButtonPressed, setIsButtonPressed] = useState(false);
   const scrollAnimationRef = useRef<number | null>(null);
+
+  // Scroll animations
+  const titleAnimation = useScrollAnimation<HTMLDivElement>();
+  const cardsAnimation = useScrollAnimation<HTMLDivElement>();
 
   useEffect(() => {
     const checkScroll = () => {
@@ -258,7 +263,10 @@ export default function Services() {
     <section id="services" className={`min-h-screen flex items-start pt-4 md:pt-0 pb-4 ${language === 'ar' ? 'rtl' : ''}`} style={{ backgroundColor: 'rgb(0, 48, 135)' }}>
       <div className="max-w-screen-2xl mx-auto px-4 md:px-8 w-full">
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 items-start md:items-center ${language === 'ar' ? 'rtl' : ''}`}>
-          <div className={`space-y-4 md:space-y-8 ${language === 'ar' ? 'md:order-2 text-right' : ''}`}>
+          <div
+            ref={titleAnimation.ref}
+            className={`space-y-4 md:space-y-8 animate-slide-left ${titleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:order-2 text-right' : ''}`}
+          >
             <h2 className={`text-3xl md:text-6xl font-darker-grotesque font-extralight tracking-[0.15em] md:tracking-[0.2em] uppercase leading-tight text-aoc-white mt-0 md:-mt-20 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
               {t.services.title}
             </h2>
@@ -272,7 +280,10 @@ export default function Services() {
             </p>
           </div>
 
-          <div className={`md:col-span-2 relative mt-4 md:mt-16 ${language === 'ar' ? 'md:order-1' : ''}`}>
+          <div
+            ref={cardsAnimation.ref}
+            className={`md:col-span-2 relative mt-4 md:mt-16 animate-fade-in delay-300 ${cardsAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:order-1' : ''}`}
+          >
             <div
               ref={carouselRef}
               className={`flex gap-6 overflow-x-auto pb-4 ${language === 'ar' ? 'flex-row-reverse' : ''} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}

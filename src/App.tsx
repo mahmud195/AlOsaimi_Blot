@@ -281,17 +281,20 @@ function App() {
       <TopNav activeSection={activeSection} />
 
       {/* Hero Video Section */}
-      <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover"
-          >
-            <source src={heroVideo} type="video/mp4" />
-          </video>
+      <section id="home" className="relative min-h-screen md:h-screen flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 w-full h-full">
+          {/* Video container with aspect ratio on mobile */}
+          <div className="relative w-full h-full md:aspect-auto aspect-video md:min-h-screen">
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+            >
+              <source src={heroVideo} type="video/mp4" />
+            </video>
+          </div>
           <div className="absolute inset-0 bg-gradient-to-b from-aoc-black/60 via-aoc-indigo/20 to-aoc-black/70" />
         </div>
 
@@ -358,7 +361,7 @@ function App() {
         </div>
 
         {/* Scroll Indicator - Left Side */}
-        <div className="absolute bottom-8 left-8 z-30">
+        <div className="absolute bottom-8 left-2 md:left-8 z-30">
           <div className="flex flex-col items-center gap-2 px-3 py-4 border border-aoc-white/30 rounded-full">
             <span className="text-aoc-white/80 text-xs font-inter-tight font-light tracking-[0.15em] uppercase writing-vertical">
               SCROLL

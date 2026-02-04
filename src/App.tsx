@@ -250,22 +250,16 @@ function App() {
 
           {/* SVG for circle stroke animation - draws from 12 o'clock clockwise */}
           <svg
-            className="absolute"
+            className="absolute inset-0 w-full h-full pointer-events-none"
             style={{
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: `${(introPhase === 'expanding' ? circleSize : 150) * 2 + 10}px`,
-              height: `${(introPhase === 'expanding' ? circleSize : 150) * 2 + 10}px`,
               opacity: introPhase === 'done' ? 0 : 1,
               transition: 'opacity 0.5s ease-out'
             }}
-            viewBox={`0 0 ${(introPhase === 'expanding' ? circleSize : 150) * 2 + 10} ${(introPhase === 'expanding' ? circleSize : 150) * 2 + 10}`}
           >
             {/* Circle stroke drawing animation */}
             <circle
-              cx={(introPhase === 'expanding' ? circleSize : 150) + 5}
-              cy={(introPhase === 'expanding' ? circleSize : 150) + 5}
+              cx="50%"
+              cy="50%"
               r={introPhase === 'expanding' ? circleSize : 150}
               fill="none"
               stroke="#CAB64B"
@@ -275,9 +269,8 @@ function App() {
                 strokeDasharray: introPhase === 'expanding' ? circleSize * 2 * Math.PI : 150 * 2 * Math.PI,
                 strokeDashoffset: introPhase === 'initial' ? 150 * 2 * Math.PI : 0,
                 transform: `rotate(-90deg)`,
-                transformOrigin: 'center',
-                transition: introPhase === 'drawing' ? 'stroke-dashoffset 1.4s ease-in-out' :
-                  introPhase === 'expanding' ? 'all 0.016s linear' : 'none',
+                transformOrigin: '50% 50%',
+                transition: introPhase === 'drawing' ? 'stroke-dashoffset 1.4s ease-in-out' : 'none',
                 opacity: introPhase === 'done' ? 0 : 1
               }}
             />

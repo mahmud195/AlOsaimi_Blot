@@ -409,11 +409,14 @@ function App() {
             {/* ABOUT US Title - comes from left */}
             <div
               ref={aboutTitleAnimation.ref}
-              className={`absolute top-6 md:top-10 z-20 animate-slide-right ${aboutTitleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'right-[5%] md:right-[8.5%]' : 'left-4 md:left-[3.5rem]'}`}
+              className={`absolute top-20 md:top-10 z-20 animate-slide-right ${aboutTitleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'right-[5%] md:right-[8.5%]' : 'left-0 md:left-[3.5rem]'}`}
             >
-              {/* Mobile: Single line */}
-              <h2 className={`md:hidden text-3xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-right' : ''}`}>
-                {language === 'ar' ? 'من نحن' : 'ABOUT US'}
+              {/* Mobile: Two lines on image */}
+              <h2 className={`md:hidden text-4xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-right' : ''}`}>
+                {t.about.title.split('\n')[0]}
+              </h2>
+              <h2 className={`md:hidden text-4xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white -mt-1 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
+                {t.about.title.split('\n')[1]}
               </h2>
               {/* Desktop: Two lines */}
               <h2 className={`hidden md:block text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-left' : ''}`}>

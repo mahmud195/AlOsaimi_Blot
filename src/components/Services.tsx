@@ -28,57 +28,93 @@ function ServiceModal({ service, isOpen, onClose, language }: { service: Service
 
   if (!isOpen || !service) return null;
 
+  // Split title into two lines for display
+  const titleWords = service.title.split(' ');
+  const firstLine = titleWords.slice(0, Math.ceil(titleWords.length / 2)).join(' ');
+  const secondLine = titleWords.slice(Math.ceil(titleWords.length / 2)).join(' ');
+
   return (
-    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div
-        className={`bg-aoc-indigo max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-lg ${language === 'ar' ? 'rtl text-right' : ''}`}
-        onClick={(e) => e.stopPropagation()}
+    <div className="fixed inset-0 bg-aoc-indigo z-50 overflow-y-auto">
+      {/* Close button */}
+      <button
+        onClick={onClose}
+        className={`fixed top-6 ${language === 'ar' ? 'left-6' : 'right-6'} z-50 w-12 h-12 rounded-full bg-aoc-black/30 backdrop-blur-md border border-white/20 flex items-center justify-center text-aoc-white hover:text-aoc-gold hover:border-aoc-gold transition-all`}
       >
-        {/* Native Bar Header - Glassmorphism */}
-        <div className="sticky top-0 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 flex items-center justify-center p-4 relative z-10">
-          <h3 className="text-2xl font-darker-grotesque font-light tracking-[0.15em] uppercase text-aoc-gold text-center">
-            {service.title}
-          </h3>
-          <button
-            onClick={onClose}
-            className={`absolute ${language === 'ar' ? 'left-4' : 'right-4'} w-10 h-10 rounded-full bg-aoc-black/50 border border-white/20 flex items-center justify-center text-aoc-white hover:text-aoc-gold hover:border-aoc-gold transition-all`}
+        <X size={24} />
+      </button>
+
+      {/* Main content */}
+      <div className={`min-h-screen flex flex-col lg:flex-row ${language === 'ar' ? 'lg:flex-row-reverse' : ''}`}>
+
+        {/* Left side - Title and description */}
+        <div className={`lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 py-16 lg:py-24 ${language === 'ar' ? 'text-right' : ''}`}>
+          {/* Large Title */}
+          <div className="mb-8 lg:mb-12">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.9]">
+              {firstLine}
+            </h1>
+            <h1 className={`text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.9] ${language === 'ar' ? '' : 'lg:pl-16'}`}>
+              {secondLine}
+            </h1>
+          </div>
+
+          {/* Description */}
+          <div className="max-w-lg space-y-6">
+            <p className="text-aoc-white/80 text-base lg:text-lg font-inter-tight font-light leading-relaxed">
+              {service.fullDescription}
+            </p>
+
+            {service.place && (
+              <p className="text-aoc-white/60 text-sm font-inter-tight font-light">
+                {language === 'ar' ? 'الموقع: ' : 'Location: '}{service.place}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Right side - Image with decorative circle */}
+        <div className="lg:w-1/2 relative flex items-center justify-center p-8 lg:p-16">
+          {/* Decorative Circle - positioned to overlap title and image */}
+          <svg
+            className="absolute z-20 w-32 h-32 md:w-48 md:h-48 lg:w-64 lg:h-64"
+            style={{
+              top: '15%',
+              left: language === 'ar' ? 'auto' : '0',
+              right: language === 'ar' ? '0' : 'auto',
+              transform: 'translate(-30%, 0)'
+            }}
+            viewBox="0 0 100 100"
           >
-            <X size={20} />
-          </button>
-        </div>
-
-        <div className="p-6 space-y-8">
-          <div className="relative h-96 overflow-hidden border border-aoc-gold/30">
-            <img
-              src={service.image}
-              alt={service.title}
-              loading="lazy"
-              className="w-full h-full object-cover"
+            <circle
+              cx="50"
+              cy="50"
+              r="48"
+              fill="none"
+              stroke="#CAB64B"
+              strokeWidth="1"
             />
-          </div>
+          </svg>
 
-          <div className="space-y-4">
-            <div>
-              <p className="text-sm font-inter-tight font-light tracking-[0.2em] uppercase text-aoc-gold mb-2">
-                {language === 'ar' ? 'الموقع' : 'LOCATION'}
-              </p>
-              <p className="text-aoc-white text-lg font-inter-tight font-light">
-                {service.place}
-              </p>
-            </div>
-
-            <div className={`w-24 h-[1px] bg-aoc-gold ${language === 'ar' ? 'ml-auto' : ''}`} />
-
-            <div>
-              <h4 className="text-xl font-darker-grotesque font-light tracking-[0.1em] uppercase text-aoc-white mb-4">
-                {language === 'ar' ? 'نبذة' : 'ABOUT'}
-              </h4>
-              <p className="text-aoc-white/70 text-base font-inter-tight font-light leading-relaxed">
-                {service.fullDescription}
-              </p>
+          {/* Image container with fixed aspect ratio */}
+          <div className="relative w-full max-w-xl">
+            <div className="aspect-[3/4] overflow-hidden">
+              <img
+                src={service.image}
+                alt={service.title}
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Bottom bar - like About section */}
+      <div className="absolute bottom-0 left-0 right-0 px-8 py-6 flex justify-between items-center text-aoc-white/50 text-sm font-inter-tight font-light tracking-widest">
+        <span>A</span>
+        <span>FOUNDATION</span>
+        <span>OF</span>
+        <span>TRUST</span>
       </div>
     </div>
   );
@@ -310,7 +346,7 @@ export default function Services() {
                 >
                   <div
                     onClick={() => handleReadMore(service)}
-                    className="relative w-80 h-80 overflow-hidden mb-6 origin-top hover:scale-[1.02] transition-transform duration-200 ease-out"
+                    className="relative w-80 h-80 overflow-hidden mb-6"
                   >
                     <img
                       src={service.image}

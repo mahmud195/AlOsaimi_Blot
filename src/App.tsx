@@ -151,33 +151,47 @@ function App() {
     // Start revealing phase (inside circle becomes clear)
     const revealTimer = setTimeout(() => {
       setIntroPhase('revealing');
-    }, 1600);
+    }, 1400); // Faster reveal
 
     // Start expanding phase (circle grows to reveal everything)
     const expandTimer = setTimeout(() => {
       setIntroPhase('expanding');
-      // Enable scrolling when expansion starts
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-      // Animate circle size from 150 to cover full screen - slower expansion
-      let size = 150;
-      const expandAnimation = setInterval(() => {
-        size += 20; // Slower increment (was 50)
-        setCircleSize(size);
-        if (size >= Math.max(window.innerWidth, window.innerHeight) * 1.5) {
-          clearInterval(expandAnimation);
-        }
-      }, 16);
-    }, 2800);
+      // Keep scrolling disabled until expansion is well underway
 
-    // Complete intro after animation (extended time)
+      // Use requestAnimationFrame for smoother animation
+      let size = 150;
+      let lastTime = performance.now();
+
+      const animate = (currentTime: number) => {
+        const deltaTime = currentTime - lastTime;
+        lastTime = currentTime;
+
+        // Smooth expansion: ~25 pixels per 16ms frame (faster)
+        size += (deltaTime / 16) * 25;
+        setCircleSize(size);
+
+        // Enable scrolling after circle has expanded a bit
+        if (size > 300) {
+          document.body.style.overflow = '';
+          document.documentElement.style.overflow = '';
+        }
+
+        if (size < Math.max(window.innerWidth, window.innerHeight) * 1.5) {
+          requestAnimationFrame(animate);
+        }
+      };
+
+      requestAnimationFrame(animate);
+    }, 2200); // Faster expanding phase
+
+    // Complete intro after animation (faster)
     const completeTimer = setTimeout(() => {
       setIntroPhase('done');
       setIntroComplete(true);
       // Re-enable scrolling
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-    }, 6000);
+    }, 4500);
 
     return () => {
       clearTimeout(drawTimer);
@@ -263,14 +277,14 @@ function App() {
               r={introPhase === 'expanding' ? circleSize : 150}
               fill="none"
               stroke="#CAB64B"
-              strokeWidth="3"
+              strokeWidth="2"
               strokeLinecap="round"
               style={{
                 strokeDasharray: introPhase === 'expanding' ? circleSize * 2 * Math.PI : 150 * 2 * Math.PI,
                 strokeDashoffset: introPhase === 'initial' ? 150 * 2 * Math.PI : 0,
                 transform: `rotate(-90deg)`,
                 transformOrigin: '50% 50%',
-                transition: introPhase === 'drawing' ? 'stroke-dashoffset 1.4s ease-in-out' : 'none',
+                transition: introPhase === 'drawing' ? 'stroke-dashoffset 1s linear' : 'none',
                 opacity: introPhase === 'done' ? 0 : 1
               }}
             />

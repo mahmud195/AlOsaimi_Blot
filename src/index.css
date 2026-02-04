@@ -289,3 +289,54 @@
 .delay-800 {
   transition-delay: 0.8s;
 }
+
+/* Card Dealing Animation - cards start stacked and fan out */
+.card-deal {
+  opacity: 0;
+  transform: translateX(var(--card-offset, 0));
+  transition: opacity 0.6s ease-out, transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.card-deal.visible {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Stacked initial position for dealing effect */
+.card-stack-0 {
+  --card-offset: 0px;
+}
+
+.card-stack-1 {
+  --card-offset: 300px;
+}
+
+.card-stack-2 {
+  --card-offset: 600px;
+}
+
+.card-stack-3 {
+  --card-offset: 900px;
+}
+
+.card-stack-4 {
+  --card-offset: 1200px;
+}
+
+.card-stack-5 {
+  --card-offset: 1500px;
+}
+
+/* Circle Drawing Animation */
+.circle-draw {
+  stroke-dasharray: 502;
+  /* 2 * PI * r (approximately for r=80) */
+  stroke-dashoffset: 502;
+  opacity: 0;
+  transition: stroke-dashoffset 1.2s ease-out, opacity 0.3s ease-out;
+}
+
+.circle-draw.visible {
+  stroke-dashoffset: 0;
+  opacity: 1;
+}

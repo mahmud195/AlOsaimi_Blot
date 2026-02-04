@@ -37,13 +37,13 @@ function App() {
     height: typeof window !== 'undefined' ? window.innerHeight : 1080
   });
 
-  // Scroll animations for sections
-  const aboutAnimation = useScrollAnimation<HTMLDivElement>();
-  const aboutTitleAnimation = useScrollAnimation<HTMLDivElement>();
-  const aboutImageAnimation = useScrollAnimation<HTMLDivElement>();
-  const aboutTextAnimation = useScrollAnimation<HTMLDivElement>();
-  const projectsAnimation = useScrollAnimation<HTMLDivElement>();
-  const contactAnimation = useScrollAnimation<HTMLDivElement>();
+  // Scroll animations for sections (triggerOnce: false to repeat animations)
+  const aboutAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
+  const aboutTitleAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
+  const aboutImageAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
+  const aboutTextAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
+  const projectsAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
+  const contactAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
 
   // Configurable banner speed (pixels per frame) - adjust this value to control speed
   const BANNER_SPEED = 2;
@@ -250,18 +250,22 @@ function App() {
 
           {/* SVG for circle stroke animation - draws from 12 o'clock clockwise */}
           <svg
-            className="absolute inset-0 w-full h-full"
-            viewBox={`0 0 ${viewportSize.width} ${viewportSize.height}`}
-            preserveAspectRatio="xMidYMid slice"
+            className="absolute"
             style={{
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: `${(introPhase === 'expanding' ? circleSize : 150) * 2 + 10}px`,
+              height: `${(introPhase === 'expanding' ? circleSize : 150) * 2 + 10}px`,
               opacity: introPhase === 'done' ? 0 : 1,
               transition: 'opacity 0.5s ease-out'
             }}
+            viewBox={`0 0 ${(introPhase === 'expanding' ? circleSize : 150) * 2 + 10} ${(introPhase === 'expanding' ? circleSize : 150) * 2 + 10}`}
           >
             {/* Circle stroke drawing animation */}
             <circle
-              cx={viewportSize.width / 2}
-              cy={viewportSize.height / 2}
+              cx={(introPhase === 'expanding' ? circleSize : 150) + 5}
+              cy={(introPhase === 'expanding' ? circleSize : 150) + 5}
               r={introPhase === 'expanding' ? circleSize : 150}
               fill="none"
               stroke="#CAB64B"
@@ -271,7 +275,7 @@ function App() {
                 strokeDasharray: introPhase === 'expanding' ? circleSize * 2 * Math.PI : 150 * 2 * Math.PI,
                 strokeDashoffset: introPhase === 'initial' ? 150 * 2 * Math.PI : 0,
                 transform: `rotate(-90deg)`,
-                transformOrigin: `${viewportSize.width / 2}px ${viewportSize.height / 2}px`,
+                transformOrigin: 'center',
                 transition: introPhase === 'drawing' ? 'stroke-dashoffset 1.4s ease-in-out' :
                   introPhase === 'expanding' ? 'all 0.016s linear' : 'none',
                 opacity: introPhase === 'done' ? 0 : 1
@@ -406,7 +410,7 @@ function App() {
         <div ref={aboutAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 md:px-8 w-full ${language === 'ar' ? 'rtl' : ''}`}>
           {/* Container with relative positioning for overlapping elements */}
           <div className="relative">
-            {/* ABOUT US Title - Always positioned to overlap the image */}
+            {/* ABOUT US Title - comes from left */}
             <div
               ref={aboutTitleAnimation.ref}
               className={`absolute top-6 md:top-10 z-20 animate-slide-right ${aboutTitleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'right-[5%] md:right-[8.5%]' : 'left-4 md:left-[3.5rem]'}`}
@@ -426,13 +430,33 @@ function App() {
 
             {/* Main content - Flex column on mobile, relative positioning on desktop */}
             <div className="relative w-full flex flex-col md:block">
-              {/* Image container with decorative circle */}
+              {/* Image container with animated decorative circle */}
               <div
                 ref={aboutImageAnimation.ref}
-                className={`relative pt-16 md:pt-16 w-[80%] md:w-[50%] mx-auto animate-fade-in delay-200 ${aboutImageAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:mr-[15%] md:ml-auto' : 'md:ml-[17%] md:mr-auto'}`}
+                className={`relative pt-16 md:pt-16 w-[80%] md:w-[50%] mx-auto animate-fade-in ${aboutImageAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:mr-[15%] md:ml-auto' : 'md:ml-[17%] md:mr-auto'}`}
               >
-                {/* Decorative Circle - visible on all screens */}
-                <div className={`absolute z-10 w-16 h-16 md:w-32 md:h-32 rounded-full border-2 border-aoc-gold top-[55%] -translate-y-1/2 ${language === 'ar' ? '-right-8 md:-right-16' : '-left-8 md:-left-16'}`} />
+                {/* Animated Decorative Circle - SVG for drawing effect */}
+                <svg
+                  className={`absolute z-10 w-16 h-16 md:w-32 md:h-32 top-[55%] -translate-y-1/2 ${language === 'ar' ? '-right-8 md:-right-16' : '-left-8 md:-left-16'}`}
+                  viewBox="0 0 100 100"
+                >
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="48"
+                    fill="none"
+                    stroke="#CAB64B"
+                    strokeWidth="2"
+                    className={`circle-draw ${aboutImageAnimation.isVisible ? 'visible' : ''}`}
+                    style={{
+                      strokeDasharray: 301.6,
+                      strokeDashoffset: aboutImageAnimation.isVisible ? 0 : 301.6,
+                      transition: 'stroke-dashoffset 1.2s ease-out',
+                      transform: 'rotate(-90deg)',
+                      transformOrigin: 'center'
+                    }}
+                  />
+                </svg>
 
                 {/* Image - smaller on mobile with aspect ratio */}
                 <div className="relative aspect-[4/5] md:h-[600px] md:aspect-auto overflow-hidden">
@@ -445,19 +469,23 @@ function App() {
                 </div>
               </div>
 
-              {/* Text content - below image on mobile, overlapping on desktop */}
+              {/* Text content - slides from right */}
               <div
-                ref={aboutTextAnimation.ref}
-                className={`relative md:absolute z-10 p-4 md:p-12 mt-6 md:mt-0 md:top-1/2 md:-translate-y-1/4 w-full md:w-[60%] animate-slide-up delay-400 ${aboutTextAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:left-0 text-right' : 'md:right-0'}`}
+                className={`relative md:absolute z-10 p-4 md:p-12 mt-6 md:mt-0 md:top-1/2 md:-translate-y-1/4 w-full md:w-[60%] overflow-hidden ${language === 'ar' ? 'md:left-0 text-right' : 'md:right-0'}`}
               >
-                <div className="space-y-4 md:space-y-6">
-                  <p className={`text-aoc-white/80 text-sm md:text-[1.35rem] font-inter-tight font-light leading-relaxed ${language === 'ar' ? 'text-right' : ''}`}>
-                    {t.about.paragraph1}
-                  </p>
+                <div
+                  ref={aboutTextAnimation.ref}
+                  className={`animate-slide-left ${aboutTextAnimation.isVisible ? 'visible' : ''}`}
+                >
+                  <div className="space-y-4 md:space-y-6">
+                    <p className={`text-aoc-white/80 text-sm md:text-[1.35rem] font-inter-tight font-light leading-relaxed ${language === 'ar' ? 'text-right' : ''}`}>
+                      {t.about.paragraph1}
+                    </p>
 
-                  <p className={`text-aoc-white/80 text-sm md:text-[1.35rem] font-inter-tight font-light leading-relaxed ${language === 'ar' ? 'text-right' : ''}`}>
-                    {t.about.paragraph2}
-                  </p>
+                    <p className={`text-aoc-white/80 text-sm md:text-[1.35rem] font-inter-tight font-light leading-relaxed ${language === 'ar' ? 'text-right' : ''}`}>
+                      {t.about.paragraph2}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>

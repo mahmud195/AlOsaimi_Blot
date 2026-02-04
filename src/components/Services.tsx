@@ -95,9 +95,9 @@ export default function Services() {
   const [isButtonPressed, setIsButtonPressed] = useState(false);
   const scrollAnimationRef = useRef<number | null>(null);
 
-  // Scroll animations
-  const titleAnimation = useScrollAnimation<HTMLDivElement>();
-  const cardsAnimation = useScrollAnimation<HTMLDivElement>();
+  // Scroll animations (triggerOnce: false to repeat animations)
+  const titleAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
+  const cardsAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
 
   useEffect(() => {
     const checkScroll = () => {
@@ -265,7 +265,7 @@ export default function Services() {
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 items-start md:items-center ${language === 'ar' ? 'rtl' : ''}`}>
           <div
             ref={titleAnimation.ref}
-            className={`space-y-4 md:space-y-8 animate-slide-left ${titleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:order-2 text-right' : ''}`}
+            className={`space-y-4 md:space-y-8 animate-slide-right ${titleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:order-2 text-right' : ''}`}
           >
             <h2 className={`text-3xl md:text-6xl font-darker-grotesque font-extralight tracking-[0.15em] md:tracking-[0.2em] uppercase leading-tight text-aoc-white mt-0 md:-mt-20 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
               {t.services.title}
@@ -302,10 +302,11 @@ export default function Services() {
                   display: none;
                 }
               `}</style>
-              {services.map((service) => (
+              {services.map((service, index) => (
                 <div
                   key={service.id}
-                  className="flex-shrink-0 w-72 group cursor-pointer"
+                  className={`flex-shrink-0 w-72 group cursor-pointer card-deal card-stack-${index} ${cardsAnimation.isVisible ? 'visible' : ''}`}
+                  style={{ transitionDelay: `${index * 0.2}s` }}
                 >
                   <div
                     onClick={() => handleReadMore(service)}

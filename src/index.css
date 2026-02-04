@@ -9,6 +9,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Darker Grotesque';
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/DarkerGrotesque-Regular.ttf') format('truetype');
@@ -16,6 +17,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Darker Grotesque';
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/DarkerGrotesque-Medium.ttf') format('truetype');
@@ -23,6 +25,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Darker Grotesque';
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/DarkerGrotesque-SemiBold.ttf') format('truetype');
@@ -30,6 +33,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Darker Grotesque';
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/DarkerGrotesque-Bold.ttf') format('truetype');
@@ -37,6 +41,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Darker Grotesque';
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/DarkerGrotesque-ExtraBold.ttf') format('truetype');
@@ -53,6 +58,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Inter Tight';
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/InterTight-ExtraLightItalic.ttf') format('truetype');
@@ -60,6 +66,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Inter Tight';
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/InterTight-Regular.ttf') format('truetype');
@@ -67,6 +74,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Inter Tight';
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/InterTight-Italic.ttf') format('truetype');
@@ -74,6 +82,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Inter Tight';
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/InterTight-Bold.ttf') format('truetype');
@@ -81,6 +90,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: 'Inter Tight';
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/InterTight-BoldItalic.ttf') format('truetype');
@@ -138,5 +148,43 @@
   .writing-vertical {
     writing-mode: vertical-rl;
     text-orientation: mixed;
+  }
+}
+
+/* Custom Cursor Styles - Touch indicator style */
+* {
+  cursor: none !important;
+}
+
+.custom-cursor {
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(28, 31, 42, 0.4);
+  border: 2px solid rgba(242, 242, 242, 0.6);
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s ease-out, width 0.15s ease, height 0.15s ease, opacity 0.15s ease;
+  box-shadow: 0 0 10px rgba(28, 31, 42, 0.2);
+}
+
+.custom-cursor.hovering {
+  width: 31px;
+  height: 31px;
+  background: rgba(28, 31, 42, 0.5);
+  border: 2px solid rgba(242, 242, 242, 0.7);
+  box-shadow: 0 0 12px rgba(28, 31, 42, 0.3);
+}
+
+/* Hide custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  * {
+    cursor: auto !important;
+  }
+
+  .custom-cursor {
+    display: none !important;
   }
 }

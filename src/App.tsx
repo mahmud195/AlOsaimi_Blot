@@ -5,7 +5,7 @@ import Services from './components/Services';
 import { useLanguage } from './LanguageContext';
 import { translations } from './translations';
 import { useScrollAnimation } from './hooks/useScrollAnimation';
-import heroVideo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Video/AOC_x_BF_H_No_Subtitles.mp4';
+import heroVideo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Video/AOC_x_BF_H_No_Subtitles_small.mp4';
 import aboutImage from './assets/asset_16.png';
 import beFoundLogo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/BeFound Sigment.png';
 

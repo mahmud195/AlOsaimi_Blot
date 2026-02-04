@@ -237,12 +237,12 @@ function App() {
                 ? 'none'
                 : introPhase === 'drawing'
                   ? 'none'
-                  : `radial-gradient(circle ${introPhase === 'expanding' ? circleSize : 150}px at 50vw 50vh, transparent 100%, black 100%)`,
+                  : `radial-gradient(circle ${introPhase === 'expanding' ? circleSize : 150}px at 50% 50%, transparent 100%, black 100%)`,
               WebkitMaskImage: introPhase === 'initial'
                 ? 'none'
                 : introPhase === 'drawing'
                   ? 'none'
-                  : `radial-gradient(circle ${introPhase === 'expanding' ? circleSize : 150}px at 50vw 50vh, transparent 100%, black 100%)`,
+                  : `radial-gradient(circle ${introPhase === 'expanding' ? circleSize : 150}px at 50% 50%, transparent 100%, black 100%)`,
               opacity: introPhase === 'done' ? 0 : 1,
               transition: 'opacity 0.5s ease-out',
             }}

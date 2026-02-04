@@ -35,19 +35,47 @@ function ServiceModal({ service, isOpen, onClose, language }: { service: Service
 
   return (
     <div className="fixed inset-0 bg-aoc-indigo z-50 overflow-y-auto">
-      {/* Close button */}
-      <button
-        onClick={onClose}
-        className={`fixed top-6 ${language === 'ar' ? 'left-6' : 'right-6'} z-50 w-12 h-12 rounded-full bg-aoc-black/30 backdrop-blur-md border border-white/20 flex items-center justify-center text-aoc-white hover:text-aoc-gold hover:border-aoc-gold transition-all`}
-      >
-        <X size={24} />
-      </button>
+      {/* Top Navigation Bar - same style as main page */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+        <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+          {/* Mobile: X button with circle on left (same place as hamburger) */}
+          <button
+            onClick={onClose}
+            className="md:hidden relative w-10 h-10 flex items-center justify-center"
+          >
+            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 40 40">
+              <circle cx="20" cy="20" r="18" fill="none" stroke="#CAB64B" strokeWidth="1" />
+            </svg>
+            <X size={20} className="text-aoc-white hover:text-aoc-gold transition-colors" />
+          </button>
+
+          {/* Logo - center on mobile, left on desktop */}
+          <a href="#services" onClick={onClose} className="h-10 w-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
+            <img src="/src/assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOCMobile.png" alt="AOC Logo" className="h-full w-auto md:hidden" />
+            <img src="/src/assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Logo White.png" alt="AOC Logo" className="h-full w-auto hidden md:block" />
+          </a>
+
+          {/* Desktop: X button with circle on right */}
+          <button
+            onClick={onClose}
+            className="hidden md:flex relative w-10 h-10 items-center justify-center"
+          >
+            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 40 40">
+              <circle cx="20" cy="20" r="18" fill="none" stroke="#CAB64B" strokeWidth="1" />
+            </svg>
+            <X size={20} className="text-aoc-white hover:text-aoc-gold transition-colors" />
+          </button>
+
+          {/* Spacer for mobile to balance the layout */}
+          <div className="md:hidden w-10"></div>
+        </div>
+      </nav>
 
       {/* Main content */}
-      <div className={`min-h-screen flex flex-col lg:flex-row ${language === 'ar' ? 'lg:flex-row-reverse' : ''}`}>
+      <div className={`min-h-screen pt-20 pb-16 flex flex-col lg:flex-row ${language === 'ar' ? 'lg:flex-row-reverse' : ''}`}>
 
         {/* Left side - Title and description */}
-        <div className={`lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 py-16 lg:py-24 ${language === 'ar' ? 'text-right' : ''}`}>
+        <div className={`lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 py-8 lg:py-16 ${language === 'ar' ? 'text-right' : ''}`}>
           {/* Large Title */}
           <div className="mb-8 lg:mb-12">
             <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.9]">
@@ -74,29 +102,27 @@ function ServiceModal({ service, isOpen, onClose, language }: { service: Service
 
         {/* Right side - Image with decorative circle */}
         <div className="lg:w-1/2 relative flex items-center justify-center p-8 lg:p-16">
-          {/* Decorative Circle - positioned to overlap title and image */}
-          <svg
-            className="absolute z-20 w-32 h-32 md:w-48 md:h-48 lg:w-64 lg:h-64"
-            style={{
-              top: '15%',
-              left: language === 'ar' ? 'auto' : '0',
-              right: language === 'ar' ? '0' : 'auto',
-              transform: 'translate(-30%, 0)'
-            }}
-            viewBox="0 0 100 100"
-          >
-            <circle
-              cx="50"
-              cy="50"
-              r="48"
-              fill="none"
-              stroke="#CAB64B"
-              strokeWidth="1"
-            />
-          </svg>
-
           {/* Image container with fixed aspect ratio */}
           <div className="relative w-full max-w-xl">
+            {/* Decorative Circle - centered on left edge, half in/half out */}
+            <svg
+              className="absolute z-20 w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 top-1/2 -translate-y-1/2"
+              style={{
+                left: language === 'ar' ? 'auto' : '-3rem',
+                right: language === 'ar' ? '-3rem' : 'auto',
+              }}
+              viewBox="0 0 100 100"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="48"
+                fill="none"
+                stroke="#CAB64B"
+                strokeWidth="1.5"
+              />
+            </svg>
+
             <div className="aspect-[3/4] overflow-hidden">
               <img
                 src={service.image}
@@ -109,8 +135,8 @@ function ServiceModal({ service, isOpen, onClose, language }: { service: Service
         </div>
       </div>
 
-      {/* Bottom bar - like About section */}
-      <div className="absolute bottom-0 left-0 right-0 px-8 py-6 flex justify-between items-center text-aoc-white/50 text-sm font-inter-tight font-light tracking-widest">
+      {/* Bottom bar - same style as top nav */}
+      <div className="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-8 py-4 flex justify-between items-center text-aoc-white/50 text-xs md:text-sm font-inter-tight font-light tracking-widest">
         <span>A</span>
         <span>FOUNDATION</span>
         <span>OF</span>

@@ -1,5 +1,5 @@
-import { ChevronDown, ArrowRight, Linkedin, Instagram, Facebook, X } from 'lucide-react';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { ChevronDown, ChevronLeft, ChevronRight, Linkedin, Instagram, Facebook } from 'lucide-react';
+import { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
 import TopNav from './components/TopNav';
 import Services from './components/Services';
 import { useLanguage } from './LanguageContext';
@@ -9,6 +9,10 @@ import heroVideo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/
 import videoPoster from './assets/video_poster.jpg';
 import aboutImage from './assets/asset_16.png';
 import beFoundLogo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/BeFound Sigment.png';
+
+// Lazy load modal components for better initial load performance
+const NewsModal = lazy(() => import('./components/NewsModal'));
+const ProjectModal = lazy(() => import('./components/ProjectModal'));
 
 function App() {
   const { language } = useLanguage();
@@ -48,6 +52,10 @@ function App() {
   const [isSliding, setIsSliding] = useState(false);
   const [isNewsModalOpen, setIsNewsModalOpen] = useState(false);
 
+  // Projects carousel state
+  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
+  const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+
   // Handle news change with slide animation
   const handleNewsChange = (newIndex: number) => {
     if (isSliding || newIndex === activeNewsIndex) return;
@@ -83,6 +91,18 @@ function App() {
       document.body.style.overflow = '';
     };
   }, [isNewsModalOpen]);
+
+  // Disable body scroll when project modal is open
+  useEffect(() => {
+    if (isProjectModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isProjectModalOpen]);
 
   // Configurable banner speed (pixels per frame) - adjust this value to control speed
   const BANNER_SPEED = 2;
@@ -536,37 +556,95 @@ function App() {
 
       <Services />
 
-      <section id="projects" className="relative h-screen flex items-end overflow-hidden">
+      <section id="projects" className="relative h-screen flex items-center overflow-hidden">
+        {/* Background images carousel */}
         <div className="absolute inset-0">
-          <img
-            src="https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg"
-            alt="Featured Project"
-            loading="lazy"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-aoc-black/90 via-aoc-indigo/50 to-transparent" />
+          {t.projectsGallery.items.map((project, index) => (
+            <div
+              key={index}
+              className="absolute inset-0 transition-opacity duration-700"
+              style={{ opacity: index === activeProjectIndex ? 1 : 0 }}
+            >
+              <img
+                src={project.image}
+                alt={project.title}
+                loading="lazy"
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ))}
+          <div className="absolute inset-0 bg-gradient-to-t from-aoc-black/80 via-aoc-indigo/30 to-transparent" />
         </div>
 
+        {/* Main content */}
         <div
           ref={projectsAnimation.ref}
-          className={`relative z-10 max-w-screen-2xl mx-auto px-8 py-24 w-full animate-slide-up ${projectsAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'rtl' : ''}`}
+          className={`absolute inset-0 z-10 ${language === 'ar' ? 'rtl' : ''}`}
         >
-          <div className="max-w-2xl space-y-6">
-            <div className="text-sm font-inter-tight font-light tracking-[0.3em] uppercase text-aoc-gold">
-              {t.projects.featured}
+          {/* Large project title - positioned above the centered bar */}
+          <div className={`absolute bottom-[54%] left-0 right-0 px-8 md:px-16 ${language === 'ar' ? 'text-right' : ''}`}>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-medium tracking-[0.05em] uppercase leading-[0.9]" style={{ color: '#CAB64B' }}>
+              {t.projectsGallery.items[activeProjectIndex].title}
+            </h2>
+          </div>
+
+          {/* Bottom bar with info and navigation - centered at 50% */}
+          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 w-full border-t border-b border-white/20 bg-aoc-black/20 backdrop-blur-sm">
+            <div className="px-8 md:px-16 py-3 flex flex-wrap items-center justify-between gap-4">
+              {/* Left side - Learn More and Category */}
+              <div className={`flex items-center gap-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <button
+                  onClick={() => setIsProjectModalOpen(true)}
+                  className={`group flex items-center gap-2 text-aoc-gold hover:text-aoc-white transition-colors ${language === 'ar' ? 'flex-row-reverse' : ''}`}
+                >
+                  <div className="flex flex-col gap-1 w-4">
+                    <span className="block h-px bg-current"></span>
+                    <span className="block h-px bg-current"></span>
+                    <span className="block h-px bg-current"></span>
+                  </div>
+                  <span className="text-sm font-inter-tight font-light tracking-[0.15em] uppercase">
+                    {t.projectsGallery.learnMore}
+                  </span>
+                </button>
+                <div className="hidden md:block h-4 w-px bg-white/30"></div>
+                <span className="hidden md:block text-xs font-inter-tight font-light tracking-[0.2em] uppercase text-aoc-white/60">
+                  {t.projectsGallery.items[activeProjectIndex].category}
+                </span>
+              </div>
+
+              {/* Center - Year / Location */}
+              <div className={`flex items-center gap-4 text-aoc-white/80 font-inter-tight font-light ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <span>{t.projectsGallery.items[activeProjectIndex].year}</span>
+                <span>/</span>
+                <span>{t.projectsGallery.items[activeProjectIndex].location}</span>
+              </div>
+
+              {/* Right side - Counter and Navigation */}
+              <div className={`flex items-center gap-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                {/* Project counter */}
+                <div className="flex items-center gap-2 text-aoc-white font-inter-tight font-light">
+                  <span className="text-lg">{String(activeProjectIndex + 1).padStart(2, '0')}</span>
+                  <span className="w-8 h-px bg-white/50"></span>
+                  <span className="text-lg text-aoc-white/50">{String(t.projectsGallery.items.length).padStart(2, '0')}</span>
+                </div>
+
+                {/* Navigation arrows */}
+                <div className={`flex items-center gap-3 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                  <button
+                    onClick={() => setActiveProjectIndex(prev => prev === 0 ? t.projectsGallery.items.length - 1 : prev - 1)}
+                    className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:border-aoc-gold hover:text-aoc-gold transition-colors text-aoc-white"
+                  >
+                    <ChevronLeft size={20} />
+                  </button>
+                  <button
+                    onClick={() => setActiveProjectIndex(prev => prev === t.projectsGallery.items.length - 1 ? 0 : prev + 1)}
+                    className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:border-aoc-gold hover:text-aoc-gold transition-colors text-aoc-white"
+                  >
+                    <ChevronRight size={20} />
+                  </button>
+                </div>
+              </div>
             </div>
-            <h3 className="text-5xl font-darker-grotesque font-extralight tracking-[0.15em] uppercase text-aoc-white">
-              {t.projects.title}
-            </h3>
-            <div className={`flex gap-8 text-aoc-white/70 font-inter-tight font-light ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-              <span>{t.projects.year}</span>
-              <span>•</span>
-              <span>{t.projects.location}</span>
-            </div>
-            <button className={`group flex items-center gap-3 text-sm tracking-[0.2em] uppercase mt-8 text-aoc-white hover:text-aoc-gold transition-colors ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-              {t.projects.learnMore}
-              <ArrowRight size={16} className={`${language === 'ar' ? '-scale-x-100' : ''} group-hover:translate-x-2 transition-transform`} />
-            </button>
           </div>
         </div>
       </section>
@@ -580,7 +658,7 @@ function App() {
           >
             {/* Decorative Circle - positioned outside overflow container, half in/half out at middle height */}
             <svg
-              className={`absolute z-20 w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 top-1/2 ${language === 'ar' ? 'right-0' : 'left-0'}`}
+              className={`absolute z-20 w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 top-1/2 ${language === 'ar' ? 'right-0' : 'left-0'}`}
               style={{
                 transform: language === 'ar'
                   ? 'translateY(-50%) translateX(50%)'
@@ -759,113 +837,25 @@ function App() {
         </div>
       </div>
 
-      {/* News Modal - Full screen like Services */}
-      {isNewsModalOpen && (
-        <div className="fixed inset-0 bg-aoc-indigo z-50 overflow-y-auto">
-          {/* Top Navigation Bar */}
-          <nav className={`fixed top-0 left-0 right-0 z-50 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
-            <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
-              {/* Mobile: X button on left */}
-              <button
-                onClick={() => setIsNewsModalOpen(false)}
-                className="md:hidden relative w-10 h-10 flex items-center justify-center"
-              >
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 40 40">
-                  <circle cx="20" cy="20" r="18" fill="none" stroke="#CAB64B" strokeWidth="1" />
-                </svg>
-                <X size={20} className="text-aoc-white hover:text-aoc-gold transition-colors" />
-              </button>
+      {/* News Modal - Lazy loaded for better performance */}
+      <Suspense fallback={null}>
+        <NewsModal
+          isOpen={isNewsModalOpen}
+          onClose={() => setIsNewsModalOpen(false)}
+          article={t.news.articles[activeNewsIndex]}
+          language={language}
+        />
+      </Suspense>
 
-              {/* Logo - center on mobile, left on desktop */}
-              <a href="#news" onClick={() => setIsNewsModalOpen(false)} className="h-10 w-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-                <img src="/src/assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOCMobile.png" alt="AOC Logo" className="h-full w-auto md:hidden" />
-                <img src="/src/assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Logo White.png" alt="AOC Logo" className="h-full w-auto hidden md:block" />
-              </a>
-
-              {/* Desktop: X button on right */}
-              <button
-                onClick={() => setIsNewsModalOpen(false)}
-                className="hidden md:flex relative w-10 h-10 items-center justify-center"
-              >
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 40 40">
-                  <circle cx="20" cy="20" r="18" fill="none" stroke="#CAB64B" strokeWidth="1" />
-                </svg>
-                <X size={20} className="text-aoc-white hover:text-aoc-gold transition-colors" />
-              </button>
-
-              {/* Spacer for mobile balance */}
-              <div className="md:hidden w-10"></div>
-            </div>
-          </nav>
-
-          {/* Main content */}
-          <div className={`min-h-screen pt-20 pb-16 flex flex-col lg:flex-row ${language === 'ar' ? 'lg:flex-row-reverse' : ''}`}>
-
-            {/* Left side - Title and description */}
-            <div className={`lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 py-8 lg:py-16 ${language === 'ar' ? 'text-right' : ''}`}>
-              {/* Title */}
-              <div className="mb-8 lg:mb-12">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.9] mb-4">
-                  {t.news.articles[activeNewsIndex].title}
-                </h1>
-                <h2 className="text-xl md:text-2xl lg:text-3xl font-darker-grotesque font-extralight tracking-[0.05em] text-aoc-gold">
-                  {t.news.articles[activeNewsIndex].subtitle}
-                </h2>
-              </div>
-
-              {/* Full Description */}
-              <div className="max-w-lg space-y-6">
-                <p className="text-aoc-white/80 text-base lg:text-lg font-inter-tight font-light leading-relaxed text-justify">
-                  {t.news.articles[activeNewsIndex].text}
-                </p>
-              </div>
-            </div>
-
-            {/* Right side - Image with decorative circle */}
-            <div className="lg:w-1/2 relative flex items-center justify-center p-8 lg:p-16">
-              {/* Image container */}
-              <div className="relative w-full max-w-xl">
-                {/* Decorative Circle */}
-                <svg
-                  className="absolute z-20 w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 top-1/2"
-                  style={{
-                    transform: 'translateY(-50%) translateX(-50%)',
-                    left: language === 'ar' ? 'auto' : '0',
-                    right: language === 'ar' ? '0' : 'auto',
-                  }}
-                  viewBox="0 0 100 100"
-                >
-                  <circle
-                    cx="50"
-                    cy="50"
-                    r="48"
-                    fill="none"
-                    stroke="#CAB64B"
-                    strokeWidth="1.5"
-                  />
-                </svg>
-
-                <div className="aspect-[3/4] overflow-hidden">
-                  <img
-                    src={t.news.articles[activeNewsIndex].image}
-                    alt={t.news.articles[activeNewsIndex].title}
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Bottom bar */}
-          <div className="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-8 py-4 flex justify-between items-center text-aoc-white/50 text-xs md:text-sm font-inter-tight font-light tracking-widest">
-            <span>A</span>
-            <span>FOUNDATION</span>
-            <span>OF</span>
-            <span>TRUST</span>
-          </div>
-        </div>
-      )}
+      {/* Project Modal - Lazy loaded for better performance */}
+      <Suspense fallback={null}>
+        <ProjectModal
+          isOpen={isProjectModalOpen}
+          onClose={() => setIsProjectModalOpen(false)}
+          project={t.projectsGallery.items[activeProjectIndex]}
+          language={language}
+        />
+      </Suspense>
 
       {/* Custom Cursor - Touch indicator style */}
       <div

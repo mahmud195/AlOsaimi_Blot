@@ -69,6 +69,46 @@ export const translations = {
       location: 'NEW YORK, USA',
       learnMore: 'LEARN MORE'
     },
+    projectsGallery: {
+      learnMore: 'LEARN MORE',
+      items: [
+        {
+          title: 'PYRAMIDS MALL',
+          category: 'PYRAMIDS',
+          year: '2021',
+          location: 'New Capital - Egypt',
+          image: 'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg'
+        },
+        {
+          title: 'RIYADH TOWER',
+          category: 'COMMERCIAL',
+          year: '2023',
+          location: 'Riyadh - Saudi Arabia',
+          image: 'https://images.pexels.com/photos/1755683/pexels-photo-1755683.jpeg'
+        },
+        {
+          title: 'COASTAL RESORT',
+          category: 'HOSPITALITY',
+          year: '2022',
+          location: 'Jeddah - Saudi Arabia',
+          image: 'https://images.pexels.com/photos/2507010/pexels-photo-2507010.jpeg'
+        },
+        {
+          title: 'URBAN PLAZA',
+          category: 'MIXED USE',
+          year: '2024',
+          location: 'Dubai - UAE',
+          image: 'https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg'
+        },
+        {
+          title: 'HERITAGE CENTER',
+          category: 'CULTURAL',
+          year: '2023',
+          location: 'Al Ula - Saudi Arabia',
+          image: 'https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg'
+        }
+      ]
+    },
     news: {
       title: 'NEWS',
       readMore: 'Read More.',
@@ -172,6 +212,46 @@ export const translations = {
       year: '2024',
       location: 'نيويورك، الولايات المتحدة',
       learnMore: 'اعرف أكثر'
+    },
+    projectsGallery: {
+      learnMore: 'اعرف المزيد',
+      items: [
+        {
+          title: 'بيراميدز مول',
+          category: 'بيراميدز',
+          year: '2021',
+          location: 'العاصمة الجديدة - مصر',
+          image: 'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg'
+        },
+        {
+          title: 'برج الرياض',
+          category: 'تجاري',
+          year: '2023',
+          location: 'الرياض - السعودية',
+          image: 'https://images.pexels.com/photos/1755683/pexels-photo-1755683.jpeg'
+        },
+        {
+          title: 'منتجع ساحلي',
+          category: 'ضيافة',
+          year: '2022',
+          location: 'جدة - السعودية',
+          image: 'https://images.pexels.com/photos/2507010/pexels-photo-2507010.jpeg'
+        },
+        {
+          title: 'ساحة حضرية',
+          category: 'متعدد الاستخدامات',
+          year: '2024',
+          location: 'دبي - الإمارات',
+          image: 'https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg'
+        },
+        {
+          title: 'مركز التراث',
+          category: 'ثقافي',
+          year: '2023',
+          location: 'العلا - السعودية',
+          image: 'https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg'
+        }
+      ]
     },
     news: {
       title: 'الأخبار',

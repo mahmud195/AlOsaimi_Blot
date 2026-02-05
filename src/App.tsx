@@ -21,7 +21,7 @@ function App() {
   });
   const [activeSection, setActiveSection] = useState('home');
   const [introComplete, setIntroComplete] = useState(false);
-  const [introPhase, setIntroPhase] = useState<'initial' | 'drawing' | 'revealing' | 'expanding' | 'done'>('initial');
+  const [introPhase, setIntroPhase] = useState<'initial' | 'drawing' | 'expanding' | 'done'>('initial');
   const [circleSize, setCircleSize] = useState(150); // Initial circle radius in px
   const [bannerOffset, setBannerOffset] = useState(0);
   const isScrollingRef = useRef(false);
@@ -41,6 +41,33 @@ function App() {
   const aboutTextAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
   const projectsAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
   const contactAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
+  const newsAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
+
+  // News carousel state
+  const [activeNewsIndex, setActiveNewsIndex] = useState(0);
+  const [isSliding, setIsSliding] = useState(false);
+
+  // Handle news change with slide animation
+  const handleNewsChange = (newIndex: number) => {
+    if (isSliding || newIndex === activeNewsIndex) return;
+    setIsSliding(true);
+    setActiveNewsIndex(newIndex);
+    setTimeout(() => setIsSliding(false), 700); // Match transition duration
+  };
+
+  // Auto-rotate news every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveNewsIndex(prev => {
+        const next = (prev + 1) % t.news.articles.length;
+        setIsSliding(true);
+        setTimeout(() => setIsSliding(false), 700);
+        return next;
+      });
+    }, 10000); // 10 seconds
+
+    return () => clearInterval(interval);
+  }, [t.news.articles.length]);
 
   // Configurable banner speed (pixels per frame) - adjust this value to control speed
   const BANNER_SPEED = 2;
@@ -138,12 +165,8 @@ function App() {
       setIntroPhase('drawing');
     }, 100);
 
-    // Start revealing phase (inside circle becomes clear)
-    const revealTimer = setTimeout(() => {
-      setIntroPhase('revealing');
-    }, 1400); // Faster reveal
-
-    // Start expanding phase (circle grows to reveal everything)
+    // Start expanding phase immediately after drawing completes (1s drawing + 100ms initial = 1100ms)
+    // No delay - mask appears as soon as circle finishes drawing
     const expandTimer = setTimeout(() => {
       setIntroPhase('expanding');
       // Keep scrolling disabled until expansion is well underway
@@ -172,20 +195,19 @@ function App() {
       };
 
       requestAnimationFrame(animate);
-    }, 2200); // Faster expanding phase
+    }, 1100); // Starts immediately when drawing finishes (no delay)
 
-    // Complete intro after animation (faster)
+    // Complete intro after animation
     const completeTimer = setTimeout(() => {
       setIntroPhase('done');
       setIntroComplete(true);
       // Re-enable scrolling
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-    }, 4500);
+    }, 3400); // Adjusted timing (1100 + ~2300 for expansion)
 
     return () => {
       clearTimeout(drawTimer);
-      clearTimeout(revealTimer);
       clearTimeout(expandTimer);
       clearTimeout(completeTimer);
       document.body.style.overflow = '';
@@ -533,41 +555,110 @@ function App() {
         </div>
       </section>
 
-      <section id="news" className="min-h-screen bg-aoc-black flex items-center py-24">
-        <div className="max-w-screen-2xl mx-auto px-8 w-full">
-          <div className={`grid md:grid-cols-2 gap-16 items-center ${language === 'ar' ? 'rtl' : ''}`}>
-            <div className={`space-y-8 ${language === 'ar' ? 'md:order-2 text-right' : ''}`}>
-              <h2 className="text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase leading-tight text-aoc-white">
-                {t.news.title}
-              </h2>
+      <section id="news" className="min-h-screen flex items-center py-16 md:py-24" style={{ backgroundColor: '#f2f2f2' }}>
+        <div className={`max-w-screen-xl mx-auto px-8 w-full ${language === 'ar' ? 'rtl' : ''}`}>
+          {/* Main Image Container - wrapper with relative positioning for circle */}
+          <div
+            ref={newsAnimation.ref}
+            className="relative w-full mb-8"
+          >
+            {/* Decorative Circle - positioned outside overflow container, half in/half out at middle height */}
+            <svg
+              className={`absolute z-20 w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 top-1/2 ${language === 'ar' ? 'right-0' : 'left-0'}`}
+              style={{
+                transform: language === 'ar'
+                  ? 'translateY(-50%) translateX(50%)'
+                  : 'translateY(-50%) translateX(-50%)'
+              }}
+              viewBox="0 0 100 100"
+            >
+              <circle
+                cx="50"
+                cy="50"
+                r="48"
+                fill="none"
+                stroke="#CAB64B"
+                strokeWidth="2"
+                style={{
+                  strokeDasharray: 301.6,
+                  strokeDashoffset: newsAnimation.isVisible ? 0 : 301.6,
+                  transition: 'stroke-dashoffset 1.2s ease-out',
+                  transform: 'rotate(-90deg)',
+                  transformOrigin: 'center'
+                }}
+              />
+            </svg>
 
-              <div className={`w-24 h-[1px] bg-aoc-gold ${language === 'ar' ? 'ml-auto' : ''}`} />
+            {/* Image container with overflow hidden - sliding carousel */}
+            <div className="relative w-full aspect-[16/9] md:aspect-[2/1] overflow-hidden">
+              {/* Sliding images container */}
+              <div
+                className="absolute inset-0 flex transition-transform duration-700 ease-in-out"
+                style={{
+                  width: `${t.news.articles.length * 100}%`,
+                  transform: `translateX(-${activeNewsIndex * (100 / t.news.articles.length)}%)`
+                }}
+              >
+                {t.news.articles.map((article, index) => (
+                  <div
+                    key={index}
+                    className="relative h-full"
+                    style={{ width: `${100 / t.news.articles.length}%` }}
+                  >
+                    <img
+                      src={article.image}
+                      alt={article.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
 
-              <div className="space-y-4">
-                <div className="text-sm font-inter-tight font-light tracking-[0.2em] uppercase text-aoc-gold">
-                  {t.news.date}
-                </div>
-                <h3 className="text-3xl font-darker-grotesque font-light tracking-[0.1em] leading-snug text-aoc-white">
-                  {t.news.articleTitle}
+              {/* Dark overlay for better text visibility */}
+              <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/30 pointer-events-none" />
+
+              {/* NEWS Title - overlaid on top-left */}
+              <div className={`absolute top-8 md:top-12 ${language === 'ar' ? 'right-8 md:right-16' : 'left-8 md:left-16'}`}>
+                <h2 className="text-5xl md:text-7xl lg:text-8xl font-darker-grotesque font-extralight tracking-[0.15em] uppercase text-aoc-white">
+                  {t.news.title}
+                </h2>
+              </div>
+
+              {/* Article Title - bottom right of image */}
+              <div className={`absolute bottom-8 md:bottom-12 ${language === 'ar' ? 'left-8 md:left-16 text-left' : 'right-8 md:right-16 text-right'}`}>
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-darker-grotesque font-light tracking-[0.05em] text-aoc-white mb-2">
+                  {t.news.articles[activeNewsIndex].title}
                 </h3>
-                <p className="text-aoc-white/70 font-inter-tight font-light leading-relaxed">
-                  {t.news.articleText}
+                <p className="text-sm md:text-base font-inter-tight font-light italic text-aoc-white/80">
+                  {t.news.articles[activeNewsIndex].subtitle}
                 </p>
-                <button className={`group flex items-center gap-3 text-sm tracking-[0.2em] uppercase mt-6 text-aoc-white hover:text-aoc-gold transition-colors ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                  {t.news.readMore}
-                  <ArrowRight size={16} className={`${language === 'ar' ? '-scale-x-100' : ''} group-hover:translate-x-2 transition-transform`} />
-                </button>
+              </div>
+
+              {/* Pagination Dots - bottom left of image, clickable */}
+              <div className={`absolute bottom-8 md:bottom-12 ${language === 'ar' ? 'right-8 md:right-16' : 'left-8 md:left-16'} flex gap-2`}>
+                {t.news.articles.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => handleNewsChange(index)}
+                    disabled={isSliding}
+                    className={`w-2 h-2 rounded-full transition-all duration-300 hover:scale-125 ${index === activeNewsIndex ? 'bg-aoc-white/50' : 'bg-aoc-white'
+                      } ${isSliding ? 'cursor-not-allowed' : 'cursor-pointer'}`}
+                    aria-label={`Go to news ${index + 1}`}
+                  />
+                ))}
               </div>
             </div>
+          </div>
 
-            <div className={`relative h-[600px] overflow-hidden border-2 border-aoc-gold/30 ${language === 'ar' ? 'md:order-1' : ''}`}>
-              <img
-                src="https://images.pexels.com/photos/2098427/pexels-photo-2098427.jpeg"
-                alt="News"
-                loading="lazy"
-                className="w-full h-full object-cover"
-              />
-            </div>
+          {/* Article Text Below Image */}
+          <div className={`max-w-4xl ${language === 'ar' ? 'mr-0 ml-auto text-right' : 'ml-0 mr-auto'}`}>
+            <p className="text-gray-700 font-inter-tight font-light leading-relaxed text-base md:text-lg">
+              {t.news.articles[activeNewsIndex].text}...{' '}
+              <button className="font-medium underline hover:text-aoc-gold transition-colors">
+                {t.news.readMore}
+              </button>
+            </p>
           </div>
         </div>
       </section>
@@ -654,7 +745,7 @@ function App() {
         className={`custom-cursor ${isHovering ? 'hovering' : ''}`}
         style={{ left: cursorPos.x, top: cursorPos.y }}
       />
-    </div>
+    </div >
   );
 }
 

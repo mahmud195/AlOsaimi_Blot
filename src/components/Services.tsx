@@ -104,12 +104,13 @@ function ServiceModal({ service, isOpen, onClose, language }: { service: Service
         <div className="lg:w-1/2 relative flex items-center justify-center p-8 lg:p-16">
           {/* Image container with fixed aspect ratio */}
           <div className="relative w-full max-w-xl">
-            {/* Decorative Circle - centered on left edge, half in/half out */}
+            {/* Decorative Circle - exactly half in/half out of image at mid-height */}
             <svg
-              className="absolute z-20 w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 top-1/2 -translate-y-1/2"
+              className="absolute z-20 w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 top-1/2"
               style={{
-                left: language === 'ar' ? 'auto' : '-3rem',
-                right: language === 'ar' ? '-3rem' : 'auto',
+                transform: 'translateY(-50%) translateX(-50%)',
+                left: language === 'ar' ? 'auto' : '0',
+                right: language === 'ar' ? '0' : 'auto',
               }}
               viewBox="0 0 100 100"
             >
@@ -372,7 +373,7 @@ export default function Services() {
                 >
                   <div
                     onClick={() => handleReadMore(service)}
-                    className="relative w-80 h-80 overflow-hidden mb-6"
+                    className="relative w-80 h-80 overflow-hidden mb-6 transition-transform duration-300 ease-out hover:scale-105"
                   >
                     <img
                       src={service.image}

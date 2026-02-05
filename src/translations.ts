@@ -71,10 +71,27 @@ export const translations = {
     },
     news: {
       title: 'NEWS',
-      date: 'DECEMBER 2024',
-      articleTitle: 'Redefining Sustainable Architecture for Modern Cities',
-      articleText: 'Our latest research explores innovative approaches to sustainable design in urban environments, focusing on materials and methods that reduce environmental impact while enhancing aesthetic appeal.',
-      readMore: 'READ MORE'
+      readMore: 'Read More.',
+      articles: [
+        {
+          title: 'The Future of Architecture',
+          subtitle: 'Designing for Resilience and Intelligence',
+          text: 'The architectural industry is undergoing a fundamental shift as design practices increasingly prioritize resilience, sustainability, and intelligent systems. Consultancy firms are now playing a critical role in guiding developers and institutions toward architecture that not only responds to present needs but anticipates future challenges',
+          image: 'https://images.pexels.com/photos/2098427/pexels-photo-2098427.jpeg'
+        },
+        {
+          title: 'Sustainable Urban Development',
+          subtitle: 'Building Tomorrow\'s Cities Today',
+          text: 'Our latest initiatives focus on creating sustainable urban environments that balance economic growth with environmental responsibility. Through innovative planning strategies and green building practices, we are helping shape the future of urban living',
+          image: 'https://images.pexels.com/photos/1109541/pexels-photo-1109541.jpeg'
+        },
+        {
+          title: 'Heritage Conservation Excellence',
+          subtitle: 'Preserving the Past for Future Generations',
+          text: 'Al Osaimi Consulting has been recognized for its outstanding work in heritage conservation, blending traditional architectural elements with modern functionality. Our approach ensures that historical significance is preserved while meeting contemporary standards',
+          image: 'https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg'
+        }
+      ]
     },
     contact: {
       title: 'CONTACT\nUS',
@@ -158,10 +175,27 @@ export const translations = {
     },
     news: {
       title: 'الأخبار',
-      date: 'ديسمبر 2024',
-      articleTitle: 'إعادة تعريف العمارة المستدامة للمدن الحديثة',
-      articleText: 'يستكشف بحثنا الأخير نهجاً مبتكراً للتصميم المستدام في البيئات الحضرية، مع التركيز على المواد والطرق التي تقلل التأثير البيئي مع تعزيز الجاذبية الجمالية.',
-      readMore: 'اقرأ أكثر'
+      readMore: 'اقرأ المزيد.',
+      articles: [
+        {
+          title: 'مستقبل العمارة',
+          subtitle: 'التصميم من أجل المرونة والذكاء',
+          text: 'تشهد صناعة العمارة تحولاً جذرياً حيث تعطي ممارسات التصميم الأولوية بشكل متزايد للمرونة والاستدامة والأنظمة الذكية. تلعب الشركات الاستشارية دوراً حاسماً في توجيه المطورين والمؤسسات نحو عمارة لا تستجيب للاحتياجات الحالية فحسب بل تستشرف التحديات المستقبلية',
+          image: 'https://images.pexels.com/photos/2098427/pexels-photo-2098427.jpeg'
+        },
+        {
+          title: 'التنمية الحضرية المستدامة',
+          subtitle: 'بناء مدن الغد اليوم',
+          text: 'تركز مبادراتنا الأخيرة على إنشاء بيئات حضرية مستدامة توازن بين النمو الاقتصادي والمسؤولية البيئية. من خلال استراتيجيات التخطيط المبتكرة وممارسات البناء الأخضر، نساعد في تشكيل مستقبل الحياة الحضرية',
+          image: 'https://images.pexels.com/photos/1109541/pexels-photo-1109541.jpeg'
+        },
+        {
+          title: 'التميز في الحفاظ على التراث',
+          subtitle: 'الحفاظ على الماضي للأجيال القادمة',
+          text: 'حصل مكتب العصيمي للاستشارات على تقدير لعمله المتميز في الحفاظ على التراث، حيث يمزج العناصر المعمارية التقليدية مع الوظائف الحديثة. يضمن نهجنا الحفاظ على الأهمية التاريخية مع تلبية المعايير المعاصرة',
+          image: 'https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg'
+        }
+      ]
     },
     contact: {
       title: 'اتصل بنا',

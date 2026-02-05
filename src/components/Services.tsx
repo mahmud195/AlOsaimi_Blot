@@ -88,7 +88,7 @@ function ServiceModal({ service, isOpen, onClose, language }: { service: Service
 
           {/* Description */}
           <div className="max-w-lg space-y-6">
-            <p className="text-aoc-white/80 text-base lg:text-lg font-inter-tight font-light leading-relaxed">
+            <p className="text-aoc-white/80 text-base lg:text-lg font-inter-tight font-light leading-relaxed text-justify">
               {service.fullDescription}
             </p>
 
@@ -334,11 +334,11 @@ export default function Services() {
               {t.services.title}
             </h2>
 
-            <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed ${language === 'ar' ? 'text-right' : ''}`}>
+            <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
               {t.services.intro}
             </p>
 
-            <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed ${language === 'ar' ? 'text-right' : ''}`}>
+            <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
               {t.services.builtOn}
             </p>
           </div>
@@ -391,7 +391,7 @@ export default function Services() {
                     </div>
                   </div>
 
-                  <p className="text-aoc-white/70 text-sm font-inter-tight font-light leading-relaxed mb-4 text-center">
+                  <p className="text-aoc-white/70 text-sm font-inter-tight font-light leading-relaxed mb-4 text-center text-justify">
                     {service.description}
                   </p>
 

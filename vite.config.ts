@@ -2,8 +2,9 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
+// Using '/' as base since we have a custom domain (aalosaimi.com)
 export default defineConfig(({ command }) => ({
-  base: command === 'build' ? '/AlOsaimi_Blot/' : '/',
+  base: '/',
   plugins: [react()],
   build: {
     // Use default esbuild for minification (fast and efficient)

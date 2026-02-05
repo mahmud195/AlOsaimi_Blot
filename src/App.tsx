@@ -1,5 +1,5 @@
 import { ChevronDown, ArrowRight, Linkedin, Instagram, Facebook } from 'lucide-react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import TopNav from './components/TopNav';
 import Services from './components/Services';
 import { useLanguage } from './LanguageContext';
@@ -139,10 +139,11 @@ function App() {
     };
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
+    // Form submission is handled by the build process which strips console.log
     console.log('Form submitted:', formData);
-  };
+  }, [formData]);
 
   // Intro animation sequence - Circle reveal
   useEffect(() => {

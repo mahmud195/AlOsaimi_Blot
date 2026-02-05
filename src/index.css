@@ -1,7 +1,7 @@
 /* Google Fonts - Fustat for Arabic */
 @import url('https://fonts.googleapis.com/css2?family=Fustat:wght@200;300;400;500;600;700;800&display=swap');
 
-/* Local Font Imports - Darker Grotesque */
+/* Local Font Imports - Darker Grotesque (only weights used: 300, 400, 700, 800) */
 @font-face {
   font-family: 'Darker Grotesque';
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/DarkerGrotesque-Light.ttf') format('truetype');
@@ -14,22 +14,6 @@
   font-family: 'Darker Grotesque';
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/DarkerGrotesque-Regular.ttf') format('truetype');
   font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Darker Grotesque';
-  src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/DarkerGrotesque-Medium.ttf') format('truetype');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Darker Grotesque';
-  src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/DarkerGrotesque-SemiBold.ttf') format('truetype');
-  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
@@ -50,7 +34,7 @@
   font-display: swap;
 }
 
-/* Local Font Imports - Inter Tight */
+/* Local Font Imports - Inter Tight (only weights used: 200, 200i, 400) */
 @font-face {
   font-family: 'Inter Tight';
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/InterTight-ExtraLight.ttf') format('truetype');
@@ -72,30 +56,6 @@
   src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/InterTight-Regular.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Inter Tight';
-  src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/InterTight-Italic.ttf') format('truetype');
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Inter Tight';
-  src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/InterTight-Bold.ttf') format('truetype');
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Inter Tight';
-  src: url('./assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Fonts/InterTight-BoldItalic.ttf') format('truetype');
-  font-weight: 700;
-  font-style: italic;
   font-display: swap;
 }
 

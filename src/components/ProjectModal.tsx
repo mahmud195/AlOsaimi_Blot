@@ -1,9 +1,12 @@
 import { X } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { getGalleryImages } from '../projectImages';
 
 /**
  * ProjectModal Component
  * Displays a full-screen modal with project details
- * Supports RTL for Arabic language
+ * Gallery images shown as small pinned polaroid-style notes around the main image
+ * Click a thumbnail to enlarge, click anywhere else to shrink back
  */
 interface ProjectItem {
     title: string;
@@ -20,11 +23,57 @@ interface ProjectModalProps {
     language: 'en' | 'ar';
 }
 
+// Predefined positions for pinned notes scattered around the main image
+// Each position is relative to the gallery container
+const PIN_POSITIONS = [
+    { top: '2%', left: '0%', rotate: -8 },
+    { top: '0%', left: '30%', rotate: 5 },
+    { top: '5%', right: '2%', rotate: -4 },
+    { top: '30%', left: '-4%', rotate: 7 },
+    { top: '35%', right: '-2%', rotate: -6 },
+    { top: '58%', left: '0%', rotate: 4 },
+    { top: '55%', right: '0%', rotate: -9 },
+    { top: '78%', left: '5%', rotate: 6 },
+    { top: '80%', right: '5%', rotate: -5 },
+    { top: '75%', left: '35%', rotate: 3 },
+    { top: '15%', left: '12%', rotate: -7 },
+    { top: '48%', left: '8%', rotate: 8 },
+    { top: '65%', right: '8%', rotate: -3 },
+];
+
 export default function ProjectModal({ isOpen, onClose, project, language }: ProjectModalProps) {
+    const [enlargedIndex, setEnlargedIndex] = useState<number | null>(null);
+    const galleryImages = getGalleryImages(project.title);
+
+    // Reset enlarged state when modal opens/closes or project changes
+    useEffect(() => {
+        setEnlargedIndex(null);
+    }, [isOpen, project.title]);
+
+    // Close enlarged image on Escape key
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && enlargedIndex !== null) {
+                e.stopPropagation();
+                setEnlargedIndex(null);
+            }
+        };
+        if (isOpen) {
+            window.addEventListener('keydown', handleKeyDown);
+            return () => window.removeEventListener('keydown', handleKeyDown);
+        }
+    }, [isOpen, enlargedIndex]);
+
+    const handleBackdropClick = useCallback(() => {
+        if (enlargedIndex !== null) {
+            setEnlargedIndex(null);
+        }
+    }, [enlargedIndex]);
+
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-aoc-indigo z-50 overflow-y-auto">
+        <div className="fixed inset-0 bg-aoc-indigo z-50 overflow-y-auto" onClick={handleBackdropClick}>
             {/* Top Navigation Bar */}
             <nav className={`fixed top-0 left-0 right-0 z-50 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
                 <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
@@ -65,7 +114,7 @@ export default function ProjectModal({ isOpen, onClose, project, language }: Pro
             <div className={`min-h-screen pt-20 pb-16 flex flex-col lg:flex-row ${language === 'ar' ? 'lg:flex-row-reverse' : ''}`}>
 
                 {/* Left side - Title and description */}
-                <div className={`lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 py-8 lg:py-16 ${language === 'ar' ? 'text-right' : ''}`}>
+                <div className={`lg:w-2/5 flex flex-col justify-center px-8 lg:px-16 py-8 lg:py-16 ${language === 'ar' ? 'text-right' : ''}`}>
                     {/* Category */}
                     <div className="mb-4">
                         <span className="text-sm font-inter-tight font-light tracking-[0.3em] uppercase text-aoc-gold">
@@ -96,11 +145,11 @@ export default function ProjectModal({ isOpen, onClose, project, language }: Pro
                     </div>
                 </div>
 
-                {/* Right side - Image with decorative circle */}
-                <div className="lg:w-1/2 relative flex items-center justify-center p-8 lg:p-16">
-                    {/* Image container */}
-                    <div className="relative w-full max-w-xl">
-                        {/* Decorative Circle */}
+                {/* Right side - Main image with pinned gallery notes */}
+                <div className="lg:w-3/5 relative flex items-center justify-center p-4 md:p-8 lg:p-12">
+                    <div className="relative w-full max-w-2xl" onClick={(e) => e.stopPropagation()}>
+
+                        {/* Decorative Circle on main image */}
                         <svg
                             className="absolute z-20 w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 top-1/2"
                             style={{
@@ -120,7 +169,8 @@ export default function ProjectModal({ isOpen, onClose, project, language }: Pro
                             />
                         </svg>
 
-                        <div className="aspect-[3/4] overflow-hidden">
+                        {/* Main project image */}
+                        <div className="aspect-[3/4] overflow-hidden relative z-10">
                             <img
                                 src={project.image}
                                 alt={project.title}
@@ -128,12 +178,85 @@ export default function ProjectModal({ isOpen, onClose, project, language }: Pro
                                 className="w-full h-full object-cover"
                             />
                         </div>
+
+                        {/* Pinned gallery notes scattered around the main image */}
+                        {galleryImages.map((img, index) => {
+                            const pos = PIN_POSITIONS[index % PIN_POSITIONS.length];
+                            const isEnlarged = enlargedIndex === index;
+
+                            return (
+                                <div
+                                    key={index}
+                                    className="absolute z-30 group"
+                                    style={{
+                                        top: pos.top,
+                                        left: pos.left,
+                                        right: pos.right,
+                                        // When enlarged, override position to center
+                                        ...(isEnlarged ? {
+                                            top: '50%',
+                                            left: '50%',
+                                            right: 'auto',
+                                            transform: 'translate(-50%, -50%)',
+                                            zIndex: 60,
+                                        } : {
+                                            transform: `rotate(${pos.rotate}deg)`,
+                                        }),
+                                        transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                    }}
+                                >
+                                    {/* Pin */}
+                                    {!isEnlarged && (
+                                        <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-40 w-4 h-4">
+                                            <div className="w-3 h-3 rounded-full bg-aoc-gold shadow-lg border border-yellow-600" />
+                                            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-px h-2 bg-gray-400" />
+                                        </div>
+                                    )}
+
+                                    {/* Photo card */}
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setEnlargedIndex(isEnlarged ? null : index);
+                                        }}
+                                        className={`
+                                            block bg-white p-1 shadow-xl cursor-pointer
+                                            transition-all duration-400
+                                            ${isEnlarged
+                                                ? 'w-[70vw] max-w-[500px] md:w-[400px] lg:w-[500px] p-2 shadow-2xl'
+                                                : 'w-16 md:w-20 lg:w-24 hover:scale-110 hover:shadow-2xl hover:z-40'
+                                            }
+                                        `}
+                                        style={{
+                                            transform: isEnlarged ? 'rotate(0deg)' : undefined,
+                                        }}
+                                    >
+                                        <div className={`overflow-hidden ${isEnlarged ? 'aspect-[4/3]' : 'aspect-square'}`}>
+                                            <img
+                                                src={img}
+                                                alt={`${project.title} gallery ${index + 1}`}
+                                                loading="lazy"
+                                                className="w-full h-full object-cover"
+                                            />
+                                        </div>
+                                    </button>
+                                </div>
+                            );
+                        })}
                     </div>
                 </div>
             </div>
 
+            {/* Enlarged image overlay backdrop */}
+            {enlargedIndex !== null && (
+                <div
+                    className="fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
+                    onClick={() => setEnlargedIndex(null)}
+                />
+            )}
+
             {/* Bottom bar */}
-            <div className="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-8 py-4 flex justify-between items-center text-aoc-white/50 text-xs md:text-sm font-inter-tight font-light tracking-widest">
+            <div className="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-8 py-4 flex justify-between items-center text-aoc-white/50 text-xs md:text-sm font-inter-tight font-light tracking-widest z-50">
                 <span>A</span>
                 <span>FOUNDATION</span>
                 <span>OF</span>

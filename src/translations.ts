@@ -1,3 +1,13 @@
+// Project images
+import amaraVillaImg from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/Residential Projects/Amara Villa/01.jpg';
+import auraImg from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/Residential Projects/Aura/01.jpg';
+import azoraImg from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/Residential Projects/Azora ( Residential )/01.jpg';
+import eleveImg from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/Residential Projects/Eleve/01.jpg';
+import ghosounImg from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/Residential Projects/Ghosoun Resort/01.jpg';
+import lioraImg from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/Residential Projects/Liora Residential/01.jpg';
+import orlanaImg from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/Residential Projects/Orlana Villa/01.jpg';
+import square01Img from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/Residential Projects/Square 01/01.jpg';
+
 export const translations = {
   en: {
     nav: {
@@ -73,39 +83,60 @@ export const translations = {
       learnMore: 'LEARN MORE',
       items: [
         {
-          title: 'PYRAMIDS MALL',
-          category: 'PYRAMIDS',
-          year: '2021',
-          location: 'New Capital - Egypt',
-          image: 'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg'
-        },
-        {
-          title: 'RIYADH TOWER',
-          category: 'COMMERCIAL',
-          year: '2023',
-          location: 'Riyadh - Saudi Arabia',
-          image: 'https://images.pexels.com/photos/1755683/pexels-photo-1755683.jpeg'
-        },
-        {
-          title: 'COASTAL RESORT',
-          category: 'HOSPITALITY',
-          year: '2022',
-          location: 'Jeddah - Saudi Arabia',
-          image: 'https://images.pexels.com/photos/2507010/pexels-photo-2507010.jpeg'
-        },
-        {
-          title: 'URBAN PLAZA',
-          category: 'MIXED USE',
+          title: 'AMARA VILLA',
+          category: 'RESIDENTIAL',
           year: '2024',
-          location: 'Dubai - UAE',
-          image: 'https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg'
+          location: 'Saudi Arabia',
+          image: amaraVillaImg
         },
         {
-          title: 'HERITAGE CENTER',
-          category: 'CULTURAL',
-          year: '2023',
-          location: 'Al Ula - Saudi Arabia',
-          image: 'https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg'
+          title: 'AURA',
+          category: 'RESIDENTIAL',
+          year: '2024',
+          location: 'Saudi Arabia',
+          image: auraImg
+        },
+        {
+          title: 'AZORA',
+          category: 'RESIDENTIAL',
+          year: '2024',
+          location: 'Saudi Arabia',
+          image: azoraImg
+        },
+        {
+          title: 'ELEVE',
+          category: 'RESIDENTIAL',
+          year: '2024',
+          location: 'Saudi Arabia',
+          image: eleveImg
+        },
+        {
+          title: 'GHOSOUN RESORT',
+          category: 'RESIDENTIAL',
+          year: '2024',
+          location: 'Saudi Arabia',
+          image: ghosounImg
+        },
+        {
+          title: 'LIORA RESIDENTIAL',
+          category: 'RESIDENTIAL',
+          year: '2024',
+          location: 'Saudi Arabia',
+          image: lioraImg
+        },
+        {
+          title: 'ORLANA VILLA',
+          category: 'RESIDENTIAL',
+          year: '2024',
+          location: 'Saudi Arabia',
+          image: orlanaImg
+        },
+        {
+          title: 'SQUARE 01',
+          category: 'RESIDENTIAL',
+          year: '2024',
+          location: 'Saudi Arabia',
+          image: square01Img
         }
       ]
     },
@@ -217,39 +248,60 @@ export const translations = {
       learnMore: 'اعرف المزيد',
       items: [
         {
-          title: 'بيراميدز مول',
-          category: 'بيراميدز',
-          year: '2021',
-          location: 'العاصمة الجديدة - مصر',
-          image: 'https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg'
-        },
-        {
-          title: 'برج الرياض',
-          category: 'تجاري',
-          year: '2023',
-          location: 'الرياض - السعودية',
-          image: 'https://images.pexels.com/photos/1755683/pexels-photo-1755683.jpeg'
-        },
-        {
-          title: 'منتجع ساحلي',
-          category: 'ضيافة',
-          year: '2022',
-          location: 'جدة - السعودية',
-          image: 'https://images.pexels.com/photos/2507010/pexels-photo-2507010.jpeg'
-        },
-        {
-          title: 'ساحة حضرية',
-          category: 'متعدد الاستخدامات',
+          title: 'فيلا أمارا',
+          category: 'سكني',
           year: '2024',
-          location: 'دبي - الإمارات',
-          image: 'https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg'
+          location: 'السعودية',
+          image: amaraVillaImg
         },
         {
-          title: 'مركز التراث',
-          category: 'ثقافي',
-          year: '2023',
-          location: 'العلا - السعودية',
-          image: 'https://images.pexels.com/photos/3075993/pexels-photo-3075993.jpeg'
+          title: 'أورا',
+          category: 'سكني',
+          year: '2024',
+          location: 'السعودية',
+          image: auraImg
+        },
+        {
+          title: 'أزورا',
+          category: 'سكني',
+          year: '2024',
+          location: 'السعودية',
+          image: azoraImg
+        },
+        {
+          title: 'إليف',
+          category: 'سكني',
+          year: '2024',
+          location: 'السعودية',
+          image: eleveImg
+        },
+        {
+          title: 'منتجع غصون',
+          category: 'سكني',
+          year: '2024',
+          location: 'السعودية',
+          image: ghosounImg
+        },
+        {
+          title: 'ليورا السكني',
+          category: 'سكني',
+          year: '2024',
+          location: 'السعودية',
+          image: lioraImg
+        },
+        {
+          title: 'فيلا أورلانا',
+          category: 'سكني',
+          year: '2024',
+          location: 'السعودية',
+          image: orlanaImg
+        },
+        {
+          title: 'سكوير ٠١',
+          category: 'سكني',
+          year: '2024',
+          location: 'السعودية',
+          image: square01Img
         }
       ]
     },

@@ -26,29 +26,7 @@ interface ProjectModalProps {
 
 export default function ProjectModal({ isOpen, onClose, project, language }: ProjectModalProps) {
     const [enlargedIndex, setEnlargedIndex] = useState<number | null>(null);
-    const [galleryImages, setGalleryImages] = useState<string[]>([]);
-
-    // Load gallery images asynchronously
-    useEffect(() => {
-        const loadImages = async () => {
-            const loaders = getGalleryImages(project.title);
-            try {
-                // Load all images in parallel
-                const modules = await Promise.all(loaders.map(loader => loader()));
-                const urls = modules.map(mod => mod.default);
-                setGalleryImages(urls);
-            } catch (error) {
-                console.error('Failed to load gallery images:', error);
-                setGalleryImages([]);
-            }
-        };
-
-        setGalleryImages([]); // Reset while loading
-        if (project.title) {
-            loadImages();
-        }
-    }, [project.title]);
-
+    const galleryImages = getGalleryImages(project.title);
     const scrollRef = useRef<HTMLDivElement>(null);
     const [isDragging, setIsDragging] = useState(false);
     const [dragStartX, setDragStartX] = useState(0);

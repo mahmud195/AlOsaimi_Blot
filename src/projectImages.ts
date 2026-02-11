@@ -1,42 +1,41 @@
 /**
  * Project gallery images - dynamically loaded via Vite glob imports.
- * Uses lazy loading to avoid bundling all images in the initial load.
+ * Each project maps to an array of images from its folder (excluding 01.jpg which is the main image).
  */
 
-// Lazy glob import: returns Record<string, () => Promise<{ default: string }>>
 const allImages = import.meta.glob<{ default: string }>(
-    './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/Residential Projects/*/!(01).jpg'
+    './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/Residential Projects/*/!(01).jpg',
+    { eager: true }
 );
 
+// Map of project key -> array of gallery image URLs (sorted by filename)
+function buildGallery(): Record<string, string[]> {
+    const gallery: Record<string, string[]> = {};
 
-
-// Re-build gallery with sorting logic
-function buildSortedGallery(): Record<string, (() => Promise<{ default: string }>)[]> {
-    const tempGallery: Record<string, { path: string; loader: () => Promise<{ default: string }> }[]> = {};
-
-    for (const [path, loader] of Object.entries(allImages)) {
+    for (const [path, mod] of Object.entries(allImages)) {
+        // Extract project folder name from path
         const match = path.match(/Residential Projects\/([^/]+)\/(\d+)\.jpg$/);
         if (match) {
             const projectName = match[1];
-            if (!tempGallery[projectName]) {
-                tempGallery[projectName] = [];
+            if (!gallery[projectName]) {
+                gallery[projectName] = [];
             }
-            tempGallery[projectName].push({ path, loader });
+            gallery[projectName].push(mod.default);
         }
     }
 
-    const gallery: Record<string, (() => Promise<{ default: string }>)[]> = {};
-    for (const [key, items] of Object.entries(tempGallery)) {
-        items.sort((a, b) => a.path.localeCompare(b.path));
-        gallery[key] = items.map(item => item.loader);
+    // Sort each project's images
+    for (const key of Object.keys(gallery)) {
+        gallery[key].sort();
     }
+
     return gallery;
 }
 
-export const projectGalleryImages = buildSortedGallery();
+export const projectGalleryImages = buildGallery();
 
-// Helper to get gallery image loaders by project key
-export function getGalleryImages(projectTitle: string): (() => Promise<{ default: string }>)[] {
+// Helper to get gallery images by project key
+export function getGalleryImages(projectTitle: string): string[] {
     // Map project titles to folder names
     const titleToFolder: Record<string, string> = {
         'AMARA VILLA': 'Amara Villa',
@@ -60,4 +59,3 @@ export function getGalleryImages(projectTitle: string): (() => Promise<{ default
     const folder = titleToFolder[projectTitle];
     return folder ? (projectGalleryImages[folder] || []) : [];
 }
-

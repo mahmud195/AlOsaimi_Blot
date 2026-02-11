@@ -1,12 +1,13 @@
-import { X } from 'lucide-react';
-import { useState, useEffect, useCallback } from 'react';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { getGalleryImages } from '../projectImages';
+import aocLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Logo White.png';
+import aocMobileLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOCMobile.png';
 
 /**
  * ProjectModal Component
- * Displays a full-screen modal with project details
- * Gallery images shown as small pinned polaroid-style notes around the main image
- * Click a thumbnail to enlarge, click anywhere else to shrink back
+ * Horizontal scrolling image gallery with left/right navigation
+ * Click any photo to enlarge it to center; click elsewhere to dismiss
  */
 interface ProjectItem {
     title: string;
@@ -23,39 +24,75 @@ interface ProjectModalProps {
     language: 'en' | 'ar';
 }
 
-// Predefined positions for pinned notes scattered around the main image
-// Each position is relative to the gallery container
-const PIN_POSITIONS = [
-    { top: '2%', left: '0%', rotate: -8 },
-    { top: '0%', left: '30%', rotate: 5 },
-    { top: '5%', right: '2%', rotate: -4 },
-    { top: '30%', left: '-4%', rotate: 7 },
-    { top: '35%', right: '-2%', rotate: -6 },
-    { top: '58%', left: '0%', rotate: 4 },
-    { top: '55%', right: '0%', rotate: -9 },
-    { top: '78%', left: '5%', rotate: 6 },
-    { top: '80%', right: '5%', rotate: -5 },
-    { top: '75%', left: '35%', rotate: 3 },
-    { top: '15%', left: '12%', rotate: -7 },
-    { top: '48%', left: '8%', rotate: 8 },
-    { top: '65%', right: '8%', rotate: -3 },
-];
-
 export default function ProjectModal({ isOpen, onClose, project, language }: ProjectModalProps) {
     const [enlargedIndex, setEnlargedIndex] = useState<number | null>(null);
-    const galleryImages = getGalleryImages(project.title);
+    const [galleryImages, setGalleryImages] = useState<string[]>([]);
 
-    // Reset enlarged state when modal opens/closes or project changes
+    // Load gallery images asynchronously
+    useEffect(() => {
+        const loadImages = async () => {
+            const loaders = getGalleryImages(project.title);
+            try {
+                // Load all images in parallel
+                const modules = await Promise.all(loaders.map(loader => loader()));
+                const urls = modules.map(mod => mod.default);
+                setGalleryImages(urls);
+            } catch (error) {
+                console.error('Failed to load gallery images:', error);
+                setGalleryImages([]);
+            }
+        };
+
+        setGalleryImages([]); // Reset while loading
+        if (project.title) {
+            loadImages();
+        }
+    }, [project.title]);
+
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [isDragging, setIsDragging] = useState(false);
+    const [dragStartX, setDragStartX] = useState(0);
+    const [scrollStartX, setScrollStartX] = useState(0);
+    const [canScrollLeft, setCanScrollLeft] = useState(false);
+    const [canScrollRight, setCanScrollRight] = useState(false);
+
+    // Combine main image + gallery images
+    const allImages = [project.image, ...galleryImages];
+
     useEffect(() => {
         setEnlargedIndex(null);
     }, [isOpen, project.title]);
 
-    // Close enlarged image on Escape key
+    // Check scroll capability
+    const updateScrollButtons = useCallback(() => {
+        const el = scrollRef.current;
+        if (!el) return;
+        setCanScrollLeft(el.scrollLeft > 1);
+        setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 1);
+    }, []);
+
+    useEffect(() => {
+        const el = scrollRef.current;
+        if (!el || !isOpen) return;
+        updateScrollButtons();
+        el.addEventListener('scroll', updateScrollButtons);
+        window.addEventListener('resize', updateScrollButtons);
+        // Re-check after images may have loaded
+        const timer = setTimeout(updateScrollButtons, 300);
+        return () => {
+            el.removeEventListener('scroll', updateScrollButtons);
+            window.removeEventListener('resize', updateScrollButtons);
+            clearTimeout(timer);
+        };
+    }, [isOpen, allImages.length, updateScrollButtons]);
+
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            if (e.key === 'Escape' && enlargedIndex !== null) {
-                e.stopPropagation();
-                setEnlargedIndex(null);
+            if (e.key === 'Escape') {
+                if (enlargedIndex !== null) {
+                    e.stopPropagation();
+                    setEnlargedIndex(null);
+                }
             }
         };
         if (isOpen) {
@@ -70,42 +107,58 @@ export default function ProjectModal({ isOpen, onClose, project, language }: Pro
         }
     }, [enlargedIndex]);
 
+    const scrollBy = (direction: 'left' | 'right') => {
+        const el = scrollRef.current;
+        if (!el) return;
+        const amount = el.clientWidth * 0.6;
+        el.scrollBy({
+            left: direction === 'left' ? -amount : amount,
+            behavior: 'smooth',
+        });
+    };
+
+    // Drag to scroll
+    const handleMouseDown = (e: React.MouseEvent) => {
+        setIsDragging(true);
+        setDragStartX(e.clientX);
+        setScrollStartX(scrollRef.current?.scrollLeft || 0);
+    };
+
+    const handleMouseMove = (e: React.MouseEvent) => {
+        if (!isDragging || !scrollRef.current) return;
+        const diff = e.clientX - dragStartX;
+        scrollRef.current.scrollLeft = scrollStartX - diff;
+    };
+
+    const handleMouseUp = () => setIsDragging(false);
+    const handleMouseLeave = () => setIsDragging(false);
+
     if (!isOpen) return null;
 
     return (
         <div className="fixed inset-0 bg-aoc-indigo z-50 overflow-y-auto" onClick={handleBackdropClick}>
             {/* Top Navigation Bar */}
-            <nav className={`fixed top-0 left-0 right-0 z-50 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+            <nav className={`fixed top-0 left-0 right-0 z-[70] bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
                 <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
-                    {/* Mobile: X button on left */}
-                    <button
-                        onClick={onClose}
-                        className="md:hidden relative w-10 h-10 flex items-center justify-center"
-                    >
+                    <button onClick={onClose} className="md:hidden relative w-10 h-10 flex items-center justify-center">
                         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 40 40">
                             <circle cx="20" cy="20" r="18" fill="none" stroke="#CAB64B" strokeWidth="1" />
                         </svg>
                         <X size={20} className="text-aoc-white hover:text-aoc-gold transition-colors" />
                     </button>
 
-                    {/* Logo - center on mobile, left on desktop */}
                     <a href="#projects" onClick={onClose} className="h-10 w-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-                        <img src="/src/assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOCMobile.png" alt="AOC Logo" className="h-full w-auto md:hidden" />
-                        <img src="/src/assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Logo White.png" alt="AOC Logo" className="h-full w-auto hidden md:block" />
+                        <img src={aocMobileLogo} alt="AOC Logo" className="h-full w-auto md:hidden" />
+                        <img src={aocLogo} alt="AOC Logo" className="h-full w-auto hidden md:block" />
                     </a>
 
-                    {/* Desktop: X button on right */}
-                    <button
-                        onClick={onClose}
-                        className="hidden md:flex relative w-10 h-10 items-center justify-center"
-                    >
+                    <button onClick={onClose} className="hidden md:flex relative w-10 h-10 items-center justify-center">
                         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 40 40">
                             <circle cx="20" cy="20" r="18" fill="none" stroke="#CAB64B" strokeWidth="1" />
                         </svg>
                         <X size={20} className="text-aoc-white hover:text-aoc-gold transition-colors" />
                     </button>
 
-                    {/* Spacer for mobile balance */}
                     <div className="md:hidden w-10"></div>
                 </div>
             </nav>
@@ -113,30 +166,25 @@ export default function ProjectModal({ isOpen, onClose, project, language }: Pro
             {/* Main content */}
             <div className={`min-h-screen pt-20 pb-16 flex flex-col lg:flex-row ${language === 'ar' ? 'lg:flex-row-reverse' : ''}`}>
 
-                {/* Left side - Title and description */}
-                <div className={`lg:w-2/5 flex flex-col justify-center px-8 lg:px-16 py-8 lg:py-16 ${language === 'ar' ? 'text-right' : ''}`}>
-                    {/* Category */}
-                    <div className="mb-4">
-                        <span className="text-sm font-inter-tight font-light tracking-[0.3em] uppercase text-aoc-gold">
+                {/* Left side - Project info */}
+                <div className={`lg:w-[30%] xl:w-[28%] flex flex-col justify-center px-6 lg:px-10 py-6 lg:py-12 shrink-0 ${language === 'ar' ? 'text-right' : ''}`}>
+                    <div className="mb-3">
+                        <span className="text-xs font-inter-tight font-light tracking-[0.3em] uppercase text-aoc-gold">
                             {project.category}
                         </span>
                     </div>
-
-                    {/* Title */}
-                    <div className="mb-8 lg:mb-12">
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-darker-grotesque font-medium tracking-[0.05em] uppercase leading-[0.9] mb-4" style={{ color: '#CAB64B' }}>
+                    <div className="mb-6 lg:mb-10">
+                        <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-darker-grotesque font-medium tracking-[0.05em] uppercase leading-[0.9] mb-3" style={{ color: '#CAB64B' }}>
                             {project.title}
                         </h1>
-                        <div className={`flex items-center gap-4 text-aoc-white/60 font-inter-tight font-light ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                        <div className={`flex items-center gap-3 text-aoc-white/60 font-inter-tight font-light text-sm ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                             <span>{project.year}</span>
                             <span>/</span>
                             <span>{project.location}</span>
                         </div>
                     </div>
-
-                    {/* Description */}
-                    <div className="max-w-lg space-y-6">
-                        <p className="text-aoc-white/80 text-base lg:text-lg font-inter-tight font-light leading-relaxed text-justify">
+                    <div className="max-w-md">
+                        <p className="text-aoc-white/70 text-sm lg:text-base font-inter-tight font-light leading-relaxed text-justify">
                             {language === 'ar'
                                 ? 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
                                 : 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
@@ -145,118 +193,98 @@ export default function ProjectModal({ isOpen, onClose, project, language }: Pro
                     </div>
                 </div>
 
-                {/* Right side - Main image with pinned gallery notes */}
-                <div className="lg:w-3/5 relative flex items-center justify-center p-4 md:p-8 lg:p-12">
-                    <div className="relative w-full max-w-2xl" onClick={(e) => e.stopPropagation()}>
+                {/* Right side - Horizontal scrolling gallery */}
+                <div className="lg:w-[70%] xl:w-[72%] relative flex flex-col justify-center px-2 md:px-4 lg:px-6" onClick={(e) => e.stopPropagation()}>
 
-                        {/* Decorative Circle on main image */}
-                        <svg
-                            className="absolute z-20 w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 top-1/2"
+                    {/* Scroll container */}
+                    <div className="relative">
+                        {/* Left arrow */}
+                        {canScrollLeft && (
+                            <button
+                                onClick={() => scrollBy('left')}
+                                className="absolute left-0 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-aoc-black/50 backdrop-blur-sm border border-aoc-gold/40 flex items-center justify-center text-aoc-gold hover:bg-aoc-gold/20 hover:border-aoc-gold transition-all shadow-lg"
+                            >
+                                <ChevronLeft size={22} />
+                            </button>
+                        )}
+
+                        {/* Right arrow */}
+                        {canScrollRight && (
+                            <button
+                                onClick={() => scrollBy('right')}
+                                className="absolute right-0 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-12 md:h-12 rounded-full bg-aoc-black/50 backdrop-blur-sm border border-aoc-gold/40 flex items-center justify-center text-aoc-gold hover:bg-aoc-gold/20 hover:border-aoc-gold transition-all shadow-lg"
+                            >
+                                <ChevronRight size={22} />
+                            </button>
+                        )}
+
+                        {/* Scrollable image strip */}
+                        <div
+                            ref={scrollRef}
+                            className={`flex gap-4 md:gap-6 overflow-x-auto py-4 px-6 md:px-10 ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
                             style={{
-                                transform: 'translateY(-50%) translateX(-50%)',
-                                left: language === 'ar' ? 'auto' : '0',
-                                right: language === 'ar' ? '0' : 'auto',
+                                scrollbarWidth: 'none',
+                                msOverflowStyle: 'none',
+                                scrollBehavior: isDragging ? 'auto' : 'smooth',
                             }}
-                            viewBox="0 0 100 100"
+                            onMouseDown={handleMouseDown}
+                            onMouseMove={handleMouseMove}
+                            onMouseUp={handleMouseUp}
+                            onMouseLeave={handleMouseLeave}
                         >
-                            <circle
-                                cx="50"
-                                cy="50"
-                                r="48"
-                                fill="none"
-                                stroke="#CAB64B"
-                                strokeWidth="1.5"
-                            />
-                        </svg>
+                            <style>{`div::-webkit-scrollbar { display: none; }`}</style>
 
-                        {/* Main project image */}
-                        <div className="aspect-[3/4] overflow-hidden relative z-10">
-                            <img
-                                src={project.image}
-                                alt={project.title}
-                                loading="lazy"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-
-                        {/* Pinned gallery notes scattered around the main image */}
-                        {galleryImages.map((img, index) => {
-                            const pos = PIN_POSITIONS[index % PIN_POSITIONS.length];
-                            const isEnlarged = enlargedIndex === index;
-
-                            return (
-                                <div
+                            {allImages.map((img, index) => (
+                                <button
                                     key={index}
-                                    className="absolute z-30 group"
+                                    className={`
+                                        flex-shrink-0 block cursor-pointer
+                                        transition-all duration-300 ease-out
+                                        hover:scale-[1.03] hover:shadow-2xl
+                                        shadow-lg rounded-sm overflow-hidden
+                                        ${enlargedIndex === index
+                                            ? '!fixed !top-1/2 !left-1/2 !w-[85vw] md:!w-[60vw] lg:!w-[50vw] !max-w-[800px] !z-[65]'
+                                            : ''
+                                        }
+                                    `}
                                     style={{
-                                        top: pos.top,
-                                        left: pos.left,
-                                        right: pos.right,
-                                        // When enlarged, override position to center
-                                        ...(isEnlarged ? {
-                                            top: '50%',
-                                            left: '50%',
-                                            right: 'auto',
-                                            transform: 'translate(-50%, -50%)',
-                                            zIndex: 60,
-                                        } : {
-                                            transform: `rotate(${pos.rotate}deg)`,
-                                        }),
-                                        transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                        height: enlargedIndex === index ? 'auto' : 'clamp(220px, 50vh, 500px)',
+                                        width: enlargedIndex === index ? undefined : 'auto',
+                                        transform: enlargedIndex === index ? 'translate(-50%, -50%)' : undefined,
+                                        zIndex: enlargedIndex === index ? 65 : undefined,
+                                    }}
+                                    onClick={(e) => {
+                                        if (isDragging) return;
+                                        e.stopPropagation();
+                                        setEnlargedIndex(enlargedIndex === index ? null : index);
                                     }}
                                 >
-                                    {/* Pin */}
-                                    {!isEnlarged && (
-                                        <div className="absolute -top-2 left-1/2 -translate-x-1/2 z-40 w-4 h-4">
-                                            <div className="w-3 h-3 rounded-full bg-aoc-gold shadow-lg border border-yellow-600" />
-                                            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-px h-2 bg-gray-400" />
-                                        </div>
-                                    )}
-
-                                    {/* Photo card */}
-                                    <button
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setEnlargedIndex(isEnlarged ? null : index);
-                                        }}
-                                        className={`
-                                            block bg-white p-1 shadow-xl cursor-pointer
-                                            transition-all duration-400
-                                            ${isEnlarged
-                                                ? 'w-[70vw] max-w-[500px] md:w-[400px] lg:w-[500px] p-2 shadow-2xl'
-                                                : 'w-16 md:w-20 lg:w-24 hover:scale-110 hover:shadow-2xl hover:z-40'
-                                            }
-                                        `}
-                                        style={{
-                                            transform: isEnlarged ? 'rotate(0deg)' : undefined,
-                                        }}
-                                    >
-                                        <div className={`overflow-hidden ${isEnlarged ? 'aspect-[4/3]' : 'aspect-square'}`}>
-                                            <img
-                                                src={img}
-                                                alt={`${project.title} gallery ${index + 1}`}
-                                                loading="lazy"
-                                                className="w-full h-full object-cover"
-                                            />
-                                        </div>
-                                    </button>
-                                </div>
-                            );
-                        })}
+                                    <img
+                                        src={img}
+                                        alt={`${project.title} - ${index + 1}`}
+                                        loading="lazy"
+                                        draggable={false}
+                                        className={`h-full w-auto object-cover select-none ${enlargedIndex === index ? '!h-auto !w-full !max-h-[80vh]' : ''}`}
+                                    />
+                                </button>
+                            ))}
+                        </div>
                     </div>
+
+
                 </div>
             </div>
 
-            {/* Enlarged image overlay backdrop */}
+            {/* Dark overlay when image is enlarged */}
             {enlargedIndex !== null && (
                 <div
-                    className="fixed inset-0 bg-black/60 z-40 backdrop-blur-sm"
+                    className="fixed inset-0 bg-black/60 z-[60] backdrop-blur-sm"
                     onClick={() => setEnlargedIndex(null)}
                 />
             )}
 
             {/* Bottom bar */}
-            <div className="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-8 py-4 flex justify-between items-center text-aoc-white/50 text-xs md:text-sm font-inter-tight font-light tracking-widest z-50">
+            <div className="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-8 py-4 flex justify-between items-center text-aoc-white/50 text-xs md:text-sm font-inter-tight font-light tracking-widest z-[70]">
                 <span>A</span>
                 <span>FOUNDATION</span>
                 <span>OF</span>

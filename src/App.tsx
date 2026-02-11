@@ -1,10 +1,13 @@
 import { ChevronDown, ChevronLeft, ChevronRight, Linkedin, Instagram, Facebook } from 'lucide-react';
-import { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import TopNav from './components/TopNav';
 import Services from './components/Services';
 import { useLanguage } from './LanguageContext';
 import { translations } from './translations';
 import { useScrollAnimation } from './hooks/useScrollAnimation';
+import { useCustomCursor } from './hooks/useCustomCursor';
+import { useIntroAnimation } from './hooks/useIntroAnimation';
+import { useBannerAnimation } from './hooks/useBannerAnimation';
 import heroVideo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Video/AOC_x_BF_H_No_Subtitles_compressed.mp4';
 import videoPoster from './assets/video_poster.jpg';
 import aboutImage from './assets/asset_16.png';
@@ -24,17 +27,11 @@ function App() {
     message: ''
   });
   const [activeSection, setActiveSection] = useState('home');
-  const [introComplete, setIntroComplete] = useState(false);
-  const [introPhase, setIntroPhase] = useState<'initial' | 'drawing' | 'expanding' | 'done'>('initial');
-  const [circleSize, setCircleSize] = useState(150); // Initial circle radius in px
-  const [bannerOffset, setBannerOffset] = useState(0);
-  const isScrollingRef = useRef(false);
-  const scrollTimeoutRef = useRef<number | null>(null);
-  const animationRef = useRef<number | null>(null);
 
-  // Custom cursor state
-  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
-  const [isHovering, setIsHovering] = useState(false);
+  // Extracted hooks — zero re-render cursor, intro animation, banner scroll
+  const cursorRef = useCustomCursor();
+  const { introComplete, introPhase, circleSize } = useIntroAnimation();
+  const { enBannerRef, arBannerRef } = useBannerAnimation(2);
 
 
 
@@ -80,9 +77,9 @@ function App() {
     return () => clearInterval(interval);
   }, [t.news.articles.length, isNewsModalOpen]);
 
-  // Disable body scroll when news modal is open
+  // Disable body scroll when any modal is open (merged from two separate effects)
   useEffect(() => {
-    if (isNewsModalOpen) {
+    if (isNewsModalOpen || isProjectModalOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -90,22 +87,9 @@ function App() {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [isNewsModalOpen]);
+  }, [isNewsModalOpen, isProjectModalOpen]);
 
-  // Disable body scroll when project modal is open
-  useEffect(() => {
-    if (isProjectModalOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isProjectModalOpen]);
-
-  // Configurable banner speed (pixels per frame) - adjust this value to control speed
-  const BANNER_SPEED = 2;
+  // Banner speed is now configured in useBannerAnimation(2) above
 
   useEffect(() => {
     const observerOptions = {
@@ -133,154 +117,24 @@ function App() {
     };
   }, []);
 
-  // Continuous banner movement when scrolling
-  useEffect(() => {
-    const animate = () => {
-      if (isScrollingRef.current) {
-        setBannerOffset(prev => prev + BANNER_SPEED);
-        animationRef.current = requestAnimationFrame(animate);
-      }
-    };
-
-    const handleScroll = () => {
-      if (!isScrollingRef.current) {
-        isScrollingRef.current = true;
-        animationRef.current = requestAnimationFrame(animate);
-      }
-
-      // Clear existing timeout
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-
-      // Stop animation after scrolling stops
-      scrollTimeoutRef.current = window.setTimeout(() => {
-        isScrollingRef.current = false;
-        if (animationRef.current) {
-          cancelAnimationFrame(animationRef.current);
-        }
-      }, 100);
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-  }, []);
+  // Banner movement is now handled by useBannerAnimation hook (direct DOM, no re-renders)
 
   const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
+    // Sanitize form data before submission
+    const sanitized = {
+      firstName: formData.firstName.trim().replace(/<[^>]*>/g, ''),
+      lastName: formData.lastName.trim().replace(/<[^>]*>/g, ''),
+      email: formData.email.trim().replace(/<[^>]*>/g, ''),
+      message: formData.message.trim().replace(/<[^>]*>/g, ''),
+    };
     // Form submission is handled by the build process which strips console.log
-    console.log('Form submitted:', formData);
+    console.log('Form submitted:', sanitized);
   }, [formData]);
 
-  // Intro animation sequence - Circle reveal
-  useEffect(() => {
-    // Force scroll to top immediately and prevent browser scroll restoration
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
-    }
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
+  // Intro animation is now handled by useIntroAnimation hook
 
-
-
-    // Disable scrolling during intro
-    document.body.style.overflow = 'hidden';
-    document.documentElement.style.overflow = 'hidden';
-
-    // Start drawing phase (circle draws around center)
-    const drawTimer = setTimeout(() => {
-      setIntroPhase('drawing');
-    }, 100);
-
-    // Start expanding phase immediately after drawing completes (1s drawing + 100ms initial = 1100ms)
-    // No delay - mask appears as soon as circle finishes drawing
-    const expandTimer = setTimeout(() => {
-      setIntroPhase('expanding');
-      // Keep scrolling disabled until expansion is well underway
-
-      // Use requestAnimationFrame for smoother animation
-      let size = 150;
-      let lastTime = performance.now();
-
-      const animate = (currentTime: number) => {
-        const deltaTime = currentTime - lastTime;
-        lastTime = currentTime;
-
-        // Smooth expansion: ~25 pixels per 16ms frame (faster)
-        size += (deltaTime / 16) * 25;
-        setCircleSize(size);
-
-        // Enable scrolling after circle has expanded a bit
-        if (size > 300) {
-          document.body.style.overflow = '';
-          document.documentElement.style.overflow = '';
-        }
-
-        if (size < Math.max(window.innerWidth, window.innerHeight) * 1.5) {
-          requestAnimationFrame(animate);
-        }
-      };
-
-      requestAnimationFrame(animate);
-    }, 1100); // Starts immediately when drawing finishes (no delay)
-
-    // Complete intro after animation
-    const completeTimer = setTimeout(() => {
-      setIntroPhase('done');
-      setIntroComplete(true);
-      // Re-enable scrolling
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-    }, 3400); // Adjusted timing (1100 + ~2300 for expansion)
-
-    return () => {
-      clearTimeout(drawTimer);
-      clearTimeout(expandTimer);
-      clearTimeout(completeTimer);
-      document.body.style.overflow = '';
-      document.documentElement.style.overflow = '';
-    };
-  }, []);
-
-  // Custom cursor effect
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      setCursorPos({ x: e.clientX, y: e.clientY });
-    };
-
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest('a, button, input, textarea, [role="button"]')) {
-        setIsHovering(true);
-      }
-    };
-
-    const handleMouseOut = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest('a, button, input, textarea, [role="button"]')) {
-        setIsHovering(false);
-      }
-    };
-
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseover', handleMouseOver);
-    document.addEventListener('mouseout', handleMouseOut);
-
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseover', handleMouseOver);
-      document.removeEventListener('mouseout', handleMouseOut);
-    };
-  }, []);
+  // Custom cursor is now handled by useCustomCursor hook (direct DOM, no re-renders)
 
   return (
     <div className={`bg-aoc-black text-aoc-white overflow-x-hidden ${language === 'ar' ? 'rtl' : 'ltr'}`}>
@@ -366,11 +220,9 @@ function App() {
           {language === 'ar' ? (
             /* Arabic Banner - scroll-based movement (left to right, seamless loop) */
             <div
-              className="flex whitespace-nowrap transition-transform duration-75 ease-linear"
-              style={{
-                width: 'max-content',
-                transform: `translateX(${-(bannerOffset % 1200)}px)`
-              }}
+              ref={arBannerRef}
+              className="flex whitespace-nowrap"
+              style={{ width: 'max-content' }}
             >
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-12">الثقة</span>
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-6">•</span>
@@ -394,11 +246,9 @@ function App() {
           ) : (
             /* English Banner - scroll-based movement (right to left) */
             <div
+              ref={enBannerRef}
               className="flex whitespace-nowrap"
-              style={{
-                width: 'max-content',
-                transform: `translateX(${-(bannerOffset % 2000)}px)`
-              }}
+              style={{ width: 'max-content' }}
             >
               <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
                 {t.hero.title}
@@ -857,10 +707,10 @@ function App() {
         />
       </Suspense>
 
-      {/* Custom Cursor - Touch indicator style */}
+      {/* Custom Cursor - Touch indicator style (positioned via ref, no re-renders) */}
       <div
-        className={`custom-cursor ${isHovering ? 'hovering' : ''}`}
-        style={{ left: cursorPos.x, top: cursorPos.y }}
+        ref={cursorRef}
+        className="custom-cursor"
       />
     </div >
   );

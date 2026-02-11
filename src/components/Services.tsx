@@ -3,6 +3,8 @@ import { X, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
 import { translations } from '../translations';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import aocLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Logo White.png';
+import aocMobileLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOCMobile.png';
 
 interface Service {
   id: string;
@@ -51,8 +53,8 @@ function ServiceModal({ service, isOpen, onClose, language }: { service: Service
 
           {/* Logo - center on mobile, left on desktop */}
           <a href="#services" onClick={onClose} className="h-10 w-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-            <img src="/src/assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOCMobile.png" alt="AOC Logo" className="h-full w-auto md:hidden" />
-            <img src="/src/assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Logo White.png" alt="AOC Logo" className="h-full w-auto hidden md:block" />
+            <img src={aocMobileLogo} alt="AOC Logo" className="h-full w-auto md:hidden" />
+            <img src={aocLogo} alt="AOC Logo" className="h-full w-auto hidden md:block" />
           </a>
 
           {/* Desktop: X button with circle on right */}
@@ -268,52 +270,44 @@ export default function Services() {
 
   const services: Service[] = [
     {
-      id: 'architecture',
-      title: t.services.architecture.title,
-      description: t.services.architecture.description,
-      place: t.services.architecture.place,
-      fullDescription: t.services.architecture.fullDescription,
+      id: 'projectManagement',
+      title: t.services.projectManagement.title,
+      description: t.services.projectManagement.description,
+      place: t.services.projectManagement.place,
+      fullDescription: t.services.projectManagement.fullDescription,
+      image: 'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg'
+    },
+    {
+      id: 'engineeringSupervision',
+      title: t.services.engineeringSupervision.title,
+      description: t.services.engineeringSupervision.description,
+      place: t.services.engineeringSupervision.place,
+      fullDescription: t.services.engineeringSupervision.fullDescription,
+      image: 'https://images.pexels.com/photos/585419/pexels-photo-585419.jpeg'
+    },
+    {
+      id: 'designServices',
+      title: t.services.designServices.title,
+      description: t.services.designServices.description,
+      place: t.services.designServices.place,
+      fullDescription: t.services.designServices.fullDescription,
       image: 'https://images.pexels.com/photos/439416/pexels-photo-439416.jpeg'
     },
     {
-      id: 'interior',
-      title: t.services.interior.title,
-      description: t.services.interior.description,
-      place: t.services.interior.place,
-      fullDescription: t.services.interior.fullDescription,
-      image: 'https://images.pexels.com/photos/1109541/pexels-photo-1109541.jpeg'
+      id: 'surveyingWorks',
+      title: t.services.surveyingWorks.title,
+      description: t.services.surveyingWorks.description,
+      place: t.services.surveyingWorks.place,
+      fullDescription: t.services.surveyingWorks.fullDescription,
+      image: 'https://images.pexels.com/photos/4491459/pexels-photo-4491459.jpeg'
     },
     {
-      id: 'urban',
-      title: t.services.urban.title,
-      description: t.services.urban.description,
-      place: t.services.urban.place,
-      fullDescription: t.services.urban.fullDescription,
+      id: 'architectOfRecord',
+      title: t.services.architectOfRecord.title,
+      description: t.services.architectOfRecord.description,
+      place: t.services.architectOfRecord.place,
+      fullDescription: t.services.architectOfRecord.fullDescription,
       image: 'https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg'
-    },
-    {
-      id: 'landscape',
-      title: t.services.landscape.title,
-      description: t.services.landscape.description,
-      place: t.services.landscape.place,
-      fullDescription: t.services.landscape.fullDescription,
-      image: 'https://images.pexels.com/photos/1092359/pexels-photo-1092359.jpeg'
-    },
-    {
-      id: 'sustainability',
-      title: t.services.sustainability.title,
-      description: t.services.sustainability.description,
-      place: t.services.sustainability.place,
-      fullDescription: t.services.sustainability.fullDescription,
-      image: 'https://images.pexels.com/photos/3862623/pexels-photo-3862623.jpeg'
-    },
-    {
-      id: 'renovation',
-      title: t.services.renovation.title,
-      description: t.services.renovation.description,
-      place: t.services.renovation.place,
-      fullDescription: t.services.renovation.fullDescription,
-      image: 'https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg'
     }
   ];
 

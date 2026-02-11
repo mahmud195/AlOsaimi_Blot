@@ -35,41 +35,35 @@ export const translations = {
       readMore: 'Read More',
       builtOn: 'Built on a solid foundation of trust and driven by a relentless passion for excellence, we create innovative solutions that contribute to building a sustainable future.',
       intro: 'We provide comprehensive architectural and engineering solutions tailored to transform your vision into exceptional built environments. Our services span from conceptual design through project delivery, combining innovative thinking with technical excellence.',
-      architecture: {
-        title: 'ARCHITECTURE',
-        description: 'Comprehensive architectural design solutions from concept to completion, tailored to your vision and requirements.',
-        place: 'Global',
-        fullDescription: 'Our architectural services encompass masterplanning, schematic design, design development, and construction documentation. We specialize in creating distinctive buildings that balance aesthetics with functionality, sustainability with innovation.'
+      projectManagement: {
+        title: 'PROJECT MANAGEMENT',
+        description: 'Efficiently organizing and utilizing available resources to ensure the highest levels of performance and quality in project execution.',
+        place: 'Kingdom of Saudi Arabia',
+        fullDescription: 'At Al Osaimi Consulting, we place great emphasis on achieving the core objectives of project management by efficiently organizing and utilizing available resources—both human and financial—to ensure the highest levels of performance and quality in project execution. We are committed to fulfilling all aspects of project management, including precise goal setting, adherence to schedules, budget control, and scope management, guaranteeing the success of each project from concept to reality.'
       },
-      interior: {
-        title: 'INTERIOR DESIGN',
-        description: 'Sophisticated interior spaces that reflect your brand identity and enhance user experience through thoughtful design.',
-        place: 'Multi-location',
-        fullDescription: 'From corporate offices to hospitality spaces, we craft interiors that tell your brand story. Our approach integrates spatial planning, material selection, lighting design, and furnishing strategies to create immersive environments.'
+      engineeringSupervision: {
+        title: 'ENGINEERING SUPERVISION',
+        description: 'Comprehensive technical support by overseeing project planning, managing contractor agreements, drawings and bills of quantities.',
+        place: 'Kingdom of Saudi Arabia',
+        fullDescription: 'Providing engineering supervision services is one of the key pillars in ensuring that projects achieve their objectives and deliver maximum value. We offer comprehensive technical support by overseeing project planning, managing contractor agreements, and drawings and bills of quantities. We closely monitor all phases of project execution and deliver timely solutions to any challenges or obstacles that may occur during implementation. Throughout the process, we remain fully committed to maintaining quality standards and fostering collaboration among all stakeholders—contractors, supervising authorities, and owners alike.'
       },
-      urban: {
-        title: 'URBAN PLANNING',
-        description: 'Strategic urban design and planning services that create sustainable and vibrant communities for the future.',
-        place: 'Strategic Districts',
-        fullDescription: 'We develop comprehensive urban strategies that balance growth with sustainability. Our work includes mixed-use developments, public space design, mobility planning, and community engagement to create thriving urban centers.'
+      designServices: {
+        title: 'DESIGN SERVICES',
+        description: 'Integrated design solutions that blend creativity with sustainability, transforming visions into exceptional architectural spaces.',
+        place: 'Kingdom of Saudi Arabia',
+        fullDescription: 'At Al Osaimi Consulting, we deliver integrated design solutions that blend creativity with sustainability, transforming our clients\' visions into exceptional architectural spaces. We carefully balance natural elements with thoughtful planning, colors, and lighting to create innovative buildings that harmonize beauty and functionality. At the same time, we ensure the highest levels of safety and stability through advanced structural design. Our services include: Urban and Landscape Design, Architectural Design, Interior Design, Furniture and Fit-Outs, Structural Design, and Electromechanical Design.'
       },
-      landscape: {
-        title: 'LANDSCAPE DESIGN',
-        description: 'Innovative landscape solutions that transform outdoor spaces into functional and beautiful environments.',
-        place: 'Diverse Locations',
-        fullDescription: 'Our landscape design services integrate natural elements with built environments. We create sustainable gardens, parks, and recreational spaces that enhance biodiversity and provide sanctuary for community engagement and ecological restoration.'
+      surveyingWorks: {
+        title: 'SURVEYING WORKS',
+        description: 'Accurate surveying data for construction and design projects, supporting the development of projects, land, and infrastructure.',
+        place: 'Kingdom of Saudi Arabia',
+        fullDescription: 'Surveying services form a cornerstone in providing accurate data for construction and design projects, while also supporting the development of projects, land, and infrastructure. Over the past eight years, we have delivered surveying solutions of exceptional quality and precision, contributing to the success of numerous projects across the Kingdom.'
       },
-      sustainability: {
-        title: 'SUSTAINABILITY',
-        description: 'Environmental design strategies and green building solutions for a more sustainable future.',
-        place: 'Eco-Districts',
-        fullDescription: 'We pioneer sustainable design practices including LEED certification, renewable energy integration, water management systems, and carbon-neutral construction. Our commitment to environmental stewardship shapes every project decision.'
-      },
-      renovation: {
-        title: 'RENOVATION & RETROFIT',
-        description: 'Strategic restoration and modernization of existing structures with contemporary design and technology.',
-        place: 'Heritage & Modern Sites',
-        fullDescription: 'We specialize in heritage conservation and adaptive reuse projects. Our approach respects historical significance while introducing modern functionality, energy efficiency, and accessibility to extend building life cycles sustainably.'
+      architectOfRecord: {
+        title: 'ARCHITECT OF RECORD',
+        description: 'Preparing design plans, securing building permits, and delivering effective solutions in the shortest possible time.',
+        place: 'Kingdom of Saudi Arabia',
+        fullDescription: 'At Al Osaimi Consulting, we are dedicated to meeting all our clients\' needs, from preparing design plans to securing building permits and delivering effective solutions in the shortest possible time. We remain fully committed to reviewing and fulfilling all municipal requirements while ensuring strict compliance with the Saudi Building Code.'
       }
     },
     projects: {
@@ -200,41 +194,35 @@ export const translations = {
       readMore: 'اقرأ المزيد',
       builtOn: 'بُنيت على أساس متين من الثقة ومدفوعة بشغف لا هوادة فيه للتميز، نعمل على إيجاد حلول مبتكرة تساهم في بناء مستقبل مستدام.',
       intro: 'نقدم حلولاً معمارية وهندسية شاملة مصممة خصيصاً لتحويل رؤيتك إلى بيئات مبنية استثنائية. تمتد خدماتنا من التصميم الأولي حتى تسليم المشروع، حيث نجمع بين التفكير المبتكر والتميز التقني.',
-      architecture: {
-        title: 'العمارة',
-        description: 'حلول تصميم معماري شامل من المفهوم إلى التنفيذ، مصممة خصيصاً لرؤيتك واحتياجاتك.',
-        place: 'عالمي',
-        fullDescription: 'تشمل خدماتنا المعمارية التخطيط الرئيسي والتصميم الأولي وتطوير التصميم والوثائق الإنشائية. نحن متخصصون في إنشاء مباني مميزة توازن بين الجماليات والوظيفة والاستدامة والابتكار.'
+      projectManagement: {
+        title: 'إدارة المشاريع',
+        description: 'تنظيم واستخدام الموارد المتاحة بكفاءة لضمان أعلى مستويات الأداء والجودة في تنفيذ المشاريع.',
+        place: 'المملكة العربية السعودية',
+        fullDescription: 'في مكتب العصيمي للاستشارات، نولي أهمية كبيرة لتحقيق الأهداف الجوهرية لإدارة المشاريع من خلال التنظيم الفعّال واستخدام الموارد المتاحة — البشرية والمالية — لضمان أعلى مستويات الأداء والجودة في تنفيذ المشاريع. نحن ملتزمون بتحقيق جميع جوانب إدارة المشاريع، بما في ذلك تحديد الأهداف بدقة، والالتزام بالجداول الزمنية، ومراقبة الميزانية، وإدارة النطاق، لضمان نجاح كل مشروع من المفهوم إلى الواقع.'
       },
-      interior: {
-        title: 'تصميم الديكور الداخلي',
-        description: 'مساحات داخلية متطورة تعكس هويتك العلامة التجارية وتعزز تجربة المستخدم من خلال التصميم المدروس.',
-        place: 'مواقع متعددة',
-        fullDescription: 'من المكاتب الشركاتية إلى فضاءات الضيافة، نصنع الديكورات الداخلية التي تروي قصة علامتك التجارية. يدمج نهجنا التخطيط المكاني واختيار المواد وتصميم الإضاءة واستراتيجيات الأثاث لإنشاء بيئات غامرة.'
+      engineeringSupervision: {
+        title: 'الإشراف الهندسي',
+        description: 'دعم تقني شامل من خلال الإشراف على تخطيط المشاريع وإدارة عقود المقاولين والرسومات وجداول الكميات.',
+        place: 'المملكة العربية السعودية',
+        fullDescription: 'تقديم خدمات الإشراف الهندسي يعد من الركائز الأساسية لضمان تحقيق المشاريع لأهدافها وتقديم أقصى قيمة. نقدم دعمًا تقنيًا شاملاً من خلال الإشراف على تخطيط المشاريع وإدارة عقود المقاولين والرسومات وجداول الكميات. نراقب عن كثب جميع مراحل تنفيذ المشروع ونقدم حلولاً في الوقت المناسب لأي تحديات أو عقبات قد تظهر أثناء التنفيذ. خلال هذه العملية، نظل ملتزمين تمامًا بالحفاظ على معايير الجودة وتعزيز التعاون بين جميع الأطراف المعنية — المقاولين والجهات الإشرافية والملاك.'
       },
-      urban: {
-        title: 'التخطيط الحضري',
-        description: 'خدمات تصميم وتخطيط حضري استراتيجية تخلق مجتمعات مستدامة وحيوية للمستقبل.',
-        place: 'الأحياء الاستراتيجية',
-        fullDescription: 'نطور استراتيجيات حضرية شاملة توازن بين النمو والاستدامة. يشمل عملنا تطوير الاستخدام المختلط وتصميم الفضاءات العامة والتخطيط الحركي والمشاركة المجتمعية لإنشاء مراكز حضرية مزدهرة.'
+      designServices: {
+        title: 'خدمات التصميم',
+        description: 'حلول تصميم متكاملة تمزج بين الإبداع والاستدامة، محولة الرؤى إلى فضاءات معمارية استثنائية.',
+        place: 'المملكة العربية السعودية',
+        fullDescription: 'في مكتب العصيمي للاستشارات، نقدم حلول تصميم متكاملة تمزج بين الإبداع والاستدامة، محولين رؤى عملائنا إلى فضاءات معمارية استثنائية. نوازن بعناية بين العناصر الطبيعية والتخطيط المدروس والألوان والإضاءة لإنشاء مبانٍ مبتكرة تجمع بين الجمال والوظيفة. في الوقت نفسه، نضمن أعلى مستويات السلامة والاستقرار من خلال التصميم الإنشائي المتقدم. تشمل خدماتنا: التصميم الحضري والمناظر الطبيعية، التصميم المعماري، التصميم الداخلي والأثاث والتشطيبات، التصميم الإنشائي، والتصميم الكهروميكانيكي.'
       },
-      landscape: {
-        title: 'تصميم المناظر الطبيعية',
-        description: 'حلول مبتكرة للمناظر الطبيعية تحول الأماكن الخارجية إلى بيئات وظيفية وجميلة.',
-        place: 'مواقع متنوعة',
-        fullDescription: 'تدمج خدمات تصميم المناظر الطبيعية لدينا العناصر الطبيعية مع البيئات المبنية. نحن ننشئ حدائق ومنتزهات ومساحات ترفيهية مستدامة تعزز التنوع البيولوجي وتوفر ملاذاً للمشاركة المجتمعية.'
+      surveyingWorks: {
+        title: 'أعمال المساحة',
+        description: 'بيانات مساحية دقيقة لمشاريع البناء والتصميم، تدعم تطوير المشاريع والأراضي والبنية التحتية.',
+        place: 'المملكة العربية السعودية',
+        fullDescription: 'تشكل خدمات المساحة حجر الأساس في توفير بيانات دقيقة لمشاريع البناء والتصميم، مع دعم تطوير المشاريع والأراضي والبنية التحتية. على مدار السنوات الثماني الماضية، قدمنا حلول مساحية بجودة ودقة استثنائية، مساهمين في نجاح العديد من المشاريع في أنحاء المملكة.'
       },
-      sustainability: {
-        title: 'الاستدامة',
-        description: 'استراتيجيات التصميم البيئي وحلول البناء الأخضر لمستقبل أكثر استدامة.',
-        place: 'الأحياء الخضراء',
-        fullDescription: 'نحن رواد في ممارسات التصميم المستدام بما في ذلك شهادة الريادة في الطاقة والتصميم البيئي وتكامل الطاقة المتجددة. التزامنا بالحفاظ على البيئة يشكل كل قرار في المشروع.'
-      },
-      renovation: {
-        title: 'الترميم والتحديث',
-        description: 'استعادة استراتيجية وتحديث للهياكل القائمة بالتصميم المعاصر والتكنولوجيا.',
-        place: 'المواقع التراثية والحديثة',
-        fullDescription: 'نحن متخصصون في مشاريع الحفاظ على التراث وإعادة الاستخدام المكيفة. يحترم نهجنا الأهمية التاريخية مع إدخال الوظيفة الحديثة وكفاءة الطاقة والإمكانية للوصول.'
+      architectOfRecord: {
+        title: 'المهندس المعتمد',
+        description: 'إعداد مخططات التصميم والحصول على تراخيص البناء وتقديم حلول فعالة في أقصر وقت ممكن.',
+        place: 'المملكة العربية السعودية',
+        fullDescription: 'في مكتب العصيمي للاستشارات، نحرص على تلبية جميع احتياجات عملائنا، من إعداد مخططات التصميم إلى الحصول على تراخيص البناء وتقديم حلول فعالة في أقصر وقت ممكن. نظل ملتزمين تمامًا بمراجعة واستيفاء جميع متطلبات البلدية مع ضمان الامتثال الصارم لكود البناء السعودي.'
       }
     },
     projects: {

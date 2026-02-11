@@ -1,4 +1,6 @@
 import { X } from 'lucide-react';
+import aocLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Logo White.png';
+import aocMobileLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOCMobile.png';
 
 /**
  * NewsModal Component
@@ -40,8 +42,8 @@ export default function NewsModal({ isOpen, onClose, article, language }: NewsMo
 
                     {/* Logo - center on mobile, left on desktop */}
                     <a href="#news" onClick={onClose} className="h-10 w-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-                        <img src="/src/assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOCMobile.png" alt="AOC Logo" className="h-full w-auto md:hidden" />
-                        <img src="/src/assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Logo White.png" alt="AOC Logo" className="h-full w-auto hidden md:block" />
+                        <img src={aocMobileLogo} alt="AOC Logo" className="h-full w-auto md:hidden" />
+                        <img src={aocLogo} alt="AOC Logo" className="h-full w-auto hidden md:block" />
                     </a>
 
                     {/* Desktop: X button on right */}

@@ -81,11 +81,12 @@ export const translations = {
       learnMore: 'LEARN MORE'
     },
     projectsGallery: {
+      sectionTitle: 'OUR PROJECTS',
       learnMore: 'LEARN MORE',
       categories: [
         { key: 'RESIDENTIAL', label: 'RESIDENTIAL' },
         { key: 'MEDICAL', label: 'MEDICAL' },
-        { key: 'GAS_STATIONS', label: 'GAS STATIONS MIXED USE' }
+        { key: 'GAS_STATIONS', label: 'GAS STATIONS' }
       ],
       items: [
         {
@@ -277,11 +278,12 @@ export const translations = {
       learnMore: 'اعرف أكثر'
     },
     projectsGallery: {
+      sectionTitle: 'مشاريعنا',
       learnMore: 'اعرف المزيد',
       categories: [
         { key: 'RESIDENTIAL', label: 'سكني' },
         { key: 'MEDICAL', label: 'طبي' },
-        { key: 'GAS_STATIONS', label: 'محطات وقود متعددة الاستخدام' }
+        { key: 'GAS_STATIONS', label: 'محطات وقود' }
       ],
       items: [
         {

@@ -6,6 +6,12 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import aocLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Logo White.png';
 import aocMobileLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOCMobile.png';
 
+import projectManagementImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Project Management_.jpg';
+import supervisionImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Supervision.jpg';
+import designServicesImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Design Services.jpg';
+import surveyingImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Surveying_.jpg';
+import aorImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/A.O.R.jpg';
+
 interface Service {
   id: string;
   title: string;
@@ -83,7 +89,7 @@ function ServiceModal({ service, isOpen, onClose, language }: { service: Service
             <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.9]">
               {firstLine}
             </h1>
-            <h1 className={`text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.9] ${language === 'ar' ? '' : 'lg:pl-16'}`}>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.9]">
               {secondLine}
             </h1>
           </div>
@@ -275,7 +281,7 @@ export default function Services() {
       description: t.services.projectManagement.description,
       place: t.services.projectManagement.place,
       fullDescription: t.services.projectManagement.fullDescription,
-      image: 'https://images.pexels.com/photos/3183150/pexels-photo-3183150.jpeg'
+      image: projectManagementImg
     },
     {
       id: 'engineeringSupervision',
@@ -283,7 +289,7 @@ export default function Services() {
       description: t.services.engineeringSupervision.description,
       place: t.services.engineeringSupervision.place,
       fullDescription: t.services.engineeringSupervision.fullDescription,
-      image: 'https://images.pexels.com/photos/585419/pexels-photo-585419.jpeg'
+      image: supervisionImg
     },
     {
       id: 'designServices',
@@ -291,7 +297,7 @@ export default function Services() {
       description: t.services.designServices.description,
       place: t.services.designServices.place,
       fullDescription: t.services.designServices.fullDescription,
-      image: 'https://images.pexels.com/photos/439416/pexels-photo-439416.jpeg'
+      image: designServicesImg
     },
     {
       id: 'surveyingWorks',
@@ -299,7 +305,7 @@ export default function Services() {
       description: t.services.surveyingWorks.description,
       place: t.services.surveyingWorks.place,
       fullDescription: t.services.surveyingWorks.fullDescription,
-      image: 'https://images.pexels.com/photos/4491459/pexels-photo-4491459.jpeg'
+      image: surveyingImg
     },
     {
       id: 'architectOfRecord',
@@ -307,7 +313,7 @@ export default function Services() {
       description: t.services.architectOfRecord.description,
       place: t.services.architectOfRecord.place,
       fullDescription: t.services.architectOfRecord.fullDescription,
-      image: 'https://images.pexels.com/photos/3862130/pexels-photo-3862130.jpeg'
+      image: aorImg
     }
   ];
 
@@ -367,7 +373,7 @@ export default function Services() {
                 >
                   <div
                     onClick={() => handleReadMore(service)}
-                    className="relative w-80 h-80 overflow-hidden mb-6 transition-transform duration-300 ease-out hover:scale-105"
+                    className="relative w-80 aspect-[3/4] overflow-hidden mb-6 transition-transform duration-300 ease-out hover:scale-105"
                   >
                     <img
                       src={service.image}
@@ -378,20 +384,20 @@ export default function Services() {
 
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-                    <div className="absolute bottom-8 left-0 right-0 px-4 text-center">
-                      <h3 className="text-xl font-darker-grotesque font-light tracking-[0.12em] uppercase text-aoc-white">
+                    <div className="absolute bottom-8 left-0 right-0 px-4">
+                      <h3 className={`text-xl font-darker-grotesque font-light tracking-[0.12em] uppercase text-aoc-white ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                         {service.title}
                       </h3>
                     </div>
                   </div>
 
-                  <p className="text-aoc-white/70 text-sm font-inter-tight font-light leading-relaxed mb-4 text-center text-justify">
+                  <p className={`text-aoc-white/70 text-sm font-inter-tight font-light leading-relaxed mb-4 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                     {service.description}
                   </p>
 
                   <button
                     onClick={() => handleReadMore(service)}
-                    className="text-sm font-inter-tight font-light tracking-[0.1em] uppercase text-blue-300 hover:text-aoc-white transition-colors underline block mx-auto"
+                    className={`text-sm font-inter-tight font-light tracking-[0.1em] uppercase text-blue-300 hover:text-aoc-white transition-colors underline block ${language === 'ar' ? 'ml-auto mr-0' : 'mr-auto ml-0'}`}
                   >
                     {t.services.readMore}
                   </button>

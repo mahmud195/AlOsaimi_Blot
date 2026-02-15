@@ -59,6 +59,114 @@ function App() {
   // Projects carousel state
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
+  const [projectTransitionPhase, setProjectTransitionPhase] = useState<'idle' | 'expanding' | 'modal-open'>('idle');
+  const learnMoreBarRef = useRef<HTMLDivElement>(null);
+  const topNavWrapperRef = useRef<HTMLDivElement>(null);
+  const bottomBarRef = useRef<HTMLDivElement>(null);
+
+  // Easing function for smooth animation
+  const easeInOutQuad = (t: number) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+  // Handle Learn More click — rAF-driven expansion with push effect
+  const handleLearnMoreClick = useCallback(() => {
+    if (projectTransitionPhase !== 'idle' || !learnMoreBarRef.current) return;
+    const barEl = learnMoreBarRef.current;
+    // Get the actual fixed <nav> element inside the TopNav wrapper
+    const topNavEl = topNavWrapperRef.current?.querySelector('nav') as HTMLElement | null;
+    const bottomBarEl = bottomBarRef.current;
+
+    // Measure positions
+    const rect = barEl.getBoundingClientRect();
+    const startTop = rect.top;
+    const startBottom = window.innerHeight - rect.bottom;
+    const topNavHeight = topNavEl?.getBoundingClientRect().height || 0;
+    const bottomBarHeight = bottomBarEl?.getBoundingClientRect().height || 0;
+
+    document.body.style.overflow = 'hidden';
+    setProjectTransitionPhase('expanding');
+
+    // Switch bar to fixed at current position
+    barEl.style.position = 'fixed';
+    barEl.style.zIndex = '60';
+    barEl.style.top = `${startTop}px`;
+    barEl.style.bottom = `${startBottom}px`;
+    barEl.style.transition = 'none';
+
+    const duration = 600;
+    const startTime = performance.now();
+
+    const animate = (now: number) => {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = easeInOutQuad(progress);
+
+      const currentTop = startTop * (1 - eased);
+      const currentBottom = startBottom * (1 - eased);
+
+      // Animate bar edges
+      barEl.style.top = `${currentTop}px`;
+      barEl.style.bottom = `${currentBottom}px`;
+
+      // Push TopNav up only when bar's top edge reaches TopNav's bottom
+      // Use style.top on the fixed nav element (moves it from top:0 to negative)
+      if (topNavEl) {
+        if (currentTop < topNavHeight) {
+          topNavEl.style.top = `${currentTop - topNavHeight}px`;
+        } else {
+          topNavEl.style.top = '0px';
+        }
+      }
+
+      // Push bottom bar down only when bar's bottom edge reaches bottom bar's top
+      if (bottomBarEl) {
+        if (currentBottom < bottomBarHeight) {
+          bottomBarEl.style.bottom = `${currentBottom - bottomBarHeight}px`;
+        } else {
+          bottomBarEl.style.bottom = '0px';
+        }
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(animate);
+      } else {
+        // Animation complete
+        setIsProjectModalOpen(true);
+        setProjectTransitionPhase('modal-open');
+      }
+    };
+
+    requestAnimationFrame(animate);
+  }, [projectTransitionPhase]);
+
+  // Handle closing the project modal — reset everything
+  const handleProjectModalClose = useCallback(() => {
+    setIsProjectModalOpen(false);
+    setProjectTransitionPhase('idle');
+    document.body.style.overflow = '';
+    // Reset all inline styles
+    if (learnMoreBarRef.current) {
+      const el = learnMoreBarRef.current;
+      el.style.position = '';
+      el.style.zIndex = '';
+      el.style.top = '';
+      el.style.bottom = '';
+      el.style.transition = '';
+    }
+    const topNavEl = topNavWrapperRef.current?.querySelector('nav') as HTMLElement | null;
+    if (topNavEl) topNavEl.style.top = '';
+    if (bottomBarRef.current) bottomBarRef.current.style.bottom = '';
+  }, []);
+
+  // Filter projects for the main carousel to show only 'RESIDENTIAL'
+  const displayedProjects = t.projectsGallery.items.filter(p => p.category === 'RESIDENTIAL');
+
+  // Auto-rotate project images every 5 seconds (pause when modal is open)
+  useEffect(() => {
+    if (isProjectModalOpen) return;
+    const interval = setInterval(() => {
+      setActiveProjectIndex(prev => (prev + 1) % displayedProjects.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [isProjectModalOpen, displayedProjects.length, activeProjectIndex]);
 
   // Handle news change with slide animation
   const handleNewsChange = (newIndex: number) => {
@@ -84,11 +192,11 @@ function App() {
     return () => clearInterval(interval);
   }, [t.news.articles.length, isNewsModalOpen]);
 
-  // Disable body scroll when any modal is open (merged into one effect)
+  // Disable body scroll when any modal is open or transition is active (merged into one effect)
   useEffect(() => {
-    document.body.style.overflow = (isNewsModalOpen || isProjectModalOpen) ? 'hidden' : '';
+    document.body.style.overflow = (isNewsModalOpen || isProjectModalOpen || projectTransitionPhase !== 'idle') ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [isNewsModalOpen, isProjectModalOpen]);
+  }, [isNewsModalOpen, isProjectModalOpen, projectTransitionPhase]);
 
   // Configurable banner speed (pixels per frame) - adjust this value to control speed
   const BANNER_SPEED = 2;
@@ -336,7 +444,9 @@ function App() {
         </div>
       )}
 
-      <TopNav activeSection={activeSection} />
+      <div ref={topNavWrapperRef}>
+        <TopNav activeSection={activeSection} />
+      </div>
 
       {/* Hero Video Section */}
       <section id="home" className="relative min-h-screen md:h-screen flex items-center justify-center overflow-hidden">
@@ -552,7 +662,7 @@ function App() {
       <section id="projects" className="relative h-screen flex items-center overflow-hidden">
         {/* Background images carousel */}
         <div className="absolute inset-0">
-          {t.projectsGallery.items.map((project, index) => (
+          {displayedProjects.map((project, index) => (
             <div
               key={index}
               className="absolute inset-0 transition-opacity duration-700"
@@ -574,71 +684,38 @@ function App() {
           ref={projectsAnimation.ref}
           className={`absolute inset-0 z-10 ${language === 'ar' ? 'rtl' : ''}`}
         >
-          {/* Large project title - positioned above the centered bar */}
-          <div className={`absolute bottom-[58%] left-0 right-0 px-8 md:px-16 ${language === 'ar' ? 'text-right' : ''}`}>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-medium tracking-[0.15em] uppercase leading-[0.9]" style={{ color: '#F2F2F2' }}>
-              {t.projectsGallery.items[activeProjectIndex].title}
+
+          {/* Section title - OUR PROJECTS */}
+          <div className={`absolute bottom-[55%] left-0 right-0 px-8 md:px-16 ${language === 'ar' ? 'text-right' : ''}`}>
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-darker-grotesque font-medium tracking-[0.15em] uppercase leading-[0.9]" style={{ color: '#F2F2F2' }}>
+              {t.projectsGallery.sectionTitle}
             </h2>
           </div>
 
-          {/* Bottom bar with info and navigation - centered at 50% */}
-          <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 w-full border-t border-b border-white/20 bg-aoc-black/20 backdrop-blur-sm">
-            <div className="px-4 md:px-16 py-2 md:py-3 flex items-center justify-between gap-2 md:gap-4">
-              {/* Left side - Learn More and Category */}
-              <div className={`flex items-center gap-2 md:gap-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                <button
-                  onClick={() => setIsProjectModalOpen(true)}
-                  className={`group flex items-center gap-1 md:gap-2 text-aoc-gold hover:text-aoc-white transition-colors ${language === 'ar' ? 'flex-row-reverse' : ''}`}
-                >
-                  <div className="flex flex-col gap-1 w-4">
-                    <span className="block h-px bg-current"></span>
-                    <span className="block h-px bg-current"></span>
-                    <span className="block h-px bg-current"></span>
-                  </div>
-                  <span className="text-[10px] md:text-sm font-inter-tight font-light tracking-[0.1em] md:tracking-[0.15em] uppercase">
-                    {t.projectsGallery.learnMore}
-                  </span>
-                </button>
-                <div className="hidden md:block h-4 w-px bg-white/30"></div>
-                <span className="hidden md:block text-xs font-inter-tight font-light tracking-[0.2em] uppercase text-aoc-white/60">
-                  {t.projectsGallery.items[activeProjectIndex].category}
+          <div
+            ref={learnMoreBarRef}
+            className={`left-0 right-0 w-full backdrop-blur-sm ${projectTransitionPhase === 'idle'
+              ? 'absolute top-1/2 -translate-y-1/2 border-t border-b border-white/20 bg-aoc-black/20'
+              : 'bg-aoc-black/90 backdrop-blur-xl'
+              }`}
+          >
+            <div className={`px-4 md:px-16 py-2 md:py-3 transition-opacity duration-300 ${projectTransitionPhase !== 'idle' ? 'opacity-0' : 'opacity-100'
+              }`}>
+              {/* Learn More */}
+              <button
+                onClick={handleLearnMoreClick}
+                disabled={projectTransitionPhase !== 'idle'}
+                className={`group flex items-center gap-1 md:gap-2 text-aoc-gold hover:text-aoc-white transition-colors ${language === 'ar' ? 'flex-row-reverse' : ''}`}
+              >
+                <div className="flex flex-col gap-1 w-4">
+                  <span className="block h-px bg-current"></span>
+                  <span className="block h-px bg-current"></span>
+                  <span className="block h-px bg-current"></span>
+                </div>
+                <span className="text-[10px] md:text-sm font-inter-tight font-light tracking-[0.1em] md:tracking-[0.15em] uppercase">
+                  {t.projectsGallery.learnMore}
                 </span>
-              </div>
-
-              {/* Center - Year / Location */}
-              <div className={`flex items-center gap-1 md:gap-4 text-aoc-white/80 font-inter-tight font-light text-xs md:text-base ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                <span>{t.projectsGallery.items[activeProjectIndex].year}</span>
-                <span>/</span>
-                <span>{t.projectsGallery.items[activeProjectIndex].location}</span>
-              </div>
-
-              {/* Right side - Counter and Navigation */}
-              <div className={`flex items-center gap-2 md:gap-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                {/* Project counter */}
-                <div className="flex items-center gap-1 md:gap-2 text-aoc-white font-inter-tight font-light">
-                  <span className="text-sm md:text-lg">{String(activeProjectIndex + 1).padStart(2, '0')}</span>
-                  <span className="w-4 md:w-8 h-px bg-white/50"></span>
-                  <span className="text-sm md:text-lg text-aoc-white/50">{String(t.projectsGallery.items.length).padStart(2, '0')}</span>
-                </div>
-
-                {/* Navigation arrows */}
-                <div className={`flex items-center gap-1 md:gap-3 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
-                  <button
-                    onClick={() => setActiveProjectIndex(prev => prev === 0 ? t.projectsGallery.items.length - 1 : prev - 1)}
-                    className="w-7 h-7 md:w-10 md:h-10 rounded-full border border-white/30 flex items-center justify-center hover:border-aoc-gold hover:text-aoc-gold transition-colors text-aoc-white"
-                  >
-                    <ChevronLeft size={14} className="md:hidden" />
-                    <ChevronLeft size={20} className="hidden md:block" />
-                  </button>
-                  <button
-                    onClick={() => setActiveProjectIndex(prev => prev === t.projectsGallery.items.length - 1 ? 0 : prev + 1)}
-                    className="w-7 h-7 md:w-10 md:h-10 rounded-full border border-white/30 flex items-center justify-center hover:border-aoc-gold hover:text-aoc-gold transition-colors text-aoc-white"
-                  >
-                    <ChevronRight size={14} className="md:hidden" />
-                    <ChevronRight size={20} className="hidden md:block" />
-                  </button>
-                </div>
-              </div>
+              </button>
             </div>
           </div>
         </div>
@@ -829,7 +906,7 @@ function App() {
       </section>
 
       {/* Fixed Bottom Bar - Glassmorphism (shows when not in hero) */}
-      <div className={`fixed bottom-0 left-0 right-0 z-40 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 transition-all duration-300 ${activeSection === 'home' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+      <div ref={bottomBarRef} className={`fixed bottom-0 left-0 right-0 z-40 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 transition-opacity duration-300 ${activeSection === 'home' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <div className="w-full px-12 py-3 flex items-center justify-between">
           <span className="text-aoc-white/60 text-sm font-inter-tight font-light tracking-[0.3em] uppercase">A</span>
           <span className="text-aoc-white/60 text-sm font-inter-tight font-light tracking-[0.3em] uppercase">FOUNDATION</span>
@@ -852,7 +929,7 @@ function App() {
       <Suspense fallback={null}>
         <ProjectModal
           isOpen={isProjectModalOpen}
-          onClose={() => setIsProjectModalOpen(false)}
+          onClose={handleProjectModalClose}
           allProjects={t.projectsGallery.items}
           categories={t.projectsGallery.categories}
           language={language}

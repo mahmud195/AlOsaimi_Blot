@@ -82,7 +82,7 @@ export default function TopNav({ activeSection }: TopNavProps) {
 
         {/* Menu Panel */}
         <div
-          className={`absolute top-[72px] ${language === 'ar' ? 'right-0' : 'left-0'} w-64 h-[calc(100vh-72px)] bg-aoc-black/95 backdrop-blur-md border-r border-white/10 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : language === 'ar' ? 'translate-x-full' : '-translate-x-full'}`}
+          className={`absolute top-[57px] ${language === 'ar' ? 'right-0' : 'left-0'} w-64 h-[calc(100vh-57px)] bg-aoc-black/30 backdrop-blur-md ${language === 'ar' ? 'border-l' : 'border-r'} border-white/10 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : language === 'ar' ? 'translate-x-full' : '-translate-x-full'}`}
         >
           <div className="p-6 space-y-4">
             {navItems.map((item) => (

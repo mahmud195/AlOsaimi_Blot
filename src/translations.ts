@@ -8,6 +8,13 @@ import lioraImg from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetran
 import orlanaImg from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/Residential Projects/Orlana Villa/01.jpg';
 import square01Img from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/Residential Projects/Square 01/01.jpg';
 
+// Medical project images
+import cureMedicalImg from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/Medical Projects/Cure Medical Building/01.jpg';
+
+// Gas station project images
+import gasStation01Img from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/2 gas stations mixed use/01/01.jpg';
+import gasStation02Img from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/2 gas stations mixed use/02/01.jpg';
+
 export const translations = {
   en: {
     nav: {
@@ -75,62 +82,99 @@ export const translations = {
     },
     projectsGallery: {
       learnMore: 'LEARN MORE',
+      categories: [
+        { key: 'RESIDENTIAL', label: 'RESIDENTIAL' },
+        { key: 'MEDICAL', label: 'MEDICAL' },
+        { key: 'GAS_STATIONS', label: 'GAS STATIONS MIXED USE' }
+      ],
       items: [
         {
           title: 'AMARA VILLA',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
-          image: amaraVillaImg
+          image: amaraVillaImg,
+          description: 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
         },
         {
           title: 'AURA',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
-          image: auraImg
+          image: auraImg,
+          description: 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
         },
         {
           title: 'AZORA',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
-          image: azoraImg
+          image: azoraImg,
+          description: 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
         },
         {
           title: 'ELEVE',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
-          image: eleveImg
+          image: eleveImg,
+          description: 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
         },
         {
           title: 'GHOSOUN RESORT',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
-          image: ghosounImg
+          image: ghosounImg,
+          description: 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
         },
         {
           title: 'LIORA RESIDENTIAL',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
-          image: lioraImg
+          image: lioraImg,
+          description: 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
         },
         {
           title: 'ORLANA VILLA',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
-          image: orlanaImg
+          image: orlanaImg,
+          description: 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
         },
         {
           title: 'SQUARE 01',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
-          image: square01Img
+          image: square01Img,
+          description: 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
+        },
+        {
+          title: 'CURE MEDICAL BUILDING',
+          category: 'MEDICAL',
+          year: '2024',
+          location: 'Saudi Arabia',
+          image: cureMedicalImg,
+          description: 'A landmark mixed-use development conceived as a contemporary commercial destination that balances scale, functionality, and visitor experience. Strategically located to serve both local and regional demand, the project integrates retail, leisure, and public spaces within a coherent architectural framework.'
+        },
+        {
+          title: 'GAS STATION 01',
+          category: 'GAS_STATIONS',
+          year: '2024',
+          location: 'Saudi Arabia',
+          image: gasStation01Img,
+          description: 'A landmark mixed-use development conceived as a contemporary commercial destination that balances scale, functionality, and visitor experience. Strategically located to serve both local and regional demand, the project integrates retail, leisure, and public spaces within a coherent architectural framework.'
+        },
+        {
+          title: 'GAS STATION 02',
+          category: 'GAS_STATIONS',
+          year: '2024',
+          location: 'Saudi Arabia',
+          image: gasStation02Img,
+          description: 'A landmark mixed-use development conceived as a contemporary commercial destination that balances scale, functionality, and visitor experience. Strategically located to serve both local and regional demand, the project integrates retail, leisure, and public spaces within a coherent architectural framework.'
         }
       ]
     },
@@ -234,62 +278,99 @@ export const translations = {
     },
     projectsGallery: {
       learnMore: 'اعرف المزيد',
+      categories: [
+        { key: 'RESIDENTIAL', label: 'سكني' },
+        { key: 'MEDICAL', label: 'طبي' },
+        { key: 'GAS_STATIONS', label: 'محطات وقود متعددة الاستخدام' }
+      ],
       items: [
         {
           title: 'فيلا أمارا',
-          category: 'سكني',
+          category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',
-          image: amaraVillaImg
+          image: amaraVillaImg,
+          description: 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
         },
         {
           title: 'أورا',
-          category: 'سكني',
+          category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',
-          image: auraImg
+          image: auraImg,
+          description: 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
         },
         {
           title: 'أزورا',
-          category: 'سكني',
+          category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',
-          image: azoraImg
+          image: azoraImg,
+          description: 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
         },
         {
           title: 'إليف',
-          category: 'سكني',
+          category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',
-          image: eleveImg
+          image: eleveImg,
+          description: 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
         },
         {
           title: 'منتجع غصون',
-          category: 'سكني',
+          category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',
-          image: ghosounImg
+          image: ghosounImg,
+          description: 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
         },
         {
           title: 'ليورا السكني',
-          category: 'سكني',
+          category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',
-          image: lioraImg
+          image: lioraImg,
+          description: 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
         },
         {
           title: 'فيلا أورلانا',
-          category: 'سكني',
+          category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',
-          image: orlanaImg
+          image: orlanaImg,
+          description: 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
         },
         {
           title: 'سكوير ٠١',
-          category: 'سكني',
+          category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',
-          image: square01Img
+          image: square01Img,
+          description: 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
+        },
+        {
+          title: 'مبنى كيور الطبي',
+          category: 'MEDICAL',
+          year: '2024',
+          location: 'السعودية',
+          image: cureMedicalImg,
+          description: 'مشروع تطوير بارز متعدد الاستخدامات تم تصوره كوجهة تجارية معاصرة توازن بين الحجم والوظيفة وتجربة الزائر. يقع في موقع استراتيجي لخدمة الطلب المحلي والإقليمي.'
+        },
+        {
+          title: 'محطة وقود ٠١',
+          category: 'GAS_STATIONS',
+          year: '2024',
+          location: 'السعودية',
+          image: gasStation01Img,
+          description: 'مشروع تطوير بارز متعدد الاستخدامات تم تصوره كوجهة تجارية معاصرة توازن بين الحجم والوظيفة وتجربة الزائر. يقع في موقع استراتيجي لخدمة الطلب المحلي والإقليمي.'
+        },
+        {
+          title: 'محطة وقود ٠٢',
+          category: 'GAS_STATIONS',
+          year: '2024',
+          location: 'السعودية',
+          image: gasStation02Img,
+          description: 'مشروع تطوير بارز متعدد الاستخدامات تم تصوره كوجهة تجارية معاصرة توازن بين الحجم والوظيفة وتجربة الزائر. يقع في موقع استراتيجي لخدمة الطلب المحلي والإقليمي.'
         }
       ]
     },

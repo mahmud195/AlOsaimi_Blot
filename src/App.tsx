@@ -1,7 +1,6 @@
 import { ChevronDown, ChevronLeft, ChevronRight, Linkedin, Instagram, Facebook } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
 import TopNav from './components/TopNav';
-import Services from './components/Services';
 import { useLanguage } from './LanguageContext';
 import { translations } from './translations';
 import { useScrollAnimation } from './hooks/useScrollAnimation';
@@ -10,9 +9,13 @@ import videoPoster from './assets/video_poster.jpg';
 import aboutImage from './assets/asset_16.png';
 import beFoundLogo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/BeFound Sigment.png';
 
-// Lazy load modal components for better initial load performance
+// Lazy load heavy components for better initial load performance
+const Services = lazy(() => import('./components/Services'));
 const NewsModal = lazy(() => import('./components/NewsModal'));
 const ProjectModal = lazy(() => import('./components/ProjectModal'));
+
+// Simple HTML sanitization for form input security
+const sanitize = (str: string) => str.replace(/<[^>]*>/g, '').trim();
 
 function App() {
   const { language } = useLanguage();
@@ -27,14 +30,15 @@ function App() {
   const [introComplete, setIntroComplete] = useState(false);
   const [introPhase, setIntroPhase] = useState<'initial' | 'drawing' | 'expanding' | 'done'>('initial');
   const [circleSize, setCircleSize] = useState(150); // Initial circle radius in px
-  const [bannerOffset, setBannerOffset] = useState(0);
+  const bannerOffsetRef = useRef(0);
+  const bannerElRef = useRef<HTMLDivElement>(null);
   const isScrollingRef = useRef(false);
   const scrollTimeoutRef = useRef<number | null>(null);
   const animationRef = useRef<number | null>(null);
 
-  // Custom cursor state
-  const [cursorPos, setCursorPos] = useState({ x: -100, y: -100 });
-  const [isHovering, setIsHovering] = useState(false);
+  // Custom cursor - uses refs for zero re-render DOM updates
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const isHoveringRef = useRef(false);
 
 
 
@@ -80,29 +84,11 @@ function App() {
     return () => clearInterval(interval);
   }, [t.news.articles.length, isNewsModalOpen]);
 
-  // Disable body scroll when news modal is open
+  // Disable body scroll when any modal is open (merged into one effect)
   useEffect(() => {
-    if (isNewsModalOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isNewsModalOpen]);
-
-  // Disable body scroll when project modal is open
-  useEffect(() => {
-    if (isProjectModalOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [isProjectModalOpen]);
+    document.body.style.overflow = (isNewsModalOpen || isProjectModalOpen) ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isNewsModalOpen, isProjectModalOpen]);
 
   // Configurable banner speed (pixels per frame) - adjust this value to control speed
   const BANNER_SPEED = 2;
@@ -133,11 +119,14 @@ function App() {
     };
   }, []);
 
-  // Continuous banner movement when scrolling
+  // Continuous banner movement when scrolling — direct DOM update, zero re-renders
   useEffect(() => {
     const animate = () => {
       if (isScrollingRef.current) {
-        setBannerOffset(prev => prev + BANNER_SPEED);
+        bannerOffsetRef.current += BANNER_SPEED;
+        if (bannerElRef.current) {
+          bannerElRef.current.style.transform = `translateX(${-(bannerOffsetRef.current % 2000)}px)`;
+        }
         animationRef.current = requestAnimationFrame(animate);
       }
     };
@@ -148,12 +137,10 @@ function App() {
         animationRef.current = requestAnimationFrame(animate);
       }
 
-      // Clear existing timeout
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
       }
 
-      // Stop animation after scrolling stops
       scrollTimeoutRef.current = window.setTimeout(() => {
         isScrollingRef.current = false;
         if (animationRef.current) {
@@ -176,8 +163,14 @@ function App() {
 
   const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
-    // Form submission is handled by the build process which strips console.log
-    console.log('Form submitted:', formData);
+    // Sanitize inputs before submission
+    const sanitizedData = {
+      firstName: sanitize(formData.firstName),
+      lastName: sanitize(formData.lastName),
+      email: sanitize(formData.email),
+      message: sanitize(formData.message),
+    };
+    console.log('Form submitted:', sanitizedData);
   }, [formData]);
 
   // Intro animation sequence - Circle reveal
@@ -251,29 +244,33 @@ function App() {
     };
   }, []);
 
-  // Custom cursor effect
+  // Custom cursor — direct DOM updates, zero re-renders (~60 events/sec)
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      setCursorPos({ x: e.clientX, y: e.clientY });
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${e.clientX - 12}px, ${e.clientY - 12}px)`;
+      }
     };
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (target.closest('a, button, input, textarea, [role="button"]')) {
-        setIsHovering(true);
+        isHoveringRef.current = true;
+        if (cursorRef.current) cursorRef.current.classList.add('hovering');
       }
     };
 
     const handleMouseOut = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (target.closest('a, button, input, textarea, [role="button"]')) {
-        setIsHovering(false);
+        isHoveringRef.current = false;
+        if (cursorRef.current) cursorRef.current.classList.remove('hovering');
       }
     };
 
-    document.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseover', handleMouseOver);
-    document.addEventListener('mouseout', handleMouseOut);
+    document.addEventListener('mousemove', handleMouseMove, { passive: true });
+    document.addEventListener('mouseover', handleMouseOver, { passive: true });
+    document.addEventListener('mouseout', handleMouseOut, { passive: true });
 
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
@@ -366,11 +363,8 @@ function App() {
           {language === 'ar' ? (
             /* Arabic Banner - scroll-based movement (left to right, seamless loop) */
             <div
-              className="flex whitespace-nowrap transition-transform duration-75 ease-linear"
-              style={{
-                width: 'max-content',
-                transform: `translateX(${-(bannerOffset % 1200)}px)`
-              }}
+              className="flex whitespace-nowrap"
+              style={{ width: 'max-content' }}
             >
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-12">الثقة</span>
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-6">•</span>
@@ -392,13 +386,10 @@ function App() {
               <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-6">•</span>
             </div>
           ) : (
-            /* English Banner - scroll-based movement (right to left) */
             <div
+              ref={bannerElRef}
               className="flex whitespace-nowrap"
-              style={{
-                width: 'max-content',
-                transform: `translateX(${-(bannerOffset % 2000)}px)`
-              }}
+              style={{ width: 'max-content' }}
             >
               <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
                 {t.hero.title}
@@ -554,7 +545,9 @@ function App() {
         </div>
       </section>
 
-      <Services />
+      <Suspense fallback={null}>
+        <Services />
+      </Suspense>
 
       <section id="projects" className="relative h-screen flex items-center overflow-hidden">
         {/* Background images carousel */}
@@ -582,27 +575,27 @@ function App() {
           className={`absolute inset-0 z-10 ${language === 'ar' ? 'rtl' : ''}`}
         >
           {/* Large project title - positioned above the centered bar */}
-          <div className={`absolute bottom-[54%] left-0 right-0 px-8 md:px-16 ${language === 'ar' ? 'text-right' : ''}`}>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-medium tracking-[0.05em] uppercase leading-[0.9]" style={{ color: '#CAB64B' }}>
+          <div className={`absolute bottom-[58%] left-0 right-0 px-8 md:px-16 ${language === 'ar' ? 'text-right' : ''}`}>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-medium tracking-[0.15em] uppercase leading-[0.9]" style={{ color: '#F2F2F2' }}>
               {t.projectsGallery.items[activeProjectIndex].title}
             </h2>
           </div>
 
           {/* Bottom bar with info and navigation - centered at 50% */}
           <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 w-full border-t border-b border-white/20 bg-aoc-black/20 backdrop-blur-sm">
-            <div className="px-8 md:px-16 py-3 flex flex-wrap items-center justify-between gap-4">
+            <div className="px-4 md:px-16 py-2 md:py-3 flex items-center justify-between gap-2 md:gap-4">
               {/* Left side - Learn More and Category */}
-              <div className={`flex items-center gap-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex items-center gap-2 md:gap-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <button
                   onClick={() => setIsProjectModalOpen(true)}
-                  className={`group flex items-center gap-2 text-aoc-gold hover:text-aoc-white transition-colors ${language === 'ar' ? 'flex-row-reverse' : ''}`}
+                  className={`group flex items-center gap-1 md:gap-2 text-aoc-gold hover:text-aoc-white transition-colors ${language === 'ar' ? 'flex-row-reverse' : ''}`}
                 >
                   <div className="flex flex-col gap-1 w-4">
                     <span className="block h-px bg-current"></span>
                     <span className="block h-px bg-current"></span>
                     <span className="block h-px bg-current"></span>
                   </div>
-                  <span className="text-sm font-inter-tight font-light tracking-[0.15em] uppercase">
+                  <span className="text-[10px] md:text-sm font-inter-tight font-light tracking-[0.1em] md:tracking-[0.15em] uppercase">
                     {t.projectsGallery.learnMore}
                   </span>
                 </button>
@@ -613,34 +606,36 @@ function App() {
               </div>
 
               {/* Center - Year / Location */}
-              <div className={`flex items-center gap-4 text-aoc-white/80 font-inter-tight font-light ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex items-center gap-1 md:gap-4 text-aoc-white/80 font-inter-tight font-light text-xs md:text-base ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 <span>{t.projectsGallery.items[activeProjectIndex].year}</span>
                 <span>/</span>
                 <span>{t.projectsGallery.items[activeProjectIndex].location}</span>
               </div>
 
               {/* Right side - Counter and Navigation */}
-              <div className={`flex items-center gap-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+              <div className={`flex items-center gap-2 md:gap-6 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                 {/* Project counter */}
-                <div className="flex items-center gap-2 text-aoc-white font-inter-tight font-light">
-                  <span className="text-lg">{String(activeProjectIndex + 1).padStart(2, '0')}</span>
-                  <span className="w-8 h-px bg-white/50"></span>
-                  <span className="text-lg text-aoc-white/50">{String(t.projectsGallery.items.length).padStart(2, '0')}</span>
+                <div className="flex items-center gap-1 md:gap-2 text-aoc-white font-inter-tight font-light">
+                  <span className="text-sm md:text-lg">{String(activeProjectIndex + 1).padStart(2, '0')}</span>
+                  <span className="w-4 md:w-8 h-px bg-white/50"></span>
+                  <span className="text-sm md:text-lg text-aoc-white/50">{String(t.projectsGallery.items.length).padStart(2, '0')}</span>
                 </div>
 
                 {/* Navigation arrows */}
-                <div className={`flex items-center gap-3 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+                <div className={`flex items-center gap-1 md:gap-3 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
                   <button
                     onClick={() => setActiveProjectIndex(prev => prev === 0 ? t.projectsGallery.items.length - 1 : prev - 1)}
-                    className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:border-aoc-gold hover:text-aoc-gold transition-colors text-aoc-white"
+                    className="w-7 h-7 md:w-10 md:h-10 rounded-full border border-white/30 flex items-center justify-center hover:border-aoc-gold hover:text-aoc-gold transition-colors text-aoc-white"
                   >
-                    <ChevronLeft size={20} />
+                    <ChevronLeft size={14} className="md:hidden" />
+                    <ChevronLeft size={20} className="hidden md:block" />
                   </button>
                   <button
                     onClick={() => setActiveProjectIndex(prev => prev === t.projectsGallery.items.length - 1 ? 0 : prev + 1)}
-                    className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center hover:border-aoc-gold hover:text-aoc-gold transition-colors text-aoc-white"
+                    className="w-7 h-7 md:w-10 md:h-10 rounded-full border border-white/30 flex items-center justify-center hover:border-aoc-gold hover:text-aoc-gold transition-colors text-aoc-white"
                   >
-                    <ChevronRight size={20} />
+                    <ChevronRight size={14} className="md:hidden" />
+                    <ChevronRight size={20} className="hidden md:block" />
                   </button>
                 </div>
               </div>
@@ -656,32 +651,43 @@ function App() {
             ref={newsAnimation.ref}
             className="relative w-full mb-8"
           >
-            {/* Decorative Circle - positioned outside overflow container, half in/half out at middle height */}
-            <svg
-              className={`absolute z-20 w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 top-1/2 ${language === 'ar' ? 'right-0' : 'left-0'}`}
+            {/* Decorative Circle + NEWS title - positioned at middle height */}
+            <div
+              className={`absolute z-20 top-1/2 ${language === 'ar' ? 'right-0' : 'left-0'}`}
               style={{
                 transform: language === 'ar'
                   ? 'translateY(-50%) translateX(50%)'
                   : 'translateY(-50%) translateX(-50%)'
               }}
-              viewBox="0 0 100 100"
             >
-              <circle
-                cx="50"
-                cy="50"
-                r="48"
-                fill="none"
-                stroke="#CAB64B"
-                strokeWidth="2"
-                style={{
-                  strokeDasharray: 301.6,
-                  strokeDashoffset: newsAnimation.isVisible ? 0 : 301.6,
-                  transition: 'stroke-dashoffset 1.2s ease-out',
-                  transform: 'rotate(-90deg)',
-                  transformOrigin: 'center'
-                }}
-              />
-            </svg>
+              <svg
+                className="w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40"
+                viewBox="0 0 100 100"
+              >
+                <circle
+                  cx="50"
+                  cy="50"
+                  r="48"
+                  fill="none"
+                  stroke="#CAB64B"
+                  strokeWidth="2"
+                  style={{
+                    strokeDasharray: 301.6,
+                    strokeDashoffset: newsAnimation.isVisible ? 0 : 301.6,
+                    transition: 'stroke-dashoffset 1.2s ease-out',
+                    transform: 'rotate(-90deg)',
+                    transformOrigin: 'center'
+                  }}
+                />
+              </svg>
+              {/* NEWS Title - next to circle */}
+              <h2
+                className={`absolute top-1/2 -translate-y-1/2 whitespace-nowrap text-3xl md:text-5xl lg:text-6xl font-darker-grotesque font-medium tracking-[0.15em] uppercase ${language === 'ar' ? 'right-full mr-4 md:mr-6' : 'left-full ml-4 md:ml-6'}`}
+                style={{ color: '#F2F2F2' }}
+              >
+                {t.news.title}
+              </h2>
+            </div>
 
             {/* Image container with overflow hidden - sliding carousel */}
             <div className="relative w-full aspect-[16/9] md:aspect-[2/1] overflow-hidden">
@@ -712,16 +718,11 @@ function App() {
               {/* Dark overlay for better text visibility */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/30 pointer-events-none" />
 
-              {/* NEWS Title - overlaid on top-left */}
-              <div className={`absolute top-8 md:top-12 ${language === 'ar' ? 'right-8 md:right-16' : 'left-8 md:left-16'}`}>
-                <h2 className="text-5xl md:text-7xl lg:text-8xl font-darker-grotesque font-extralight tracking-[0.15em] uppercase text-aoc-white">
-                  {t.news.title}
-                </h2>
-              </div>
+
 
               {/* Article Title - bottom right of image */}
               <div className={`absolute bottom-8 md:bottom-12 ${language === 'ar' ? 'left-8 md:left-16 text-left' : 'right-8 md:right-16 text-right'}`}>
-                <h3 className="text-2xl md:text-3xl lg:text-4xl font-darker-grotesque font-light tracking-[0.05em] text-aoc-white mb-2">
+                <h3 className="text-2xl md:text-3xl lg:text-4xl font-darker-grotesque font-normal tracking-[0.05em] text-aoc-white mb-2">
                   {t.news.articles[activeNewsIndex].title}
                 </h3>
                 <p className="text-sm md:text-base font-inter-tight font-light italic text-aoc-white/80">
@@ -746,7 +747,7 @@ function App() {
           </div>
 
           {/* Article Text Below Image */}
-          <div className={`max-w-4xl ${language === 'ar' ? 'mr-0 ml-auto text-right' : 'ml-0 mr-auto'}`}>
+          <div className={`w-full ${language === 'ar' ? 'text-right' : ''}`}>
             <p className="text-gray-700 font-inter-tight font-light leading-relaxed text-base md:text-lg text-justify">
               {t.news.articles[activeNewsIndex].text}...{' '}
               <button
@@ -852,15 +853,16 @@ function App() {
         <ProjectModal
           isOpen={isProjectModalOpen}
           onClose={() => setIsProjectModalOpen(false)}
-          project={t.projectsGallery.items[activeProjectIndex]}
+          allProjects={t.projectsGallery.items}
+          categories={t.projectsGallery.categories}
           language={language}
         />
       </Suspense>
 
-      {/* Custom Cursor - Touch indicator style */}
+      {/* Custom Cursor - GPU-accelerated via transform */}
       <div
-        className={`custom-cursor ${isHovering ? 'hovering' : ''}`}
-        style={{ left: cursorPos.x, top: cursorPos.y }}
+        ref={cursorRef}
+        className="custom-cursor"
       />
     </div >
   );

@@ -15,6 +15,11 @@ import cureMedicalImg from './assets/AlOsaimi_Website_Design 02_Folder/projects/
 import gasStation01Img from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/2 gas stations mixed use/01/01.jpg';
 import gasStation02Img from './assets/AlOsaimi_Website_Design 02_Folder/projects/wetransfer_projects-for-website_2026-02-08_1447/2 gas stations mixed use/02/01.jpg';
 
+// Section project background images
+import sectionProjectImg1 from './assets/AlOsaimi_Website_Design 02_Folder/projects/picutres for section project/IMG-20250906-WA0059 (1).jpg.jpeg';
+import sectionProjectImg2 from './assets/AlOsaimi_Website_Design 02_Folder/projects/picutres for section project/IMG-20250906-WA0060 (1).jpg.jpeg';
+import sectionProjectImg3 from './assets/AlOsaimi_Website_Design 02_Folder/projects/picutres for section project/IMG-20250906-WA0061 (1).jpg.jpeg';
+
 export const translations = {
   en: {
     nav: {
@@ -83,6 +88,7 @@ export const translations = {
     projectsGallery: {
       sectionTitle: 'OUR PROJECTS',
       learnMore: 'LEARN MORE',
+      sectionImages: [sectionProjectImg1, sectionProjectImg2, sectionProjectImg3],
       categories: [
         { key: 'RESIDENTIAL', label: 'RESIDENTIAL' },
         { key: 'MEDICAL', label: 'MEDICAL' },
@@ -280,6 +286,7 @@ export const translations = {
     projectsGallery: {
       sectionTitle: 'مشاريعنا',
       learnMore: 'اعرف المزيد',
+      sectionImages: [sectionProjectImg1, sectionProjectImg2, sectionProjectImg3],
       categories: [
         { key: 'RESIDENTIAL', label: 'سكني' },
         { key: 'MEDICAL', label: 'طبي' },

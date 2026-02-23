@@ -156,17 +156,19 @@ function App() {
     if (bottomBarRef.current) bottomBarRef.current.style.bottom = '';
   }, []);
 
-  // Filter projects for the main carousel to show only 'RESIDENTIAL'
-  const displayedProjects = t.projectsGallery.items.filter(p => p.category === 'RESIDENTIAL');
+
+
+  // Section background images for the projects carousel
+  const sectionImages = t.projectsGallery.sectionImages;
 
   // Auto-rotate project images every 5 seconds (pause when modal is open)
   useEffect(() => {
     if (isProjectModalOpen) return;
     const interval = setInterval(() => {
-      setActiveProjectIndex(prev => (prev + 1) % displayedProjects.length);
+      setActiveProjectIndex(prev => (prev + 1) % sectionImages.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, [isProjectModalOpen, displayedProjects.length, activeProjectIndex]);
+  }, [isProjectModalOpen, sectionImages.length, activeProjectIndex]);
 
   // Handle news change with slide animation
   const handleNewsChange = (newIndex: number) => {
@@ -659,20 +661,20 @@ function App() {
         <Services />
       </Suspense>
 
-      <section id="projects" className="relative h-screen flex items-center overflow-hidden">
-        {/* Background images carousel */}
-        <div className="absolute inset-0">
-          {displayedProjects.map((project, index) => (
+      <section id="projects" className="relative h-screen flex items-center overflow-hidden bg-aoc-black">
+        {/* Background images carousel - 1920x1080 images, preserve aspect ratio */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          {sectionImages.map((img, index) => (
             <div
               key={index}
-              className="absolute inset-0 transition-opacity duration-700"
+              className="absolute inset-0 flex items-center justify-center transition-opacity duration-700"
               style={{ opacity: index === activeProjectIndex ? 1 : 0 }}
             >
               <img
-                src={project.image}
-                alt={project.title}
+                src={img}
+                alt={`Project ${index + 1}`}
                 loading="lazy"
-                className="w-full h-full object-cover"
+                className="w-full h-auto max-h-full object-contain"
               />
             </div>
           ))}

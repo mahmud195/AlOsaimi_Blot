@@ -542,15 +542,15 @@ function App() {
             <div className="w-20"></div>
 
             {/* Social Media Icons - Center */}
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-6">
               <a href="https://www.linkedin.com/company/alosaimiconsulting/" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
-                <Linkedin size={18} />
+                <Linkedin size={22} />
               </a>
               <a href="https://www.instagram.com/alosaimiconsulting/" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
-                <Instagram size={18} />
+                <Instagram size={22} />
               </a>
               <a href="https://www.facebook.com/alosaimiconsulting" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
-                <Facebook size={18} />
+                <Facebook size={22} />
               </a>
             </div>
 

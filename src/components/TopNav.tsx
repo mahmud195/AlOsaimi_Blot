@@ -31,7 +31,7 @@ export default function TopNav({ activeSection }: TopNavProps) {
   return (
     <>
       <nav className={`fixed top-0 left-0 right-0 z-50 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 transition-all duration-300 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
-        <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between transition-all duration-300">
+        <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 relative flex items-center justify-between transition-all duration-300">
           {/* Mobile: Hamburger on left, Logo center, Language right */}
           {/* Desktop: Logo left, Nav center, Language right */}
 
@@ -51,8 +51,8 @@ export default function TopNav({ activeSection }: TopNavProps) {
             <img src={aocLogo} alt="AOC Logo" className="h-full w-auto hidden md:block" />
           </a>
 
-          {/* Desktop Navigation - Center */}
-          <div className={`hidden md:flex items-center gap-8 transition-all duration-300 flex-1 justify-center ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+          {/* Desktop Navigation - Absolutely Centered */}
+          <div className={`hidden md:flex items-center gap-8 transition-all duration-300 absolute left-1/2 -translate-x-1/2 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
             {navItems.map((item) => (
               <a
                 key={item.id}

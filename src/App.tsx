@@ -537,12 +537,12 @@ function App() {
 
         {/* Bottom Bar - Native Design */}
         <div className="absolute bottom-0 left-0 right-0 z-30">
-          <div className="w-full px-4 py-4 flex items-center justify-between">
+          <div className="w-full px-4 py-4 relative flex items-center justify-between">
             {/* Left spacer for scroll indicator */}
             <div className="w-20"></div>
 
-            {/* Social Media Icons - Center */}
-            <div className="flex items-center gap-6">
+            {/* Social Media Icons - Absolutely Centered */}
+            <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-6">
               <a href="https://www.linkedin.com/company/alosaimiconsulting/" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
                 <Linkedin size={22} />
               </a>

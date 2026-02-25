@@ -542,7 +542,7 @@ function App() {
             <div className="w-20"></div>
 
             {/* Social Media Icons - Absolutely Centered */}
-            <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-6">
+            <div className="absolute left-[55%] -translate-x-1/2 flex items-center gap-6">
               <a href="https://www.linkedin.com/company/alosaimiconsulting/" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
                 <Linkedin size={22} />
               </a>

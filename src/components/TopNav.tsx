@@ -52,7 +52,7 @@ export default function TopNav({ activeSection }: TopNavProps) {
           </a>
 
           {/* Desktop Navigation - Absolutely Centered */}
-          <div className={`hidden md:flex items-center gap-8 transition-all duration-300 absolute left-1/2 -translate-x-1/2 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+          <div className={`hidden md:flex items-center gap-8 transition-all duration-300 absolute left-[45%] -translate-x-1/2 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
             {navItems.map((item) => (
               <a
                 key={item.id}

@@ -543,25 +543,22 @@ function App() {
 
             {/* Social Media Icons - Center */}
             <div className="flex items-center gap-4">
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
+              <a href="https://www.linkedin.com/company/alosaimiconsulting/" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
                 <Linkedin size={18} />
               </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
+              <a href="https://www.instagram.com/alosaimiconsulting/" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
                 <Instagram size={18} />
               </a>
-              <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-                </svg>
-              </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
+              <a href="https://www.facebook.com/alosaimiconsulting" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
                 <Facebook size={18} />
               </a>
             </div>
 
             {/* BeFound Logo on Right */}
             <div className="flex items-center">
-              <img src={beFoundLogo} alt="BeFound Design Studio" className="h-6 w-auto" />
+              <a href="https://mahmud195.github.io/Be_Found_website/" target="_blank" rel="noopener noreferrer">
+                <img src={beFoundLogo} alt="BeFound Design Studio" className="h-6 w-auto" />
+              </a>
             </div>
           </div>
         </div>

@@ -37,7 +37,16 @@ export const translations = {
     about: {
       title: 'ABOUT\nUS',
       paragraph1: 'Al Osaimi Consulting Office is a trusted partner dedicated to advancing the future of urban development and engineering. Guided by extensive expertise and an ambitious vision, we strive to build stronger connections with our clients while reinforcing our presence in the Kingdom of Saudi Arabia and pursuing continuous expansion beyond its borders.',
-      paragraph2: 'At Al Osaimi Consulting, we place quality and innovation at the core of everything we do, delivering engineering solutions that exceed standards and meet the aspirations of our clients, affirming our mission to lead in the world of engineering consultancy.'
+      paragraph2: 'At Al Osaimi Consulting, we place quality and innovation at the core of everything we do, delivering engineering solutions that exceed standards and meet the aspirations of our clients, affirming our mission to lead in the world of engineering consultancy.',
+      ceoSpeechTitle: "CEO'S\nSPEECH",
+      ceoName: 'ENG. ABDULLAH\nMOHAMMED HAMDAN',
+      ceoTitle: 'CHIEF EXECUTIVE OFFICER & HEAD OF DEVELOPMENT',
+      ceoSpeech1: 'At Al Osaimi Consulting, we take pride in a legacy built through perseverance and a commitment to excellence.',
+      ceoSpeech2: 'The principles that guided our foundation hard work, precision, and reliability, remain the cornerstone of our continued growth and success.',
+      ceoSpeech3: 'As we move forward, our focus is on developing this legacy through innovation, expanding our expertise, and maintaining the same level of dedication that has defined us since the beginning.',
+      ceoSpeech4: 'Each project we undertake is a new opportunity to reaffirm our standards, strengthen our relationships, and create lasting value for our clients and communities.',
+      ceoSpeech5: 'Our journey is one of continuous growth grounded in the belief that progress is achieved through consistent effort and an unwavering pursuit of quality.',
+      ceoSpeech6: 'At Al Osaimi Consulting, we honor our foundation not by looking back, but by building forward with the same determination that brought us here.'
     },
     services: {
       title: 'OUR\nSERVICES',
@@ -235,7 +244,16 @@ export const translations = {
     about: {
       title: 'من\nنحن',
       paragraph1: 'مكتب العصيمي للاستشارات شريك موثوق مكرس للنهوض بمستقبل التنمية العمرانية والهندسة. مسترشدين بخبرة واسعة ورؤية طموحة، نسعى لبناء روابط أقوى مع عملائنا مع تعزيز حضورنا في المملكة العربية السعودية ومتابعة التوسع المستمر خارج حدودها.',
-      paragraph2: 'في العصيمي للاستشارات، نضع الجودة والابتكار في صميم كل ما نقوم به، ونقدم حلولاً هندسية تتجاوز المعايير وتلبي تطلعات عملائنا، مؤكدين على مهمتنا في الريادة في عالم الاستشارات الهندسية.'
+      paragraph2: 'في العصيمي للاستشارات، نضع الجودة والابتكار في صميم كل ما نقوم به، ونقدم حلولاً هندسية تتجاوز المعايير وتلبي تطلعات عملائنا، مؤكدين على مهمتنا في الريادة في عالم الاستشارات الهندسية.',
+      ceoSpeechTitle: 'كلمة\nالرئيس التنفيذي',
+      ceoName: 'م. عبدالله\nمحمد حمدان',
+      ceoTitle: 'الرئيس التنفيذي ورئيس التطوير',
+      ceoSpeech1: 'في الاستشارات، نفتخر بإرث تم بناؤه من خلال المثابرة والالتزام بالتميز.',
+      ceoSpeech2: 'المبادئ التي وجهت أساسنا من العمل الجاد والدقة والموثوقية، تظل حجر الزاوية في نمونا المستمر ونجاحنا.',
+      ceoSpeech3: 'بينما نمضي قدماً، ينصب تركيزنا على تطوير هذا الإرث من خلال الابتكار، وتوسيع خبراتنا، والحفاظ على نفس المستوى من التفاني الذي ميزنا منذ البداية.',
+      ceoSpeech4: 'كل مشروع نتولاه هو فرصة جديدة للتأكيد على معاييرنا، وتعزيز علاقاتنا، وخلق قيمة دائمة لعملائنا ومجتمعاتنا.',
+      ceoSpeech5: 'رحلتنا هي رحلة نمو مستمر يرتكز على الإيمان بأن التقدم يتحقق من خلال الجهد المستمر والسعي الدؤوب لتحقيق الجودة.',
+      ceoSpeech6: 'في الاستشارات، لا نكرم أساسنا من خلال النظر إلى الوراء، ولكن من خلال البناء إلى الأمام بنفس التصميم الذي أوصلنا إلى هنا.'
     },
     services: {
       title: 'خدماتنا',

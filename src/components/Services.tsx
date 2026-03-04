@@ -8,9 +8,10 @@ import aocMobileLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elem
 
 import projectManagementImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Project Management_.jpg';
 import supervisionImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Supervision.jpg';
-import designServicesImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Design Services.jpg';
+import designServicesImg from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Pics/Design-Services.jpg.jpeg';
 import surveyingImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Surveying_.jpg';
 import aorImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/A.O.R.jpg';
+import beFoundLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/BeFound Sigment.png';
 
 interface Service {
   id: string;
@@ -104,6 +105,15 @@ function ServiceModal({ service, isOpen, onClose, language }: { service: Service
               <p className="text-aoc-white/60 text-sm font-inter-tight font-light">
                 {language === 'ar' ? 'الموقع: ' : 'Location: '}{service.place}
               </p>
+            )}
+
+            {service.id === 'designServices' && (
+              <div className="mt-8">
+                <p className="text-[10px] md:text-xs font-inter-tight font-light tracking-[0.1em] text-aoc-white/60 mb-2 uppercase">
+                  {language === 'ar' ? 'مع شريكنا الإبداعي' : 'With our Creative Partner'}
+                </p>
+                <img src={beFoundLogo} alt="BeFound Design Studio" className="h-6 w-auto" />
+              </div>
             )}
           </div>
         </div>

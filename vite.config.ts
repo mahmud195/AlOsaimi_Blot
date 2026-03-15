@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -28,5 +29,11 @@ export default defineConfig(({ command }) => ({
   // Drop console in production via esbuild
   esbuild: {
     drop: command === 'build' ? ['console', 'debugger'] : [],
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/__tests__/setup.ts',
+    css: true,
   },
 }));

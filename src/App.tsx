@@ -656,16 +656,16 @@ function App() {
 
         {/* CEO Speech Section */}
         <div ref={ceoAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 md:px-12 lg:px-24 w-full ${language === 'ar' ? 'rtl' : ''}`}>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            {/* Column 1: CEO'S SPEECH Title */}
-            <div className={`col-span-1 lg:col-span-3 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-              <h2 className="text-5xl md:text-6xl lg:text-[4.5rem] xl:text-[5rem] font-darker-grotesque font-light tracking-[0.05em] uppercase leading-[0.9] text-aoc-white whitespace-pre-line">
-                {t.about.ceoSpeechTitle}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            {/* Column 1: CEO'S SPEECH Title (Pushed left) */}
+            <div className={`col-span-1 lg:col-span-3 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
+              <h2 className="text-5xl md:text-6xl lg:text-[4rem] xl:text-[4.5rem] font-darker-grotesque font-light tracking-[0.05em] uppercase leading-[0.85] text-aoc-white whitespace-pre-line">
+                CEO'S{'\n'}<span className="font-normal">SPEECH</span>
               </h2>
             </div>
 
-            {/* Column 2: Circle & Name */}
-            <div className={`col-span-1 lg:col-span-4 flex flex-col md:flex-row items-start md:items-center gap-6 lg:-ml-4 ${language === 'ar' ? 'lg:mr-4 lg:ml-0' : ''}`}>
+            {/* Column 2: Circle & Name (Centered perfectly) */}
+            <div className={`col-span-1 lg:col-span-5 flex flex-col md:flex-row items-center justify-center gap-6 ${language === 'ar' ? '' : ''}`}>
               {/* Animated Circle */}
               <div className="flex-shrink-0">
                 <svg className="w-20 h-20 md:w-28 md:h-28" viewBox="0 0 100 100">
@@ -687,18 +687,18 @@ function App() {
                   />
                 </svg>
               </div>
-              <div className={`flex flex-col gap-2 ${language === 'ar' ? 'items-start' : 'items-start'}`}>
-                <h3 className="text-2xl md:text-3xl lg:text-[2rem] xl:text-[2.2rem] font-darker-grotesque font-normal tracking-[0.05em] uppercase text-aoc-gold whitespace-pre-line leading-tight">
+              <div className={`flex flex-col ${language === 'ar' ? 'items-start' : 'items-start'}`}>
+                <h3 className="text-2xl md:text-3xl lg:text-[1.85rem] xl:text-[2.1rem] font-darker-grotesque font-medium tracking-[0.03em] uppercase text-aoc-gold whitespace-pre-line leading-[0.7] mb-2.5">
                   {t.about.ceoName}
                 </h3>
-                <p className="text-[10px] md:text-xs font-inter-tight font-light tracking-[0.1em] text-aoc-white/80 uppercase">
+                <p className="text-xs md:text-sm lg:text-[13px] font-inter-tight font-normal tracking-[0.05em] text-aoc-white/80 uppercase whitespace-nowrap">
                   {t.about.ceoTitle}
                 </p>
               </div>
             </div>
 
             {/* Column 3: Speech text */}
-            <div className="col-span-1 lg:col-span-5">
+            <div className="col-span-1 lg:col-span-4">
               <div className={`space-y-4 animate-slide-left ${ceoAnimation.isVisible ? 'visible' : ''}`}>
                 <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right rtl' : 'ltr'}`}>
                   {t.about.ceoSpeech1}

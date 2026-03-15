@@ -614,14 +614,32 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                                 />
 
                                 {/* Projects in this category */}
-                                <div className="space-y-16 md:space-y-24 pb-16 md:pb-24">
+                                <div className="space-y-0 pb-16 md:pb-24">
                                     {projects.map((project, index) => {
                                         const galleryImages = galleryMap[project.title] || [];
                                         const allImages = [project.image, ...galleryImages];
 
                                         return (
                                             <div key={`${project.title}-${index}`} className="relative">
-                                                {/* Project Card */}
+                                                {/* Divider between cards */}
+                                                {index > 0 && (
+                                                    <div className="w-full flex items-center gap-4 py-10 md:py-14">
+                                                        <div className="flex-1 h-px bg-white/10" />
+                                                        <div className="w-1 h-1 rounded-full bg-aoc-gold/60" />
+                                                        <div className="flex-1 h-px bg-white/10" />
+                                                    </div>
+                                                )}
+                                                {/* Project Card — Glassmorphism panel */}
+                                                <div
+                                                    className="rounded-sm overflow-visible"
+                                                    style={{
+                                                        background: 'rgba(255,255,255,0.03)',
+                                                        border: '1px solid rgba(202, 182, 75, 0.15)',
+                                                        backdropFilter: 'blur(6px)',
+                                                        WebkitBackdropFilter: 'blur(6px)',
+                                                        padding: '3.5rem 3rem 3rem 3.5rem',
+                                                    }}
+                                                >
                                                 <div className={`flex flex-col md:flex-row gap-6 md:gap-8 ${language === 'ar' ? 'md:flex-row-reverse' : ''}`}>
                                                     {/* Image with decorative circle + swipeable gallery */}
                                                     <div className="relative md:w-[45%] shrink-0">
@@ -664,6 +682,7 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                                                             {project.description || 'The design approach emphasizes clarity of circulation, flexible retail modules, and strong visual connectivity, ensuring operational efficiency and long-term adaptability.'}
                                                         </p>
                                                     </div>
+                                                </div>
                                                 </div>
                                             </div>
                                         );

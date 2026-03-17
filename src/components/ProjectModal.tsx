@@ -440,6 +440,10 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
     const [isMobileCategoryOpen, setIsMobileCategoryOpen] = useState(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
     const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
+    const projectCardRefs = useRef<Array<HTMLDivElement | null>>([]);
+    const projectImageRefs = useRef<Array<HTMLDivElement | null>>([]);
+    const [activeProjectIndex, setActiveProjectIndex] = useState(0);
+    const [ringProps, setRingProps] = useState({ top: 0, left: 0, width: 0, height: 0, opacity: 0 });
 
     // Reset when modal opens
     useEffect(() => {
@@ -448,10 +452,11 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
         }
     }, [isOpen, categories]);
 
-    // Group projects by category
+    // Group projects by category with a global index for tracking
+    let globalIndexCounter = 0;
     const groupedProjects = categories.map(cat => ({
         category: cat,
-        projects: allProjects.filter(p => p.category === cat.key),
+        projects: allProjects.filter(p => p.category === cat.key).map(p => ({ project: p, globalIndex: globalIndexCounter++ })),
     })).filter(g => g.projects.length > 0);
 
     // Pre-load gallery images for ALL projects
@@ -471,6 +476,78 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
         });
         return () => { cancelled = true; };
     }, [isOpen]);
+
+    // Continuous scroll-based ring tracking
+    const rafRef = useRef<number>(0);
+    const activeIndexRef = useRef(0);
+
+    const updateRingAndActiveProject = useCallback(() => {
+        const container = document.querySelector('.projects-scroll') as HTMLElement | null;
+        const scrollContainer = scrollContainerRef.current;
+        if (!container || !scrollContainer) return;
+
+        const scrollRect = scrollContainer.getBoundingClientRect();
+        const centerY = scrollRect.top + scrollRect.height * 0.4; // 40% from top
+
+        // Find closest project image to center
+        let closestIdx = 0;
+        let closestDist = Infinity;
+        projectImageRefs.current.forEach((el, idx) => {
+            if (!el) return;
+            const rect = el.getBoundingClientRect();
+            const cardCenter = rect.top + rect.height / 2;
+            const dist = Math.abs(cardCenter - centerY);
+            if (dist < closestDist) {
+                closestDist = dist;
+                closestIdx = idx;
+            }
+        });
+
+        // Update active index
+        if (activeIndexRef.current !== closestIdx) {
+            activeIndexRef.current = closestIdx;
+            setActiveProjectIndex(closestIdx);
+        }
+
+        // Update ring position
+        const imageEl = projectImageRefs.current[closestIdx];
+        if (imageEl && container) {
+            const containerRect = container.getBoundingClientRect();
+            const imageRect = imageEl.getBoundingClientRect();
+            setRingProps({
+                top: imageRect.top - containerRect.top,
+                left: imageRect.left - containerRect.left,
+                width: imageRect.width,
+                height: imageRect.height,
+                opacity: 1
+            });
+        }
+    }, []);
+
+    // Listen to scroll events for continuous tracking
+    useEffect(() => {
+        if (!isOpen || !scrollContainerRef.current) return;
+        const scrollEl = scrollContainerRef.current;
+
+        const handleScroll = () => {
+            cancelAnimationFrame(rafRef.current);
+            rafRef.current = requestAnimationFrame(updateRingAndActiveProject);
+        };
+
+        scrollEl.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('resize', handleScroll);
+
+        // Initial position
+        updateRingAndActiveProject();
+        setTimeout(updateRingAndActiveProject, 200);
+        setTimeout(updateRingAndActiveProject, 600);
+
+        return () => {
+            scrollEl.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('resize', handleScroll);
+            cancelAnimationFrame(rafRef.current);
+        };
+    }, [isOpen, updateRingAndActiveProject, groupedProjects.length]);
 
     // Scroll-based active category detection via IntersectionObserver
     useEffect(() => {
@@ -603,7 +680,37 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
                     <style>{`.projects-scroll::-webkit-scrollbar { display: none; }`}</style>
-                    <div className="projects-scroll max-w-5xl mx-auto">
+                    <div className="projects-scroll max-w-5xl mx-auto relative">
+                        {/* Animated Ring - moves to active project */}
+                        <div 
+                            className="absolute pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-[100]"
+                            style={{
+                                top: ringProps.top,
+                                left: ringProps.left,
+                                width: ringProps.width,
+                                height: ringProps.height,
+                                opacity: ringProps.opacity,
+                            }}
+                        >
+                            <svg
+                                className={`absolute w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 ${language === 'ar' ? '-right-6 md:-right-8 lg:-right-10' : '-left-6 md:-left-8 lg:-left-10'} -top-6 md:-top-8 lg:-top-10`}
+                                viewBox="0 0 100 100"
+                                style={{
+                                    // Make sure SVG doesn't get clipped by drawing outside its bounding box
+                                    overflow: 'visible'
+                                }}
+                            >
+                                <circle
+                                    cx="50"
+                                    cy="50"
+                                    r="48"
+                                    fill="none"
+                                    stroke="#CAB64B"
+                                    strokeWidth="1.5"
+                                />
+                            </svg>
+                        </div>
+
                         {groupedProjects.map(({ category: cat, projects }) => (
                             <div key={cat.key}>
                                 {/* Category section header - observed by IntersectionObserver */}
@@ -615,12 +722,17 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
 
                                 {/* Projects in this category */}
                                 <div className="space-y-0 pb-16 md:pb-24">
-                                    {projects.map((project, index) => {
+                                    {projects.map(({ project, globalIndex }, index) => {
                                         const galleryImages = galleryMap[project.title] || [];
                                         const allImages = [project.image, ...galleryImages];
 
                                         return (
-                                            <div key={`${project.title}-${index}`} className="relative">
+                                            <div 
+                                                key={`${project.title}-${index}`} 
+                                                className="relative"
+                                                ref={el => { projectCardRefs.current[globalIndex] = el; }}
+                                                data-project-index={globalIndex}
+                                            >
                                                 {/* Divider between cards */}
                                                 {index > 0 && (
                                                     <div className="w-full flex items-center gap-4 py-10 md:py-14">
@@ -631,33 +743,32 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                                                 )}
                                                 {/* Project Card — Glassmorphism panel */}
                                                 <div
-                                                    className="rounded-sm overflow-visible"
+                                                    className="rounded-sm overflow-visible transition-all duration-700"
                                                     style={{
-                                                        background: 'rgba(255,255,255,0.08)',
-                                                        border: '1px solid rgba(202, 182, 75, 0.25)',
-                                                        backdropFilter: 'blur(16px)',
-                                                        WebkitBackdropFilter: 'blur(16px)',
+                                                        background: globalIndex === activeProjectIndex
+                                                            ? 'rgba(255,255,255,0.14)'
+                                                            : 'rgba(255,255,255,0.08)',
+                                                        border: globalIndex === activeProjectIndex
+                                                            ? '1px solid rgba(202, 182, 75, 0.5)'
+                                                            : '1px solid rgba(202, 182, 75, 0.25)',
+                                                        backdropFilter: globalIndex === activeProjectIndex
+                                                            ? 'blur(24px)'
+                                                            : 'blur(16px)',
+                                                        WebkitBackdropFilter: globalIndex === activeProjectIndex
+                                                            ? 'blur(24px)'
+                                                            : 'blur(16px)',
+                                                        boxShadow: globalIndex === activeProjectIndex
+                                                            ? '0 0 40px rgba(202, 182, 75, 0.08), inset 0 0 30px rgba(255,255,255,0.03)'
+                                                            : 'none',
                                                         padding: '3.5rem 3rem 3rem 3.5rem',
                                                     }}
                                                 >
                                                 <div className={`flex flex-col md:flex-row gap-6 md:gap-8 ${language === 'ar' ? 'md:flex-row-reverse' : ''}`}>
                                                     {/* Image with decorative circle + swipeable gallery */}
-                                                    <div className="relative md:w-[45%] shrink-0">
-                                                        {/* Decorative Circle */}
-                                                        <svg
-                                                            className={`absolute z-10 w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 ${language === 'ar' ? '-right-6 md:-right-8 lg:-right-10' : '-left-6 md:-left-8 lg:-left-10'} -top-6 md:-top-8 lg:-top-10`}
-                                                            viewBox="0 0 100 100"
-                                                        >
-                                                            <circle
-                                                                cx="50"
-                                                                cy="50"
-                                                                r="48"
-                                                                fill="none"
-                                                                stroke="#CAB64B"
-                                                                strokeWidth="1.5"
-                                                            />
-                                                        </svg>
-
+                                                    <div 
+                                                        className="relative md:w-[45%] shrink-0"
+                                                        ref={el => { projectImageRefs.current[globalIndex] = el; }}
+                                                    >
                                                         {/* Instagram-style swipeable gallery */}
                                                         <SwipeGallery images={allImages} alt={project.title} />
                                                     </div>

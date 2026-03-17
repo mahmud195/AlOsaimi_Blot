@@ -539,19 +539,19 @@ function App() {
         {/* Bottom Bar - Native Design */}
         <div className="absolute bottom-0 left-0 right-0 z-30">
           <div className="w-full px-4 py-4 relative flex items-center justify-between">
-            {/* Left spacer for scroll indicator */}
-            <div className="w-20"></div>
+            {/* Left spacer for scroll indicator - hidden on mobile */}
+            <div className="hidden md:block w-20"></div>
 
-            {/* Social Media Icons - Absolutely Centered */}
-            <div className="absolute left-[55%] -translate-x-1/2 flex items-center gap-6">
+            {/* Social Media Icons - Left on mobile, centered on desktop */}
+            <div className="flex items-center gap-3 md:gap-6 md:absolute md:left-[55%] md:-translate-x-1/2">
               <a href="https://www.linkedin.com/company/alosaimiconsulting/" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
-                <Linkedin size={22} />
+                <Linkedin className="w-4 h-4 md:w-[22px] md:h-[22px]" />
               </a>
               <a href="https://www.instagram.com/alosaimiconsulting/" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
-                <Instagram size={22} />
+                <Instagram className="w-4 h-4 md:w-[22px] md:h-[22px]" />
               </a>
               <a href="https://www.facebook.com/alosaimiconsulting" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
-                <Facebook size={22} />
+                <Facebook className="w-4 h-4 md:w-[22px] md:h-[22px]" />
               </a>
             </div>
 

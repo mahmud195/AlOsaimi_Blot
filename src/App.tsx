@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronLeft, ChevronRight, Linkedin, Instagram, Facebook } from 'lucide-react';
+import { ChevronDown, Linkedin, Instagram, Facebook } from 'lucide-react';
 import { useState, useEffect, useRef, useCallback, lazy, Suspense } from 'react';
 import TopNav from './components/TopNav';
 import { useLanguage } from './LanguageContext';

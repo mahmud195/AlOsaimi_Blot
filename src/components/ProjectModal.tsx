@@ -633,10 +633,10 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                                                 <div
                                                     className="rounded-sm overflow-visible"
                                                     style={{
-                                                        background: 'rgba(255,255,255,0.03)',
-                                                        border: '1px solid rgba(202, 182, 75, 0.15)',
-                                                        backdropFilter: 'blur(6px)',
-                                                        WebkitBackdropFilter: 'blur(6px)',
+                                                        background: 'rgba(255,255,255,0.08)',
+                                                        border: '1px solid rgba(202, 182, 75, 0.25)',
+                                                        backdropFilter: 'blur(16px)',
+                                                        WebkitBackdropFilter: 'blur(16px)',
                                                         padding: '3.5rem 3rem 3rem 3.5rem',
                                                     }}
                                                 >

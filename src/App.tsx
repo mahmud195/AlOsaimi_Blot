@@ -741,7 +741,7 @@ function App() {
                 src={img}
                 alt={`Project ${index + 1}`}
                 loading="lazy"
-                className="w-full h-auto max-h-full object-contain"
+                className="w-full aspect-[16/9] object-cover"
               />
             </div>
           ))}

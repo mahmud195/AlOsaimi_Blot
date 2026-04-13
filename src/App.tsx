@@ -11,7 +11,7 @@ import beFoundLogo from './assets/AlOsaimi_Website_Design 02_Folder/Used Element
 
 // Lazy load heavy components for better initial load performance
 const Services = lazy(() => import('./components/Services'));
-const NewsModal = lazy(() => import('./components/NewsModal'));
+// const NewsModal = lazy(() => import('./components/NewsModal')); // HIDDEN TEMPORARILY
 const ProjectModal = lazy(() => import('./components/ProjectModal'));
 
 // Simple HTML sanitization for form input security
@@ -50,12 +50,11 @@ function App() {
   const ceoAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
   const projectsAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
   const contactAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
-  const newsAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
-
-  // News carousel state
-  const [activeNewsIndex, setActiveNewsIndex] = useState(0);
-  const [isSliding, setIsSliding] = useState(false);
-  const [isNewsModalOpen, setIsNewsModalOpen] = useState(false);
+  // HIDDEN TEMPORARILY - News section variables
+  // const newsAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
+  // const [activeNewsIndex, setActiveNewsIndex] = useState(0);
+  // const [isSliding, setIsSliding] = useState(false);
+  // const [isNewsModalOpen, setIsNewsModalOpen] = useState(false);
 
   // Projects carousel state
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
@@ -171,35 +170,31 @@ function App() {
     return () => clearInterval(interval);
   }, [isProjectModalOpen, sectionImages.length, activeProjectIndex]);
 
-  // Handle news change with slide animation
-  const handleNewsChange = (newIndex: number) => {
-    if (isSliding || newIndex === activeNewsIndex) return;
-    setIsSliding(true);
-    setActiveNewsIndex(newIndex);
-    setTimeout(() => setIsSliding(false), 700); // Match transition duration
-  };
-
-  // Auto-rotate news every 10 seconds (pause when modal is open)
-  useEffect(() => {
-    if (isNewsModalOpen) return; // Don't auto-rotate when modal is open
-
-    const interval = setInterval(() => {
-      setActiveNewsIndex(prev => {
-        const next = (prev + 1) % t.news.articles.length;
-        setIsSliding(true);
-        setTimeout(() => setIsSliding(false), 700);
-        return next;
-      });
-    }, 10000); // 10 seconds
-
-    return () => clearInterval(interval);
-  }, [t.news.articles.length, isNewsModalOpen]);
+  // HIDDEN TEMPORARILY - News handlers
+  // const handleNewsChange = (newIndex: number) => {
+  //   if (isSliding || newIndex === activeNewsIndex) return;
+  //   setIsSliding(true);
+  //   setActiveNewsIndex(newIndex);
+  //   setTimeout(() => setIsSliding(false), 700);
+  // };
+  // useEffect(() => {
+  //   if (isNewsModalOpen) return;
+  //   const interval = setInterval(() => {
+  //     setActiveNewsIndex(prev => {
+  //       const next = (prev + 1) % t.news.articles.length;
+  //       setIsSliding(true);
+  //       setTimeout(() => setIsSliding(false), 700);
+  //       return next;
+  //     });
+  //   }, 10000);
+  //   return () => clearInterval(interval);
+  // }, [t.news.articles.length, isNewsModalOpen]);
 
   // Disable body scroll when any modal is open or transition is active (merged into one effect)
   useEffect(() => {
-    document.body.style.overflow = (isNewsModalOpen || isProjectModalOpen || projectTransitionPhase !== 'idle') ? 'hidden' : '';
+    document.body.style.overflow = (isProjectModalOpen || projectTransitionPhase !== 'idle') ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
-  }, [isNewsModalOpen, isProjectModalOpen, projectTransitionPhase]);
+  }, [isProjectModalOpen, projectTransitionPhase]);
 
   // Configurable banner speed (pixels per frame) - adjust this value to control speed
   const BANNER_SPEED = 2;

@@ -790,14 +790,13 @@ function App() {
         </div>
       </section>
 
+      {/* NEWS SECTION - HIDDEN TEMPORARILY
       <section id="news" className="min-h-screen flex items-center py-16 md:py-24" style={{ backgroundColor: '#f2f2f2' }}>
         <div className={`max-w-screen-xl mx-auto px-8 w-full ${language === 'ar' ? 'rtl' : ''}`}>
-          {/* Main Image Container - wrapper with relative positioning for circle */}
           <div
             ref={newsAnimation.ref}
             className="relative w-full mb-8"
           >
-            {/* Decorative Circle + NEWS title - positioned at middle height */}
             <div
               className={`absolute z-20 top-1/2 ${language === 'ar' ? 'right-0' : 'left-0'}`}
               style={{
@@ -826,7 +825,6 @@ function App() {
                   }}
                 />
               </svg>
-              {/* NEWS Title - next to circle */}
               <h2
                 className={`absolute top-1/2 -translate-y-1/2 whitespace-nowrap text-3xl md:text-5xl lg:text-6xl font-darker-grotesque font-medium tracking-[0.15em] uppercase ${language === 'ar' ? 'right-full mr-4 md:mr-6' : 'left-full ml-4 md:ml-6'}`}
                 style={{ color: '#F2F2F2' }}
@@ -834,10 +832,7 @@ function App() {
                 {t.news.title}
               </h2>
             </div>
-
-            {/* Image container with overflow hidden - sliding carousel */}
             <div className="relative w-full aspect-[16/9] md:aspect-[2/1] overflow-hidden">
-              {/* Sliding images container */}
               <div
                 className="absolute inset-0 flex transition-transform duration-700 ease-in-out"
                 style={{
@@ -860,13 +855,7 @@ function App() {
                   </div>
                 ))}
               </div>
-
-              {/* Dark overlay for better text visibility */}
               <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/30 pointer-events-none" />
-
-
-
-              {/* Article Title - bottom right of image */}
               <div className={`absolute bottom-8 md:bottom-12 ${language === 'ar' ? 'left-8 md:left-16 text-left' : 'right-8 md:right-16 text-right'}`}>
                 <h3 className="text-2xl md:text-3xl lg:text-4xl font-darker-grotesque font-normal tracking-[0.05em] text-aoc-white mb-2">
                   {t.news.articles[activeNewsIndex].title}
@@ -875,8 +864,6 @@ function App() {
                   {t.news.articles[activeNewsIndex].subtitle}
                 </p>
               </div>
-
-              {/* Pagination Dots - bottom left of image, clickable */}
               <div className={`absolute bottom-8 md:bottom-12 ${language === 'ar' ? 'right-8 md:right-16' : 'left-8 md:left-16'} flex gap-2`}>
                 {t.news.articles.map((_, index) => (
                   <button
@@ -891,8 +878,6 @@ function App() {
               </div>
             </div>
           </div>
-
-          {/* Article Text Below Image */}
           <div className={`w-full ${language === 'ar' ? 'text-right' : ''}`}>
             <p className="text-gray-700 font-inter-tight font-light leading-relaxed text-base md:text-lg text-justify">
               {t.news.articles[activeNewsIndex].text}...{' '}
@@ -906,6 +891,7 @@ function App() {
           </div>
         </div>
       </section>
+      END NEWS SECTION */}
 
       <section id="contact" className={`min-h-screen bg-aoc-indigo flex items-center py-24 ${language === 'ar' ? 'rtl' : ''}`}>
         <div
@@ -984,7 +970,7 @@ function App() {
         </div>
       </div>
 
-      {/* News Modal - Lazy loaded for better performance */}
+      {/* News Modal - HIDDEN TEMPORARILY
       <Suspense fallback={null}>
         <NewsModal
           isOpen={isNewsModalOpen}
@@ -993,6 +979,7 @@ function App() {
           language={language}
         />
       </Suspense>
+      END News Modal */}
 
       {/* Project Modal - Lazy loaded for better performance */}
       <Suspense fallback={null}>

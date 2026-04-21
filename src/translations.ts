@@ -85,6 +85,18 @@ export const translations = {
         description: 'Preparing design plans, securing building permits, and delivering effective solutions in the shortest possible time.',
         place: 'Kingdom of Saudi Arabia',
         fullDescription: 'At Al Osaimi Consulting, we are dedicated to meeting all our clients\' needs, from preparing design plans to securing building permits and delivering effective solutions in the shortest possible time. We remain fully committed to reviewing and fulfilling all municipal requirements while ensuring strict compliance with the Saudi Building Code.'
+      },
+      engineeringServices: {
+        title: 'ENGINEERING SERVICES',
+        description: 'A unified technical foundation integrating Structural, MEP, and Infrastructure disciplines through a single high-performance BIM workflow.',
+        place: 'Kingdom of Saudi Arabia',
+        fullDescription: 'At Al-Osaimi, our engineering services provide a unified technical foundation that ensures structural integrity, system efficiency, and infrastructure precision. By integrating Structural, MEP, and Infrastructure disciplines into a single high-performance BIM workflow, we deliver buildable solutions that adhere to the highest international standards and MENA region codes. Our structural expertise in concrete and steel systems ensures clash-free designs, while our MEP engineering optimizes HVAC, electrical, and plumbing systems for maximum energy efficiency and spatial coordination. We extend this technical rigor to the surrounding environment, managing road networks, utility coordination, and grading to create data-rich models for complex masterplans. By merging these engineering specializations through advanced digital technology, Al-Osaimi identifies and resolves conflicts virtually before construction begins, significantly reducing on-site errors and accelerating project timelines.'
+      },
+      bimServices: {
+        title: 'BIM SERVICES',
+        description: 'Comprehensive BIM solutions spanning architectural, structural, and MEP disciplines to empower projects through precision and seamless collaboration.',
+        place: 'Kingdom of Saudi Arabia',
+        fullDescription: 'At El Osaimi, we provide comprehensive BIM services designed to empower your projects through precision, seamless collaboration, and operational efficiency. Whether you are in the design, construction, or operation phase, our team utilizes advanced BIM workflows to improve coordination, minimize errors, and optimize project timelines. Our BIM solutions span architectural, structural, and MEP disciplines, ensuring integrated communication between all stakeholders. From 3D modeling and clash detection to quantity takeoffs and LOD-specific deliverables, we ensure your project is fully realized digitally before a single stone is laid on-site.'
       }
     },
     projects: {
@@ -105,7 +117,7 @@ export const translations = {
       ],
       items: [
         {
-          title: 'AMARA VILLA',
+          title: 'PRIVATE VILLA',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
@@ -113,7 +125,7 @@ export const translations = {
           description: 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
         },
         {
-          title: 'AURA',
+          title: 'RESIDENTIAL BUILDING 1',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
@@ -121,7 +133,7 @@ export const translations = {
           description: 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
         },
         {
-          title: 'AZORA',
+          title: 'VILLA 1',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
@@ -129,7 +141,7 @@ export const translations = {
           description: 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
         },
         {
-          title: 'ELEVE',
+          title: 'RESIDENTIAL BUILDING 2',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
@@ -145,7 +157,7 @@ export const translations = {
           description: 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
         },
         {
-          title: 'LIORA RESIDENTIAL',
+          title: 'LUXURY RESIDENTIAL BUILDING 3',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
@@ -153,7 +165,7 @@ export const translations = {
           description: 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality. We always strive to achieve the highest standards of quality and sustainability in every project we undertake.'
         },
         {
-          title: 'ORLANA VILLA',
+          title: 'VILLA 3',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'Saudi Arabia',
@@ -292,6 +304,18 @@ export const translations = {
         description: 'إعداد مخططات التصميم والحصول على تراخيص البناء وتقديم حلول فعالة في أقصر وقت ممكن.',
         place: 'المملكة العربية السعودية',
         fullDescription: 'في مكتب العصيمي للاستشارات، نحرص على تلبية جميع احتياجات عملائنا، من إعداد مخططات التصميم إلى الحصول على تراخيص البناء وتقديم حلول فعالة في أقصر وقت ممكن. نظل ملتزمين تمامًا بمراجعة واستيفاء جميع متطلبات البلدية مع ضمان الامتثال الصارم لكود البناء السعودي.'
+      },
+      engineeringServices: {
+        title: 'الخدمات الهندسية',
+        description: 'أساس تقني موحد يدمج تخصصات الإنشاء والميكانيكا والكهرباء والسباكة والبنية التحتية في سير عمل BIM عالي الأداء.',
+        place: 'المملكة العربية السعودية',
+        fullDescription: 'في مكتب العصيمي، تقدم خدماتنا الهندسية أساسًا تقنيًا موحدًا يضمن السلامة الإنشائية وكفاءة الأنظمة ودقة البنية التحتية. من خلال دمج تخصصات الإنشاء والميكانيكا والكهرباء والسباكة والبنية التحتية في سير عمل BIM عالي الأداء، نقدم حلولاً قابلة للتنفيذ تلتزم بأعلى المعايير الدولية ومتطلبات منطقة الشرق الأوسط وشمال أفريقيا. تضمن خبرتنا الإنشائية في أنظمة الخرسانة والصلب تصاميم خالية من التعارضات، بينما تُحسّن هندسة الميكانيكا والكهرباء والسباكة أنظمة التكييف والكهرباء والسباكة لتحقيق أقصى كفاءة في الطاقة والتنسيق المكاني. نمتد بهذا الصرامة التقنية إلى البيئة المحيطة، من خلال إدارة شبكات الطرق وتنسيق المرافق والتسوية لإنشاء نماذج غنية بالبيانات للمخططات الرئيسية المعقدة.'
+      },
+      bimServices: {
+        title: 'خدمات BIM',
+        description: 'خدمات BIM شاملة تمتد عبر تخصصات العمارة والإنشاء والميكانيكا والكهرباء والسباكة لتمكين مشاريعكم بدقة وتعاون سلس.',
+        place: 'المملكة العربية السعودية',
+        fullDescription: 'في مكتب العصيمي، نقدم خدمات BIM شاملة مصممة لتمكين مشاريعكم من خلال الدقة والتعاون السلس والكفاءة التشغيلية. سواء كنتم في مرحلة التصميم أو البناء أو التشغيل، يستخدم فريقنا سير عمل BIM المتقدمة لتحسين التنسيق وتقليل الأخطاء وتحسين الجداول الزمنية للمشاريع. تمتد حلول BIM لدينا عبر تخصصات العمارة والإنشاء والميكانيكا والكهرباء والسباكة، مما يضمن التواصل المتكامل بين جميع الأطراف المعنية. من النمذجة ثلاثية الأبعاد وكشف التعارضات إلى حصر الكميات والتسليمات المحددة بمستوى التفاصيل، نضمن أن مشروعكم محقق رقميًا بالكامل قبل وضع أول حجر على الموقع.'
       }
     },
     projects: {
@@ -312,7 +336,7 @@ export const translations = {
       ],
       items: [
         {
-          title: 'فيلا أمارا',
+          title: 'فيلا خاصة',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',
@@ -320,7 +344,7 @@ export const translations = {
           description: 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
         },
         {
-          title: 'أورا',
+          title: 'مبنى سكني 1',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',
@@ -328,7 +352,7 @@ export const translations = {
           description: 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
         },
         {
-          title: 'أزورا',
+          title: 'فيلا 1',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',
@@ -336,7 +360,7 @@ export const translations = {
           description: 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
         },
         {
-          title: 'إليف',
+          title: 'مبنى سكني 2',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',
@@ -352,7 +376,7 @@ export const translations = {
           description: 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
         },
         {
-          title: 'ليورا السكني',
+          title: 'مبنى سكني فاخر 3',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',
@@ -360,7 +384,7 @@ export const translations = {
           description: 'هذا المشروع يمثل رؤيتنا في تقديم حلول معمارية مبتكرة تجمع بين الجمال والوظيفة. نسعى دائماً لتحقيق أعلى معايير الجودة والاستدامة في كل مشروع نقوم به.'
         },
         {
-          title: 'فيلا أورلانا',
+          title: 'فيلا 3',
           category: 'RESIDENTIAL',
           year: '2024',
           location: 'السعودية',

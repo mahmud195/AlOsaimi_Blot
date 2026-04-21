@@ -13,8 +13,9 @@
     content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; media-src 'self' blob:; connect-src 'self' https:;" />
   <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
 
-  <!-- Preload critical above-fold assets for faster LCP -->
-  <link rel="preload" as="image" href="/src/assets/video_poster.jpg" />
+  <!-- Preconnect to Google Fonts to reduce font latency -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
   <title>ALOSAIMI CONSULTING | A Foundation of Trust</title>
   <meta name="description"

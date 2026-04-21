@@ -439,11 +439,12 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
     const [galleryMap, setGalleryMap] = useState<Record<string, string[]>>({});
     const [isMobileCategoryOpen, setIsMobileCategoryOpen] = useState(false);
     const scrollContainerRef = useRef<HTMLDivElement>(null);
+    const scrollContentRef = useRef<HTMLDivElement>(null);
     const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
     const projectCardRefs = useRef<Array<HTMLDivElement | null>>([]);
     const projectImageRefs = useRef<Array<HTMLDivElement | null>>([]);
+    const ringEl = useRef<HTMLDivElement>(null);
     const [activeProjectIndex, setActiveProjectIndex] = useState(0);
-    const [ringProps, setRingProps] = useState({ top: 0, left: 0, width: 0, height: 0, opacity: 0 });
 
     // Reset when modal opens
     useEffect(() => {
@@ -482,7 +483,7 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
     const activeIndexRef = useRef(0);
 
     const updateRingAndActiveProject = useCallback(() => {
-        const container = document.querySelector('.projects-scroll') as HTMLElement | null;
+        const container = scrollContentRef.current;
         const scrollContainer = scrollContainerRef.current;
         if (!container || !scrollContainer) return;
 
@@ -509,18 +510,17 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
             setActiveProjectIndex(closestIdx);
         }
 
-        // Update ring position
+        // Update ring position via direct DOM write — no re-render on scroll
         const imageEl = projectImageRefs.current[closestIdx];
-        if (imageEl && container) {
+        const ring = ringEl.current;
+        if (imageEl && container && ring) {
             const containerRect = container.getBoundingClientRect();
             const imageRect = imageEl.getBoundingClientRect();
-            setRingProps({
-                top: imageRect.top - containerRect.top,
-                left: imageRect.left - containerRect.left,
-                width: imageRect.width,
-                height: imageRect.height,
-                opacity: 1
-            });
+            ring.style.top = `${imageRect.top - containerRect.top}px`;
+            ring.style.left = `${imageRect.left - containerRect.left}px`;
+            ring.style.width = `${imageRect.width}px`;
+            ring.style.height = `${imageRect.height}px`;
+            ring.style.opacity = '1';
         }
     }, []);
 
@@ -676,21 +676,15 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                 {/* Projects Content - Vertical scroll, ALL projects grouped by category */}
                 <div
                     ref={scrollContainerRef}
-                    className="flex-1 overflow-y-auto px-6 md:px-10 lg:px-14 pt-14 pb-4 md:pt-16 md:pb-6"
-                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                    className="flex-1 overflow-y-auto px-6 md:px-10 lg:px-14 pt-14 pb-4 md:pt-16 md:pb-6 [&::-webkit-scrollbar]:hidden"
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', contain: 'layout paint' }}
                 >
-                    <style>{`.projects-scroll::-webkit-scrollbar { display: none; }`}</style>
-                    <div className="projects-scroll max-w-5xl mx-auto relative">
-                        {/* Animated Ring - moves to active project */}
-                        <div 
+                    <div ref={scrollContentRef} className="max-w-5xl mx-auto relative">
+                        {/* Animated Ring — direct DOM updates, zero re-renders on scroll */}
+                        <div
+                            ref={ringEl}
                             className="absolute pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-[100]"
-                            style={{
-                                top: ringProps.top,
-                                left: ringProps.left,
-                                width: ringProps.width,
-                                height: ringProps.height,
-                                opacity: ringProps.opacity,
-                            }}
+                            style={{ opacity: 0, willChange: 'top, left, width, height' }}
                         >
                             <svg
                                 className={`absolute w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 ${language === 'ar' ? '-right-6 md:-right-8 lg:-right-10' : '-left-6 md:-left-8 lg:-left-10'} -top-6 md:-top-8 lg:-top-10`}
@@ -786,11 +780,7 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                                                         </div>
 
                                                         <p className="text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify">
-                                                            {project.description || 'This project represents our vision in delivering innovative architectural solutions that combine beauty and functionality.'}
-                                                        </p>
-
-                                                        <p className="text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify mt-4">
-                                                            {project.description || 'The design approach emphasizes clarity of circulation, flexible retail modules, and strong visual connectivity, ensuring operational efficiency and long-term adaptability.'}
+                                                            {project.description}
                                                         </p>
                                                     </div>
                                                 </div>

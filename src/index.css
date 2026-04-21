@@ -78,10 +78,10 @@
     font-family: 'Inter Tight', sans-serif;
   }
 
-  /* Smooth RTL transitions */
+  /* RTL direction switch — avoid transition:all (causes layout jank) */
   .rtl,
   .ltr {
-    transition: all 0.3s ease-in-out;
+    transition: none;
   }
 
   /* Fustat font for Arabic headings and navigation */
@@ -304,3 +304,10 @@
   stroke-dashoffset: 0;
   opacity: 1;
 }
+
+/* Clients marquee — GPU-accelerated infinite scroll */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+

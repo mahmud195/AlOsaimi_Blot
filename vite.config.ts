@@ -1,15 +1,17 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import viteCompression from 'vite-plugin-compression';
 
 // https://vitejs.dev/config/
-// Using '/AlOsaimi_Blot/' for GitHub Pages deployment
 export default defineConfig(({ command }) => ({
   base: '/AlOsaimi_Blot/',
-  plugins: [react()],
+  plugins: [
+    react(),
+    viteCompression({ algorithm: 'gzip', ext: '.gz', threshold: 1024 }),
+    viteCompression({ algorithm: 'brotliCompress', ext: '.br', threshold: 1024 }),
+  ],
   build: {
-    // Use default esbuild for minification (fast and efficient)
     minify: 'esbuild',
-    // Chunk splitting for better caching
     rollupOptions: {
       output: {
         manualChunks: {
@@ -18,21 +20,15 @@ export default defineConfig(({ command }) => ({
         },
       },
     },
-    // CSS code splitting
     cssCodeSplit: true,
-    // No source maps in production
     sourcemap: false,
-    // Increase chunk size warning limit
-    chunkSizeWarningLimit: 500,
+    chunkSizeWarningLimit: 600,
+    // Inline small assets as base64 to reduce HTTP requests
+    assetsInlineLimit: 4096,
   },
-  // Drop console in production via esbuild
   esbuild: {
     drop: command === 'build' ? ['console', 'debugger'] : [],
-  },
-  test: {
-    globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/__tests__/setup.ts',
-    css: true,
+    // Target modern browsers for smaller output
+    target: 'es2020',
   },
 }));

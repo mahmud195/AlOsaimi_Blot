@@ -11,7 +11,31 @@ import supervisionImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For
 import designServicesImg from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Pics/Design-Services.jpg.jpeg';
 import surveyingImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Surveying_.jpg';
 import aorImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/A.O.R.jpg';
+import engineeringServicesImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/project_management.png';
+import bimServicesImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Engineering Supervision.jpg.jpeg';
 import beFoundLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/BeFound Sigment.png';
+
+import certEtimad from '../assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Certificates/AlOsaimi_Certificates/Etimad.png';
+import certJeddahMunicipality from '../assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Certificates/AlOsaimi_Certificates/Jeddah Municipality.png';
+import certKhibrah from '../assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Certificates/AlOsaimi_Certificates/Khibrah Platform.png';
+import certMoJ from '../assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Certificates/AlOsaimi_Certificates/Ministry Of Justice.png';
+import certMoMRAH from '../assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Certificates/AlOsaimi_Certificates/Ministry Of Municipal Rural Affairs & Housing.png';
+import certModon from '../assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Certificates/AlOsaimi_Certificates/Modon.png';
+import certNWC from '../assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Certificates/AlOsaimi_Certificates/National Water Company.png';
+import certSCE from '../assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Certificates/AlOsaimi_Certificates/Saudi Council Of Engineers.png';
+import certSEC from '../assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Certificates/AlOsaimi_Certificates/Saudi Electricity Company.png';
+
+const aorCertificates = [
+  { src: certSCE, name: 'Saudi Council Of Engineers', url: 'https://www.saudieng.sa' },
+  { src: certMoMRAH, name: 'Ministry of Municipal, Rural Affairs & Housing', url: 'https://www.momah.gov.sa' },
+  { src: certMoJ, name: 'Ministry of Justice', url: 'https://www.moj.gov.sa' },
+  { src: certJeddahMunicipality, name: 'Jeddah Municipality', url: 'https://www.jeddah.gov.sa' },
+  { src: certModon, name: 'Modon', url: 'https://www.modon.gov.sa' },
+  { src: certNWC, name: 'National Water Company', url: 'https://www.nwc.com.sa' },
+  { src: certSEC, name: 'Saudi Electricity Company', url: 'https://www.se.com.sa' },
+  { src: certEtimad, name: 'Etimad', url: 'https://etimad.sa' },
+  { src: certKhibrah, name: 'Khibrah Platform', url: 'https://khibrah.com.sa' },
+];
 
 interface Service {
   id: string;
@@ -22,139 +46,301 @@ interface Service {
   image: string;
 }
 
-function ServiceModal({ service, isOpen, onClose, language }: { service: Service | null; isOpen: boolean; onClose: () => void; language: string }) {
-  // Disable page scroll when modal is open
+function ServicesScrollView({ services, isOpen, onClose, language }: { services: Service[]; isOpen: boolean; onClose: () => void; language: string }) {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollContentRef = useRef<HTMLDivElement>(null);
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+  const imageRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const ringEl = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeIndexRef = useRef(0);
+  const rafRef = useRef<number>(0);
+  const isProgrammaticScrollRef = useRef(false);
+
+  // Lock body scroll + reset to top when opening
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
+      setActiveIndex(0);
+      activeIndexRef.current = 0;
+      requestAnimationFrame(() => {
+        if (scrollContainerRef.current) scrollContainerRef.current.scrollTop = 0;
+      });
     } else {
       document.body.style.overflow = '';
     }
+    return () => { document.body.style.overflow = ''; };
+  }, [isOpen]);
+
+  // Scroll-based active detection + ring tracking (offsetTop-based, stable across style re-renders)
+  useEffect(() => {
+    if (!isOpen) return;
+    const scrollEl = scrollContainerRef.current;
+    if (!scrollEl) return;
+
+    const update = () => {
+      const contentEl = scrollContentRef.current;
+      if (!scrollEl || !contentEl) return;
+      const scrollTop = scrollEl.scrollTop;
+      const viewportCenter = scrollEl.clientHeight * 0.4;
+      let closestIdx = 0;
+      let closestDist = Infinity;
+      imageRefs.current.forEach((el, idx) => {
+        if (!el) return;
+        // Sum offsetTop up to scrollContent for stable parent-relative position
+        let top = 0;
+        let node: HTMLElement | null = el;
+        while (node && node !== contentEl) {
+          top += node.offsetTop;
+          node = node.offsetParent as HTMLElement | null;
+        }
+        const elCenter = top + el.offsetHeight / 2;
+        const dist = Math.abs(elCenter - scrollTop - viewportCenter);
+        if (dist < closestDist) { closestDist = dist; closestIdx = idx; }
+      });
+      if (activeIndexRef.current !== closestIdx) {
+        activeIndexRef.current = closestIdx;
+        setActiveIndex(closestIdx);
+      }
+      const imageEl = imageRefs.current[closestIdx];
+      const ring = ringEl.current;
+      if (imageEl && ring) {
+        let top = 0;
+        let left = 0;
+        let node: HTMLElement | null = imageEl;
+        while (node && node !== contentEl) {
+          top += node.offsetTop;
+          left += node.offsetLeft;
+          node = node.offsetParent as HTMLElement | null;
+        }
+        ring.style.top = `${top}px`;
+        ring.style.left = `${left}px`;
+        ring.style.width = `${imageEl.offsetWidth}px`;
+        ring.style.height = `${imageEl.offsetHeight}px`;
+        ring.style.opacity = '1';
+      }
+    };
+
+    const handleScroll = () => {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(update);
+    };
+    scrollEl.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleScroll);
+    const t1 = setTimeout(update, 100);
+    const t2 = setTimeout(update, 500);
     return () => {
-      document.body.style.overflow = '';
+      scrollEl.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+      cancelAnimationFrame(rafRef.current);
+      clearTimeout(t1);
+      clearTimeout(t2);
     };
   }, [isOpen]);
 
-  if (!isOpen || !service) return null;
+  const scrollToService = (id: string) => {
+    const el = sectionRefs.current[id];
+    const container = scrollContainerRef.current;
+    if (!el || !container) return;
+    isProgrammaticScrollRef.current = true;
+    const containerTop = container.getBoundingClientRect().top;
+    const elTop = el.getBoundingClientRect().top;
+    container.scrollBy({ top: elTop - containerTop - 80, behavior: 'smooth' });
+    setTimeout(() => { isProgrammaticScrollRef.current = false; }, 800);
+  };
 
-  // Split title into two lines for display
-  const titleWords = service.title.split(' ');
-  const firstLine = titleWords.slice(0, Math.ceil(titleWords.length / 2)).join(' ');
-  const secondLine = titleWords.slice(Math.ceil(titleWords.length / 2)).join(' ');
+  if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-aoc-indigo z-50 overflow-y-auto">
-      {/* Top Navigation Bar - same style as main page */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+    <div className="fixed inset-0 bg-aoc-indigo z-50 overflow-hidden">
+      {/* Top Navigation Bar */}
+      <nav className={`fixed top-0 left-0 right-0 z-[70] bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
         <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
-          {/* Mobile: X button with circle on left (same place as hamburger) */}
-          <button
-            onClick={onClose}
-            className="md:hidden relative w-10 h-10 flex items-center justify-center"
-          >
-            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 40 40">
-              <circle cx="20" cy="20" r="18" fill="none" stroke="#CAB64B" strokeWidth="1" />
-            </svg>
-            <X size={20} className="text-aoc-white hover:text-aoc-gold transition-colors" />
-          </button>
-
-          {/* Logo - center on mobile, left on desktop */}
           <a href="#services" onClick={onClose} className="h-10 w-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
             <img src={aocMobileLogo} alt="AOC Logo" className="h-full w-auto md:hidden" />
             <img src={aocLogo} alt="AOC Logo" className="h-full w-auto hidden md:block" />
           </a>
-
-          {/* Desktop: X button with circle on right */}
+          <div className="md:hidden w-10" />
           <button
             onClick={onClose}
-            className="hidden md:flex relative w-10 h-10 items-center justify-center"
+            className="relative w-10 h-10 flex items-center justify-center"
           >
             <svg className="absolute inset-0 w-full h-full" viewBox="0 0 40 40">
               <circle cx="20" cy="20" r="18" fill="none" stroke="#CAB64B" strokeWidth="1" />
             </svg>
             <X size={20} className="text-aoc-white hover:text-aoc-gold transition-colors" />
           </button>
-
-          {/* Spacer for mobile to balance the layout */}
-          <div className="md:hidden w-10"></div>
         </div>
       </nav>
 
-      {/* Main content */}
-      <div className={`min-h-screen pt-20 pb-16 flex flex-col lg:flex-row ${language === 'ar' ? 'lg:flex-row-reverse' : ''}`}>
+      {/* Main area */}
+      <div className={`h-full flex ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`} style={{ paddingTop: '64px' }}>
+        {/* Sidebar — fixed, shows all 7 in order */}
+        <aside className={`hidden md:flex w-56 lg:w-64 shrink-0 flex-col justify-center px-6 lg:px-8 ${language === 'ar' ? 'border-l border-white/10' : 'border-r border-white/10'}`}>
+          <nav className="space-y-5">
+            {services.map((service, i) => {
+              const isActive = activeIndex === i;
+              return (
+                <button
+                  key={service.id}
+                  onClick={() => scrollToService(service.id)}
+                  className={`block w-full font-darker-grotesque font-medium tracking-[0.1em] uppercase truncate transition-colors duration-300 text-sm ${language === 'ar' ? 'text-right' : 'text-left'} ${isActive ? 'text-aoc-gold' : 'text-aoc-white/60 hover:text-aoc-white'}`}
+                >
+                  {service.title}
+                </button>
+              );
+            })}
+          </nav>
+        </aside>
 
-        {/* Left side - Title and description */}
-        <div className={`lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 py-8 lg:py-16 ${language === 'ar' ? 'text-right' : ''}`}>
-          {/* Large Title */}
-          <div className="mb-8 lg:mb-12">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.9]">
-              {firstLine}
-            </h1>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.9]">
-              {secondLine}
-            </h1>
-          </div>
-
-          {/* Description */}
-          <div className="max-w-lg space-y-6">
-            <p className="text-aoc-white/80 text-base lg:text-lg font-inter-tight font-light leading-relaxed text-justify">
-              {service.fullDescription}
-            </p>
-
-            {service.place && (
-              <p className="text-aoc-white/60 text-sm font-inter-tight font-light">
-                {language === 'ar' ? 'الموقع: ' : 'Location: '}{service.place}
-              </p>
-            )}
-
-            {service.id === 'designServices' && (
-              <div className="mt-8">
-                <p className="text-[10px] md:text-xs font-inter-tight font-light tracking-[0.1em] text-aoc-white/60 mb-2 uppercase">
-                  {language === 'ar' ? 'مع شريكنا الإبداعي' : 'With our Creative Partner'}
-                </p>
-                <img src={beFoundLogo} alt="BeFound Design Studio" className="h-6 w-auto" />
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Right side - Image with decorative circle */}
-        <div className="lg:w-1/2 relative flex items-center justify-center p-8 lg:p-16">
-          {/* Image container with fixed aspect ratio */}
-          <div className="relative w-full max-w-xl">
-            {/* Decorative Circle - exactly half in/half out of image at mid-height */}
-            <svg
-              className="absolute z-20 w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 top-1/2"
-              style={{
-                transform: 'translateY(-50%) translateX(-50%)',
-                left: language === 'ar' ? 'auto' : '0',
-                right: language === 'ar' ? '0' : 'auto',
-              }}
-              viewBox="0 0 100 100"
+        {/* Scrollable content */}
+        <div
+          ref={scrollContainerRef}
+          className="flex-1 overflow-y-auto px-6 md:px-10 lg:px-14 pt-8 md:pt-12 pb-32 [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', contain: 'layout paint' }}
+        >
+          <div ref={scrollContentRef} className="max-w-5xl mx-auto relative">
+            {/* Animated gold ring — tracks the active service image (direct DOM updates, zero re-renders) */}
+            <div
+              ref={ringEl}
+              className="absolute pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-[100]"
+              style={{ opacity: 0, willChange: 'top, left, width, height' }}
             >
-              <circle
-                cx="50"
-                cy="50"
-                r="48"
-                fill="none"
-                stroke="#CAB64B"
-                strokeWidth="1.5"
-              />
-            </svg>
-
-            <div className="aspect-[3/4] overflow-hidden">
-              <img
-                src={service.image}
-                alt={service.title}
-                loading="lazy"
-                className="w-full h-full object-cover"
-              />
+              <svg
+                className={`absolute w-12 h-12 md:w-16 md:h-16 lg:w-20 lg:h-20 ${language === 'ar' ? '-right-6 md:-right-8 lg:-right-10' : '-left-6 md:-left-8 lg:-left-10'} -top-6 md:-top-8 lg:-top-10`}
+                viewBox="0 0 100 100"
+                style={{ overflow: 'visible' }}
+              >
+                <circle cx="50" cy="50" r="48" fill="none" stroke="#CAB64B" strokeWidth="1.5" />
+              </svg>
             </div>
+
+            {services.map((service, index) => {
+              const titleWords = service.title.split(' ');
+              const half = Math.ceil(titleWords.length / 2);
+              const firstLine = titleWords.slice(0, half).join(' ');
+              const secondLine = titleWords.slice(half).join(' ');
+              const isActive = activeIndex === index;
+
+              return (
+                <div key={service.id} className="relative">
+                  {/* Divider between cards (matching ProjectModal) */}
+                  {index > 0 && (
+                    <div className="w-full flex items-center gap-4 py-10 md:py-14">
+                      <div className="flex-1 h-px bg-white/10" />
+                      <div className="w-1 h-1 rounded-full bg-aoc-gold/60" />
+                      <div className="flex-1 h-px bg-white/10" />
+                    </div>
+                  )}
+
+                  <section
+                    ref={el => { sectionRefs.current[service.id] = el; }}
+                    data-service-id={service.id}
+                    className="rounded-sm overflow-visible transition-all duration-700"
+                    style={{
+                      background: isActive ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.08)',
+                      border: isActive ? '1px solid rgba(202, 182, 75, 0.5)' : '1px solid rgba(202, 182, 75, 0.25)',
+                      backdropFilter: isActive ? 'blur(24px)' : 'blur(16px)',
+                      WebkitBackdropFilter: isActive ? 'blur(24px)' : 'blur(16px)',
+                      boxShadow: isActive ? '0 0 40px rgba(202, 182, 75, 0.08), inset 0 0 30px rgba(255,255,255,0.03)' : 'none',
+                      padding: '3.5rem 3rem 3rem 3.5rem',
+                    }}
+                  >
+                    <div className={`flex flex-col lg:flex-row gap-8 lg:gap-14 ${language === 'ar' ? 'lg:flex-row-reverse' : ''}`}>
+                      {/* Text */}
+                      <div className={`flex-1 flex flex-col justify-center ${language === 'ar' ? 'text-right' : ''}`}>
+                        <div className="mb-5 lg:mb-8">
+                          <h2 className="text-3xl md:text-4xl lg:text-5xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.95]">
+                            {firstLine}
+                          </h2>
+                          {secondLine && (
+                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.95]">
+                              {secondLine}
+                            </h2>
+                          )}
+                        </div>
+
+                        <div className="max-w-lg space-y-4">
+                          <p className="text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify">
+                            {service.fullDescription}
+                          </p>
+
+                          {service.place && (
+                            <p className="text-aoc-white/50 text-xs md:text-sm font-inter-tight font-light">
+                              {language === 'ar' ? 'الموقع: ' : 'Location: '}{service.place}
+                            </p>
+                          )}
+
+                          {service.id === 'designServices' && (
+                            <div className="mt-5">
+                              <p className="text-[10px] md:text-xs font-inter-tight font-light tracking-[0.1em] text-aoc-white/60 mb-2 uppercase">
+                                {language === 'ar' ? 'مع شريكنا الإبداعي' : 'With our Creative Partner'}
+                              </p>
+                              <a
+                                href="https://www.befound.design/"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-block transition-opacity hover:opacity-80"
+                              >
+                                <img src={beFoundLogo} alt="BeFound Design Studio" className="h-6 w-auto" />
+                              </a>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Image - tracked by ring */}
+                      <div
+                        ref={el => { imageRefs.current[index] = el; }}
+                        className="lg:w-72 xl:w-80 shrink-0"
+                      >
+                        <div className="w-full aspect-[3/4] overflow-hidden rounded-sm">
+                          <img
+                            src={service.image}
+                            alt={service.title}
+                            loading="lazy"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Accreditations strip — full width row under the card, natural colors */}
+                    {service.id === 'architectOfRecord' && (
+                      <div className="mt-6 pt-4 border-t border-white/10">
+                        <p className={`text-[10px] md:text-xs font-inter-tight font-light tracking-[0.15em] text-aoc-white/60 mb-3 uppercase ${language === 'ar' ? 'text-right' : ''}`}>
+                          {language === 'ar' ? 'الاعتمادات والتصنيفات' : 'Accreditations & Classifications'}
+                        </p>
+                        <div className="flex items-center justify-between gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}>
+                          {aorCertificates.map((cert) => (
+                            <a
+                              key={cert.name}
+                              href={cert.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title={cert.name}
+                              className="shrink-0 flex items-center"
+                            >
+                              <img
+                                src={cert.src}
+                                alt={cert.name}
+                                loading="lazy"
+                                className="h-8 w-auto object-contain transition-opacity duration-300 hover:opacity-80"
+                              />
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </section>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
 
-      {/* Bottom bar - same style as top nav */}
+      {/* Bottom bar */}
       <div className="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-8 py-4 flex justify-between items-center text-aoc-white/50 text-xs md:text-sm font-inter-tight font-light tracking-widest">
         <span>A</span>
         <span>FOUNDATION</span>
@@ -168,52 +354,33 @@ function ServiceModal({ service, isOpen, onClose, language }: { service: Service
 export default function Services() {
   const { language } = useLanguage();
   const t = translations[language];
-  const [selectedService, setSelectedService] = useState<Service | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isScrollViewOpen, setIsScrollViewOpen] = useState(false);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const [canScroll, setCanScroll] = useState(false);
   const isScrollButtonPressed = useRef(false);
   const [isButtonPressed, setIsButtonPressed] = useState(false);
   const scrollAnimationRef = useRef<number | null>(null);
+  // half of scrollWidth = width of one set of cards (we render cards twice)
+  const halfWidthRef = useRef(0);
 
-  // Scroll animations (triggerOnce: false to repeat animations)
   const titleAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
   const cardsAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
 
+  // Measure half-width after render and on resize
   useEffect(() => {
-    const checkScroll = () => {
+    const measure = () => {
       if (carouselRef.current) {
-        setCanScroll(carouselRef.current.scrollWidth > carouselRef.current.clientWidth);
+        halfWidthRef.current = carouselRef.current.scrollWidth / 2;
+        // Start at position 0 (first set)
       }
     };
-    checkScroll();
-    window.addEventListener('resize', checkScroll);
-    return () => window.removeEventListener('resize', checkScroll);
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
   }, []);
 
-
   useEffect(() => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-
-    const scroll = () => {
-      if (isScrollButtonPressed.current) {
-        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-        const currentScroll = carousel.scrollLeft;
-
-        if (currentScroll + 8 >= maxScroll) {
-          carousel.scrollLeft = 0;
-        } else {
-          carousel.scrollLeft += 8;
-        }
-        scrollAnimationRef.current = requestAnimationFrame(scroll);
-      }
-    };
-
     return () => {
-      if (scrollAnimationRef.current) {
-        cancelAnimationFrame(scrollAnimationRef.current);
-      }
+      if (scrollAnimationRef.current) cancelAnimationFrame(scrollAnimationRef.current);
     };
   }, []);
 
@@ -233,14 +400,8 @@ export default function Services() {
     carouselRef.current.scrollLeft = scrollStart - diff;
   };
 
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDragging(false);
-  };
-
+  const handleMouseUp = () => setIsDragging(false);
+  const handleMouseLeave = () => setIsDragging(false);
 
   const handleScrollButtonDown = () => {
     isScrollButtonPressed.current = true;
@@ -251,27 +412,23 @@ export default function Services() {
     const isRTL = language === 'ar';
 
     const scroll = () => {
-      if (isScrollButtonPressed.current) {
-        const maxScroll = carousel.scrollWidth - carousel.clientWidth;
-        const currentScroll = carousel.scrollLeft;
+      if (!isScrollButtonPressed.current) return;
+      const half = halfWidthRef.current;
 
-        if (isRTL) {
-          // For RTL: scroll from right to left (negative direction)
-          if (currentScroll - 8 <= 0) {
-            carousel.scrollLeft = maxScroll;
-          } else {
-            carousel.scrollLeft -= 8;
-          }
-        } else {
-          // For LTR: scroll from left to right (positive direction)
-          if (currentScroll + 8 >= maxScroll) {
-            carousel.scrollLeft = 0;
-          } else {
-            carousel.scrollLeft += 8;
-          }
+      if (isRTL) {
+        carousel.scrollLeft -= 8;
+        // when scrolled back past start of second set, jump forward silently
+        if (carousel.scrollLeft <= 0) {
+          carousel.scrollLeft += half;
         }
-        scrollAnimationRef.current = requestAnimationFrame(scroll);
+      } else {
+        carousel.scrollLeft += 8;
+        // when scrolled into the second set, jump back silently
+        if (carousel.scrollLeft >= half) {
+          carousel.scrollLeft -= half;
+        }
       }
+      scrollAnimationRef.current = requestAnimationFrame(scroll);
     };
     scrollAnimationRef.current = requestAnimationFrame(scroll);
   };
@@ -279,9 +436,7 @@ export default function Services() {
   const handleScrollButtonUp = () => {
     isScrollButtonPressed.current = false;
     setIsButtonPressed(false);
-    if (scrollAnimationRef.current) {
-      cancelAnimationFrame(scrollAnimationRef.current);
-    }
+    if (scrollAnimationRef.current) cancelAnimationFrame(scrollAnimationRef.current);
   };
 
   const services: Service[] = [
@@ -324,13 +479,24 @@ export default function Services() {
       place: t.services.architectOfRecord.place,
       fullDescription: t.services.architectOfRecord.fullDescription,
       image: aorImg
+    },
+    {
+      id: 'engineeringServices',
+      title: t.services.engineeringServices.title,
+      description: t.services.engineeringServices.description,
+      place: t.services.engineeringServices.place,
+      fullDescription: t.services.engineeringServices.fullDescription,
+      image: engineeringServicesImg
+    },
+    {
+      id: 'bimServices',
+      title: t.services.bimServices.title,
+      description: t.services.bimServices.description,
+      place: t.services.bimServices.place,
+      fullDescription: t.services.bimServices.fullDescription,
+      image: bimServicesImg
     }
   ];
-
-  const handleReadMore = (service: Service) => {
-    setSelectedService(service);
-    setIsModalOpen(true);
-  };
 
   return (
     <section id="services" className={`min-h-screen flex items-start pt-4 md:pt-0 pb-4 ${language === 'ar' ? 'rtl' : ''}`} style={{ backgroundColor: 'rgb(0, 48, 135)' }}>
@@ -375,49 +541,48 @@ export default function Services() {
                   display: none;
                 }
               `}</style>
-              {services.map((service, index) => (
-                <div
-                  key={service.id}
-                  className={`flex-shrink-0 w-80 group cursor-pointer card-deal card-stack-${index} ${cardsAnimation.isVisible ? 'visible' : ''}`}
-                  style={{ transitionDelay: `${index * 0.2}s` }}
-                >
+              {[...services, ...services].map((service, index) => {
+                const isClone = index >= services.length;
+                return (
                   <div
-                    onClick={() => handleReadMore(service)}
-                    className="relative w-80 aspect-[3/4] overflow-hidden mb-6 transition-transform duration-300 ease-out hover:scale-105"
+                    key={`${service.id}-${index}`}
+                    aria-hidden={isClone}
+                    className={`flex-shrink-0 w-80 group cursor-pointer ${!isClone ? `card-deal card-stack-${index} ${cardsAnimation.isVisible ? 'visible' : ''}` : 'opacity-100'}`}
+                    style={!isClone ? { transitionDelay: `${index * 0.2}s` } : {}}
                   >
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover"
-                    />
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-
-                    <div className="absolute bottom-8 left-0 right-0 px-4">
-                      <h3 className={`text-xl font-darker-grotesque font-light tracking-[0.12em] uppercase text-aoc-white ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-                        {service.title}
-                      </h3>
+                    <div
+                      onClick={() => setIsScrollViewOpen(true)}
+                      className="relative w-80 aspect-[3/4] overflow-hidden mb-6 transition-transform duration-300 ease-out hover:scale-105"
+                    >
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        loading="lazy"
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+                      <div className="absolute bottom-8 left-0 right-0 px-4">
+                        <h3 className={`text-xl font-darker-grotesque font-light tracking-[0.12em] uppercase text-aoc-white ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                          {service.title}
+                        </h3>
+                      </div>
                     </div>
+                    <p className={`text-aoc-white/70 text-sm font-inter-tight font-light leading-relaxed mb-4 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                      {service.description}
+                    </p>
+                    <button
+                      onClick={() => setIsScrollViewOpen(true)}
+                      className={`text-sm font-inter-tight font-light tracking-[0.1em] uppercase text-blue-300 hover:text-aoc-white transition-colors underline block ${language === 'ar' ? 'ml-auto mr-0' : 'mr-auto ml-0'}`}
+                    >
+                      {t.services.readMore}
+                    </button>
                   </div>
-
-                  <p className={`text-aoc-white/70 text-sm font-inter-tight font-light leading-relaxed mb-4 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
-                    {service.description}
-                  </p>
-
-                  <button
-                    onClick={() => handleReadMore(service)}
-                    className={`text-sm font-inter-tight font-light tracking-[0.1em] uppercase text-blue-300 hover:text-aoc-white transition-colors underline block ${language === 'ar' ? 'ml-auto mr-0' : 'mr-auto ml-0'}`}
-                  >
-                    {t.services.readMore}
-                  </button>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             <div className="relative mt-8 pt-4 h-12 hidden md:flex items-center justify-between">
-              {canScroll && (
-                <div className={`absolute ${language === 'ar' ? 'left-0' : 'right-0'} flex items-center gap-4`}>
+              <div className={`absolute ${language === 'ar' ? 'left-0' : 'right-0'} flex items-center gap-4`}>
                   <button
                     onMouseDown={handleScrollButtonDown}
                     onMouseUp={handleScrollButtonUp}
@@ -434,16 +599,15 @@ export default function Services() {
                     <ChevronRight size={20} className={`text-aoc-gold animate-pulse ${language === 'ar' ? 'rotate-180' : ''}`} />
                   </button>
                 </div>
-              )}
             </div>
           </div>
         </div>
       </div>
 
-      <ServiceModal
-        service={selectedService}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+      <ServicesScrollView
+        services={services}
+        isOpen={isScrollViewOpen}
+        onClose={() => setIsScrollViewOpen(false)}
         language={language}
       />
     </section>

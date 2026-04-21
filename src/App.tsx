@@ -4,45 +4,87 @@ import TopNav from './components/TopNav';
 import { useLanguage } from './LanguageContext';
 import { translations } from './translations';
 import { useScrollAnimation } from './hooks/useScrollAnimation';
-import heroVideo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Video/AOC_x_BF_H_No_Subtitles_compressed.mp4';
+import heroVideo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Video/AOC_hero.mp4';
 import videoPoster from './assets/video_poster.jpg';
 import aboutImage from './assets/asset_16.png';
 import beFoundLogo from './assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/BeFound Sigment.png';
 
-// Lazy load heavy components for better initial load performance
+// Client logos for marquee
+import clientAlWisam from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Al-Wisam World.png';
+import clientAlKhalid from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/AlKhalid Transportation.png';
+import clientAlQodsi from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/AlQodsi.png';
+import clientAlyamama from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Alyamama.png';
+import clientAraa from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Araa Real Estate.png';
+import clientBaitAlarab from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Bait Alarab.png';
+import clientBauer from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Bauer Foundation.png';
+import clientBinDajam from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Bin Dajam Ltd.png';
+import clientBinDawood from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Bin Dawood.png';
+import clientEco from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Eco Construction.png';
+import clientHayat from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Hayat Alomran.png';
+import clientJamal from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Jamal Baghlaf Holding.png';
+import clientKayan from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Kayan Almasya.png';
+import clientKeller from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Keller.png';
+import clientMinistry from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Ministry Of Islamic Affairs, Dawah & Guidance.png';
+import clientMusheera from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Musheera.png';
+import clientNaft from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Naft.png';
+import clientPetroMin from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Petro min.png';
+import clientPureIn from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Pure In.png';
+import clientRasiat from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Rasiat.png';
+import clientSaco from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/SACO.png';
+import clientSans from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Sans.png';
+import clientTamimi from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Tamimi Markets.png';
+import clientZahran from './assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Clients/AlOsaimi_Clients/Zahran.png';
+
+const CLIENT_LOGOS = [
+  { src: clientAlWisam, alt: 'Al-Wisam World', url: '' },
+  { src: clientAlKhalid, alt: 'AlKhalid Transportation', url: '' },
+  { src: clientAlQodsi, alt: 'AlQodsi', url: '' },
+  { src: clientAlyamama, alt: 'Alyamama', url: '' },
+  { src: clientAraa, alt: 'Araa Real Estate', url: '' },
+  { src: clientBaitAlarab, alt: 'Bait Alarab', url: '' },
+  { src: clientBauer, alt: 'Bauer Foundation', url: 'https://www.bauer.de' },
+  { src: clientBinDajam, alt: 'Bin Dajam Ltd', url: '' },
+  { src: clientBinDawood, alt: 'Bin Dawood', url: 'https://www.bindawood.com' },
+  { src: clientEco, alt: 'Eco Construction', url: '' },
+  { src: clientHayat, alt: 'Hayat Alomran', url: '' },
+  { src: clientJamal, alt: 'Jamal Baghlaf Holding', url: '' },
+  { src: clientKayan, alt: 'Kayan Almasya', url: '' },
+  { src: clientKeller, alt: 'Keller', url: 'https://www.keller.com' },
+  { src: clientMinistry, alt: 'Ministry Of Islamic Affairs', url: 'https://www.moia.gov.sa' },
+  { src: clientMusheera, alt: 'Musheera', url: '' },
+  { src: clientNaft, alt: 'Naft', url: '' },
+  { src: clientPetroMin, alt: 'Petro Min', url: '' },
+  { src: clientPureIn, alt: 'Pure In', url: '' },
+  { src: clientRasiat, alt: 'Rasiat', url: '' },
+  { src: clientSaco, alt: 'SACO', url: 'https://www.saco.sa' },
+  { src: clientSans, alt: 'Sans', url: '' },
+  { src: clientTamimi, alt: 'Tamimi Markets', url: 'https://www.tamimimarkets.com' },
+  { src: clientZahran, alt: 'Zahran', url: 'https://www.zahran.com' },
+];
+
 const Services = lazy(() => import('./components/Services'));
-// const NewsModal = lazy(() => import('./components/NewsModal')); // HIDDEN TEMPORARILY
 const ProjectModal = lazy(() => import('./components/ProjectModal'));
 
-// Simple HTML sanitization for form input security
 const sanitize = (str: string) => str.replace(/<[^>]*>/g, '').trim();
 
 function App() {
   const { language } = useLanguage();
   const t = translations[language];
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    message: ''
-  });
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', email: '', message: '' });
   const [activeSection, setActiveSection] = useState('home');
   const [introComplete, setIntroComplete] = useState(false);
   const [introPhase, setIntroPhase] = useState<'initial' | 'drawing' | 'expanding' | 'done'>('initial');
-  const [circleSize, setCircleSize] = useState(150); // Initial circle radius in px
   const bannerOffsetRef = useRef(0);
   const bannerElRef = useRef<HTMLDivElement>(null);
   const isScrollingRef = useRef(false);
   const scrollTimeoutRef = useRef<number | null>(null);
   const animationRef = useRef<number | null>(null);
 
-  // Custom cursor - uses refs for zero re-render DOM updates
+  // Custom cursor - direct DOM updates, zero re-renders
   const cursorRef = useRef<HTMLDivElement>(null);
   const isHoveringRef = useRef(false);
 
-
-
-  // Scroll animations for sections (triggerOnce: false to repeat animations)
+  // Scroll animations
   const aboutAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
   const aboutTitleAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
   const aboutImageAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
@@ -50,13 +92,8 @@ function App() {
   const ceoAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
   const projectsAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
   const contactAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
-  // HIDDEN TEMPORARILY - News section variables
-  // const newsAnimation = useScrollAnimation<HTMLDivElement>({ triggerOnce: false });
-  // const [activeNewsIndex, setActiveNewsIndex] = useState(0);
-  // const [isSliding, setIsSliding] = useState(false);
-  // const [isNewsModalOpen, setIsNewsModalOpen] = useState(false);
 
-  // Projects carousel state
+  // Projects state
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [isProjectModalOpen, setIsProjectModalOpen] = useState(false);
   const [projectTransitionPhase, setProjectTransitionPhase] = useState<'idle' | 'expanding' | 'modal-open'>('idle');
@@ -64,18 +101,14 @@ function App() {
   const topNavWrapperRef = useRef<HTMLDivElement>(null);
   const bottomBarRef = useRef<HTMLDivElement>(null);
 
-  // Easing function for smooth animation
   const easeInOutQuad = (t: number) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
 
-  // Handle Learn More click — rAF-driven expansion with push effect
   const handleLearnMoreClick = useCallback(() => {
     if (projectTransitionPhase !== 'idle' || !learnMoreBarRef.current) return;
     const barEl = learnMoreBarRef.current;
-    // Get the actual fixed <nav> element inside the TopNav wrapper
     const topNavEl = topNavWrapperRef.current?.querySelector('nav') as HTMLElement | null;
     const bottomBarEl = bottomBarRef.current;
 
-    // Measure positions
     const rect = barEl.getBoundingClientRect();
     const startTop = rect.top;
     const startBottom = window.innerHeight - rect.bottom;
@@ -85,7 +118,6 @@ function App() {
     document.body.style.overflow = 'hidden';
     setProjectTransitionPhase('expanding');
 
-    // Switch bar to fixed at current position
     barEl.style.position = 'fixed';
     barEl.style.zIndex = '60';
     barEl.style.top = `${startTop}px`;
@@ -98,37 +130,22 @@ function App() {
     const animate = (now: number) => {
       const progress = Math.min((now - startTime) / duration, 1);
       const eased = easeInOutQuad(progress);
-
       const currentTop = startTop * (1 - eased);
       const currentBottom = startBottom * (1 - eased);
 
-      // Animate bar edges
       barEl.style.top = `${currentTop}px`;
       barEl.style.bottom = `${currentBottom}px`;
 
-      // Push TopNav up only when bar's top edge reaches TopNav's bottom
-      // Use style.top on the fixed nav element (moves it from top:0 to negative)
       if (topNavEl) {
-        if (currentTop < topNavHeight) {
-          topNavEl.style.top = `${currentTop - topNavHeight}px`;
-        } else {
-          topNavEl.style.top = '0px';
-        }
+        topNavEl.style.top = currentTop < topNavHeight ? `${currentTop - topNavHeight}px` : '0px';
       }
-
-      // Push bottom bar down only when bar's bottom edge reaches bottom bar's top
       if (bottomBarEl) {
-        if (currentBottom < bottomBarHeight) {
-          bottomBarEl.style.bottom = `${currentBottom - bottomBarHeight}px`;
-        } else {
-          bottomBarEl.style.bottom = '0px';
-        }
+        bottomBarEl.style.bottom = currentBottom < bottomBarHeight ? `${currentBottom - bottomBarHeight}px` : '0px';
       }
 
       if (progress < 1) {
         requestAnimationFrame(animate);
       } else {
-        // Animation complete
         setIsProjectModalOpen(true);
         setProjectTransitionPhase('modal-open');
       }
@@ -137,12 +154,10 @@ function App() {
     requestAnimationFrame(animate);
   }, [projectTransitionPhase]);
 
-  // Handle closing the project modal — reset everything
   const handleProjectModalClose = useCallback(() => {
     setIsProjectModalOpen(false);
     setProjectTransitionPhase('idle');
     document.body.style.overflow = '';
-    // Reset all inline styles
     if (learnMoreBarRef.current) {
       const el = learnMoreBarRef.current;
       el.style.position = '';
@@ -156,76 +171,43 @@ function App() {
     if (bottomBarRef.current) bottomBarRef.current.style.bottom = '';
   }, []);
 
-
-
-  // Section background images for the projects carousel
   const sectionImages = t.projectsGallery.sectionImages;
 
-  // Auto-rotate project images every 5 seconds (pause when modal is open)
+  // Auto-rotate project background images — no dependency on activeProjectIndex to avoid reset loop
   useEffect(() => {
     if (isProjectModalOpen) return;
     const interval = setInterval(() => {
       setActiveProjectIndex(prev => (prev + 1) % sectionImages.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, [isProjectModalOpen, sectionImages.length, activeProjectIndex]);
+  }, [isProjectModalOpen, sectionImages.length]);
 
-  // HIDDEN TEMPORARILY - News handlers
-  // const handleNewsChange = (newIndex: number) => {
-  //   if (isSliding || newIndex === activeNewsIndex) return;
-  //   setIsSliding(true);
-  //   setActiveNewsIndex(newIndex);
-  //   setTimeout(() => setIsSliding(false), 700);
-  // };
-  // useEffect(() => {
-  //   if (isNewsModalOpen) return;
-  //   const interval = setInterval(() => {
-  //     setActiveNewsIndex(prev => {
-  //       const next = (prev + 1) % t.news.articles.length;
-  //       setIsSliding(true);
-  //       setTimeout(() => setIsSliding(false), 700);
-  //       return next;
-  //     });
-  //   }, 10000);
-  //   return () => clearInterval(interval);
-  // }, [t.news.articles.length, isNewsModalOpen]);
-
-  // Disable body scroll when any modal is open or transition is active (merged into one effect)
+  // Lock body scroll when modal or transition is active
   useEffect(() => {
     document.body.style.overflow = (isProjectModalOpen || projectTransitionPhase !== 'idle') ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [isProjectModalOpen, projectTransitionPhase]);
 
-  // Configurable banner speed (pixels per frame) - adjust this value to control speed
   const BANNER_SPEED = 2;
 
+  // Section active tracking via IntersectionObserver
   useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: '-50% 0px -50% 0px',
-      threshold: 0
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const sectionId = entry.target.id;
-          if (sectionId) {
-            setActiveSection(sectionId);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.target.id) {
+            setActiveSection(entry.target.id);
           }
-        }
-      });
-    }, observerOptions);
-
+        });
+      },
+      { root: null, rootMargin: '-50% 0px -50% 0px', threshold: 0 }
+    );
     const sections = document.querySelectorAll('section[id]');
     sections.forEach((section) => observer.observe(section));
-
-    return () => {
-      sections.forEach((section) => observer.unobserve(section));
-    };
+    return () => sections.forEach((section) => observer.unobserve(section));
   }, []);
 
-  // Continuous banner movement when scrolling — direct DOM update, zero re-renders
+  // Scroll-driven banner movement — zero re-renders via direct DOM
   useEffect(() => {
     const animate = () => {
       if (isScrollingRef.current) {
@@ -242,142 +224,84 @@ function App() {
         isScrollingRef.current = true;
         animationRef.current = requestAnimationFrame(animate);
       }
-
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
       scrollTimeoutRef.current = window.setTimeout(() => {
         isScrollingRef.current = false;
-        if (animationRef.current) {
-          cancelAnimationFrame(animationRef.current);
-        }
+        if (animationRef.current) cancelAnimationFrame(animationRef.current);
       }, 100);
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
+      if (animationRef.current) cancelAnimationFrame(animationRef.current);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
     };
   }, []);
 
   const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
-    // Sanitize inputs before submission
-    const sanitizedData = {
-      firstName: sanitize(formData.firstName),
-      lastName: sanitize(formData.lastName),
-      email: sanitize(formData.email),
-      message: sanitize(formData.message),
-    };
-    console.log('Form submitted:', sanitizedData);
+    // Sanitize before sending to a backend endpoint
+    void sanitize(formData.firstName);
+    void sanitize(formData.lastName);
+    void sanitize(formData.email);
+    void sanitize(formData.message);
+    // TODO: wire up to actual form submission endpoint
   }, [formData]);
 
-  // Intro animation sequence - Circle reveal
+  // Intro animation — circle reveal using CSS animation, no per-frame setState
   useEffect(() => {
-    // Force scroll to top immediately and prevent browser scroll restoration
-    if ('scrollRestoration' in history) {
-      history.scrollRestoration = 'manual';
-    }
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     document.documentElement.scrollTop = 0;
     document.body.scrollTop = 0;
-
-
-
-    // Disable scrolling during intro
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
 
-    // Start drawing phase (circle draws around center)
-    const drawTimer = setTimeout(() => {
-      setIntroPhase('drawing');
-    }, 100);
-
-    // Start expanding phase immediately after drawing completes (1s drawing + 100ms initial = 1100ms)
-    // No delay - mask appears as soon as circle finishes drawing
+    const drawTimer = setTimeout(() => setIntroPhase('drawing'), 150);
+    // circle draws for ~1s, then fade out the overlay
     const expandTimer = setTimeout(() => {
       setIntroPhase('expanding');
-      // Keep scrolling disabled until expansion is well underway
-
-      // Use requestAnimationFrame for smoother animation
-      let size = 150;
-      let lastTime = performance.now();
-
-      const animate = (currentTime: number) => {
-        const deltaTime = currentTime - lastTime;
-        lastTime = currentTime;
-
-        // Smooth expansion: ~25 pixels per 16ms frame (faster)
-        size += (deltaTime / 16) * 25;
-        setCircleSize(size);
-
-        // Enable scrolling after circle has expanded a bit
-        if (size > 300) {
-          document.body.style.overflow = '';
-          document.documentElement.style.overflow = '';
-        }
-
-        if (size < Math.max(window.innerWidth, window.innerHeight) * 1.5) {
-          requestAnimationFrame(animate);
-        }
-      };
-
-      requestAnimationFrame(animate);
-    }, 1100); // Starts immediately when drawing finishes (no delay)
-
-    // Complete intro after animation
-    const completeTimer = setTimeout(() => {
-      setIntroPhase('done');
-      setIntroComplete(true);
-      // Re-enable scrolling
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
-    }, 3400); // Adjusted timing (1100 + ~2300 for expansion)
+    }, 1300);
+    const doneTimer = setTimeout(() => setIntroPhase('done'), 1400);
+    const completeTimer = setTimeout(() => {
+      setIntroComplete(true);
+    }, 2100);
 
     return () => {
       clearTimeout(drawTimer);
       clearTimeout(expandTimer);
+      clearTimeout(doneTimer);
       clearTimeout(completeTimer);
       document.body.style.overflow = '';
       document.documentElement.style.overflow = '';
     };
   }, []);
 
-  // Custom cursor — direct DOM updates, zero re-renders (~60 events/sec)
+  // Custom cursor — direct DOM updates, zero re-renders
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (cursorRef.current) {
         cursorRef.current.style.transform = `translate(${e.clientX - 12}px, ${e.clientY - 12}px)`;
       }
     };
-
     const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest('a, button, input, textarea, [role="button"]')) {
+      if ((e.target as HTMLElement).closest('a, button, input, textarea, [role="button"]')) {
         isHoveringRef.current = true;
-        if (cursorRef.current) cursorRef.current.classList.add('hovering');
+        cursorRef.current?.classList.add('hovering');
       }
     };
-
     const handleMouseOut = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (target.closest('a, button, input, textarea, [role="button"]')) {
+      if ((e.target as HTMLElement).closest('a, button, input, textarea, [role="button"]')) {
         isHoveringRef.current = false;
-        if (cursorRef.current) cursorRef.current.classList.remove('hovering');
+        cursorRef.current?.classList.remove('hovering');
       }
     };
-
     document.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('mouseover', handleMouseOver, { passive: true });
     document.addEventListener('mouseout', handleMouseOut, { passive: true });
-
     return () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseover', handleMouseOver);
@@ -387,55 +311,41 @@ function App() {
 
   return (
     <div className={`bg-aoc-black text-aoc-white overflow-x-hidden ${language === 'ar' ? 'rtl' : 'ltr'}`}>
-      {/* Intro Animation Overlay - Circle Reveal */}
+      {/* Intro Animation Overlay */}
       {!introComplete && (
-        <div className="fixed inset-0 z-[100] pointer-events-none overflow-hidden">
-          {/* Glassy blur overlay with inverted circle mask - blur outside, clear inside */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background: 'rgba(0, 0, 0, 0.3)',
-              backdropFilter: 'blur(12px)',
-              WebkitBackdropFilter: 'blur(12px)',
-              maskImage: introPhase === 'initial'
-                ? 'none'
-                : introPhase === 'drawing'
-                  ? 'none'
-                  : `radial-gradient(circle ${introPhase === 'expanding' ? circleSize : 150}px at 50% 50%, transparent 100%, black 100%)`,
-              WebkitMaskImage: introPhase === 'initial'
-                ? 'none'
-                : introPhase === 'drawing'
-                  ? 'none'
-                  : `radial-gradient(circle ${introPhase === 'expanding' ? circleSize : 150}px at 50% 50%, transparent 100%, black 100%)`,
-              opacity: introPhase === 'done' ? 0 : 1,
-              transition: 'opacity 0.5s ease-out',
-            }}
-          />
-
-          {/* SVG for circle stroke animation - draws from 12 o'clock clockwise */}
+        <div
+          className="fixed inset-0 z-[100] pointer-events-none overflow-hidden flex items-center justify-center"
+          style={{
+            background: 'rgba(10, 12, 20, 0.92)',
+            backdropFilter: introPhase === 'done' ? 'none' : 'blur(14px)',
+            WebkitBackdropFilter: introPhase === 'done' ? 'none' : 'blur(14px)',
+            opacity: introPhase === 'done' ? 0 : 1,
+            transition: introPhase === 'done' ? 'opacity 0.6s ease-out, backdrop-filter 0.6s ease-out' : 'none',
+          }}
+        >
           <svg
-            className="absolute inset-0 w-full h-full pointer-events-none"
+            width="320"
+            height="320"
+            viewBox="0 0 320 320"
             style={{
-              opacity: introPhase === 'done' ? 0 : 1,
-              transition: 'opacity 0.5s ease-out'
+              opacity: introPhase === 'done' || introPhase === 'expanding' ? 0 : 1,
+              transition: 'opacity 0.2s ease-out',
             }}
           >
-            {/* Circle stroke drawing animation */}
             <circle
-              cx="50%"
-              cy="50%"
-              r={introPhase === 'expanding' ? circleSize : 150}
+              cx="160"
+              cy="160"
+              r="150"
               fill="none"
               stroke="#CAB64B"
-              strokeWidth="2"
+              strokeWidth="1.5"
               strokeLinecap="round"
               style={{
-                strokeDasharray: introPhase === 'expanding' ? circleSize * 2 * Math.PI : 150 * 2 * Math.PI,
-                strokeDashoffset: introPhase === 'initial' ? 150 * 2 * Math.PI : 0,
-                transform: `rotate(-90deg)`,
-                transformOrigin: '50% 50%',
+                strokeDasharray: 942,
+                strokeDashoffset: introPhase === 'initial' ? 942 : 0,
+                transform: 'rotate(-90deg)',
+                transformOrigin: '160px 160px',
                 transition: introPhase === 'drawing' ? 'stroke-dashoffset 1s linear' : 'none',
-                opacity: introPhase === 'done' ? 0 : 1
               }}
             />
           </svg>
@@ -446,17 +356,18 @@ function App() {
         <TopNav activeSection={activeSection} />
       </div>
 
-      {/* Hero Video Section */}
+      {/* Hero Video */}
       <section id="home" className="relative min-h-screen md:h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
-          {/* Video container with aspect ratio on mobile */}
           <div className="relative w-full h-full md:aspect-auto aspect-video md:min-h-screen">
             <video
               autoPlay
               muted
               loop
               playsInline
+              preload="auto"
               poster={videoPoster}
+              disableRemotePlayback
               className="absolute inset-0 w-full h-full object-cover"
             >
               <source src={heroVideo} type="video/mp4" />
@@ -465,79 +376,37 @@ function App() {
           <div className="absolute inset-0 bg-gradient-to-b from-aoc-black/60 via-aoc-indigo/20 to-aoc-black/70" />
         </div>
 
-
-        {/* Scrolling Banner - positioned below center */}
+        {/* Scrolling Banner */}
         <div className={`absolute left-0 right-0 z-20 w-screen overflow-hidden ${language === 'ar' ? 'top-[65%]' : 'top-[70%]'}`}>
           {language === 'ar' ? (
-            /* Arabic Banner - scroll-based movement (left to right, seamless loop) */
-            <div
-              className="flex whitespace-nowrap"
-              style={{ width: 'max-content' }}
-            >
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-12">الثقة</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-6">•</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-12">الابتكار</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-6">•</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-12">الدقة</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-6">•</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-12">الثقة</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-6">•</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-12">الابتكار</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-6">•</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-12">الدقة</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-6">•</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-12">الثقة</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-6">•</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-12">الابتكار</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-6">•</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-12">الدقة</span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white mx-6">•</span>
+            <div className="flex whitespace-nowrap" style={{ width: 'max-content' }}>
+              {['الثقة', '•', 'الابتكار', '•', 'الدقة', '•', 'الثقة', '•', 'الابتكار', '•', 'الدقة', '•', 'الثقة', '•', 'الابتكار', '•', 'الدقة', '•'].map((word, i) => (
+                <span key={i} className={`text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white ${word === '•' ? 'mx-6' : 'mx-12'}`}>{word}</span>
+              ))}
             </div>
           ) : (
-            <div
-              ref={bannerElRef}
-              className="flex whitespace-nowrap"
-              style={{ width: 'max-content' }}
-            >
-              <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
-                {t.hero.title}
-              </span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
-                {t.hero.title}
-              </span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
-                {t.hero.title}
-              </span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
-                {t.hero.title}
-              </span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
-                {t.hero.title}
-              </span>
-              <span className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
-                {t.hero.title}
-              </span>
+            <div ref={bannerElRef} className="flex whitespace-nowrap" style={{ width: 'max-content' }}>
+              {[...Array(6)].map((_, i) => (
+                <span key={i} className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+                  {t.hero.title}
+                </span>
+              ))}
             </div>
           )}
         </div>
 
-        {/* Scroll Indicator - Left Side */}
+        {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-2 md:left-8 z-30">
           <div className="flex flex-col items-center gap-2 px-3 py-4 border border-aoc-white/30 rounded-full">
-            <span className="text-aoc-white/80 text-xs font-inter-tight font-light tracking-[0.15em] uppercase writing-vertical">
-              SCROLL
-            </span>
+            <span className="text-aoc-white/80 text-xs font-inter-tight font-light tracking-[0.15em] uppercase writing-vertical">SCROLL</span>
             <ChevronDown className="text-aoc-white/80 animate-bounce" size={16} strokeWidth={1} />
           </div>
         </div>
 
-        {/* Bottom Bar - Native Design */}
+        {/* Hero Bottom Bar */}
         <div className="absolute bottom-0 left-0 right-0 z-30">
           <div className="w-full px-4 py-4 relative flex items-center justify-between">
-            {/* Left spacer for scroll indicator - hidden on mobile */}
-            <div className="hidden md:block w-20"></div>
-
-            {/* Social Media Icons - Left on mobile, centered on desktop */}
+            <div className="hidden md:block w-20" />
             <div className="flex items-center gap-3 md:gap-6 md:absolute md:left-[55%] md:-translate-x-1/2">
               <a href="https://www.linkedin.com/company/alosaimiconsulting/" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
                 <Linkedin className="w-4 h-4 md:w-[22px] md:h-[22px]" />
@@ -549,10 +418,8 @@ function App() {
                 <Facebook className="w-4 h-4 md:w-[22px] md:h-[22px]" />
               </a>
             </div>
-
-            {/* BeFound Logo on Right */}
             <div className="flex items-center">
-              <a href="https://mahmud195.github.io/Be_Found_website/" target="_blank" rel="noopener noreferrer">
+              <a href="https://www.befound.design/" target="_blank" rel="noopener noreferrer">
                 <img src={beFoundLogo} alt="BeFound Design Studio" className="h-6 w-auto" />
               </a>
             </div>
@@ -560,23 +427,20 @@ function App() {
         </div>
       </section>
 
+      {/* About Section */}
       <section id="about" className="min-h-screen bg-aoc-indigo flex flex-col justify-center py-24 gap-16 md:gap-32">
         <div ref={aboutAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 md:px-8 w-full ${language === 'ar' ? 'rtl' : ''}`}>
-          {/* Container with relative positioning for overlapping elements */}
           <div className="relative">
-            {/* ABOUT US Title - comes from left */}
             <div
               ref={aboutTitleAnimation.ref}
               className={`absolute top-20 md:top-10 z-20 animate-slide-right ${aboutTitleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'right-[5%] md:right-[8.5%]' : 'left-0 md:left-[3.5rem]'}`}
             >
-              {/* Mobile: Two lines on image */}
               <h2 className={`md:hidden text-4xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-right' : ''}`}>
                 {t.about.title.split('\n')[0]}
               </h2>
               <h2 className={`md:hidden text-4xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white -mt-1 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
                 {t.about.title.split('\n')[1]}
               </h2>
-              {/* Desktop: Two lines */}
               <h2 className={`hidden md:block text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-left' : ''}`}>
                 {t.about.title.split('\n')[0]}
               </h2>
@@ -585,25 +449,18 @@ function App() {
               </h2>
             </div>
 
-            {/* Main content - Flex column on mobile, relative positioning on desktop */}
             <div className="relative w-full flex flex-col md:block">
-              {/* Image container with animated decorative circle */}
               <div
                 ref={aboutImageAnimation.ref}
                 className={`relative pt-16 md:pt-16 w-[80%] md:w-[50%] mx-auto animate-fade-in ${aboutImageAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:mr-[15%] md:ml-auto' : 'md:ml-[17%] md:mr-auto'}`}
               >
-                {/* Animated Decorative Circle - SVG for drawing effect */}
                 <svg
                   className={`absolute z-10 w-16 h-16 md:w-32 md:h-32 top-[55%] -translate-y-1/2 ${language === 'ar' ? '-right-8 md:-right-16' : '-left-8 md:-left-16'}`}
                   viewBox="0 0 100 100"
                 >
                   <circle
-                    cx="50"
-                    cy="50"
-                    r="48"
-                    fill="none"
-                    stroke="#CAB64B"
-                    strokeWidth="2"
+                    cx="50" cy="50" r="48"
+                    fill="none" stroke="#CAB64B" strokeWidth="2"
                     className={`circle-draw ${aboutImageAnimation.isVisible ? 'visible' : ''}`}
                     style={{
                       strokeDasharray: 301.6,
@@ -614,31 +471,17 @@ function App() {
                     }}
                   />
                 </svg>
-
-                {/* Image - smaller on mobile with aspect ratio */}
                 <div className="relative aspect-[4/5] md:h-[600px] md:aspect-auto overflow-hidden">
-                  <img
-                    src={aboutImage}
-                    alt="Architecture"
-                    loading="lazy"
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={aboutImage} alt="Architecture" loading="lazy" className="w-full h-full object-cover" />
                 </div>
               </div>
 
-              {/* Text content - slides from right */}
-              <div
-                className={`relative md:absolute z-10 p-4 md:p-12 mt-6 md:mt-0 md:top-1/2 md:-translate-y-1/4 w-full md:w-[60%] overflow-hidden ${language === 'ar' ? 'md:left-0 text-right' : 'md:right-0'}`}
-              >
-                <div
-                  ref={aboutTextAnimation.ref}
-                  className={`animate-slide-left ${aboutTextAnimation.isVisible ? 'visible' : ''}`}
-                >
+              <div className={`relative md:absolute z-10 p-4 md:p-12 mt-6 md:mt-0 md:top-1/2 md:-translate-y-1/4 w-full md:w-[60%] overflow-hidden ${language === 'ar' ? 'md:left-0 text-right' : 'md:right-0'}`}>
+                <div ref={aboutTextAnimation.ref} className={`animate-slide-left ${aboutTextAnimation.isVisible ? 'visible' : ''}`}>
                   <div className="space-y-4 md:space-y-6">
                     <p className={`text-aoc-white/80 text-sm md:text-[1.35rem] font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
                       {t.about.paragraph1}
                     </p>
-
                     <p className={`text-aoc-white/80 text-sm md:text-[1.35rem] font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
                       {t.about.paragraph2}
                     </p>
@@ -649,28 +492,21 @@ function App() {
           </div>
         </div>
 
-        {/* CEO Speech Section */}
+        {/* CEO Speech */}
         <div ref={ceoAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 md:px-12 lg:px-24 w-full ${language === 'ar' ? 'rtl' : ''}`}>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Column 1: CEO'S SPEECH Title (Pushed left) */}
             <div className={`col-span-1 lg:col-span-3 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
               <h2 className="text-5xl md:text-6xl lg:text-[4rem] xl:text-[4.5rem] font-darker-grotesque font-light tracking-[0.05em] uppercase leading-[0.85] text-aoc-white whitespace-pre-line">
                 CEO'S{'\n'}<span className="font-normal">SPEECH</span>
               </h2>
             </div>
 
-            {/* Column 2: Circle & Name (Centered perfectly) */}
-            <div className={`col-span-1 lg:col-span-5 flex flex-col md:flex-row items-center justify-center gap-6 ${language === 'ar' ? '' : ''}`}>
-              {/* Animated Circle */}
+            <div className={`col-span-1 lg:col-span-5 flex flex-col md:flex-row items-center justify-center gap-6`}>
               <div className="flex-shrink-0">
                 <svg className="w-20 h-20 md:w-28 md:h-28" viewBox="0 0 100 100">
                   <circle
-                    cx="50"
-                    cy="50"
-                    r="48"
-                    fill="none"
-                    stroke="#CAB64B"
-                    strokeWidth="1.5"
+                    cx="50" cy="50" r="48"
+                    fill="none" stroke="#CAB64B" strokeWidth="1.5"
                     className={`circle-draw ${ceoAnimation.isVisible ? 'visible' : ''}`}
                     style={{
                       strokeDasharray: 301.6,
@@ -682,7 +518,7 @@ function App() {
                   />
                 </svg>
               </div>
-              <div className={`flex flex-col ${language === 'ar' ? 'items-start' : 'items-start'}`}>
+              <div className="flex flex-col items-start">
                 <h3 className="text-2xl md:text-3xl lg:text-[1.85rem] xl:text-[2.1rem] font-darker-grotesque font-medium tracking-[0.03em] uppercase text-aoc-gold whitespace-pre-line leading-[0.7] mb-2.5">
                   {t.about.ceoName}
                 </h3>
@@ -692,27 +528,13 @@ function App() {
               </div>
             </div>
 
-            {/* Column 3: Speech text */}
             <div className="col-span-1 lg:col-span-4">
               <div className={`space-y-4 animate-slide-left ${ceoAnimation.isVisible ? 'visible' : ''}`}>
-                <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right rtl' : 'ltr'}`}>
-                  {t.about.ceoSpeech1}
-                </p>
-                <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right rtl' : 'ltr'}`}>
-                  {t.about.ceoSpeech2}
-                </p>
-                <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right rtl' : 'ltr'}`}>
-                  {t.about.ceoSpeech3}
-                </p>
-                <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right rtl' : 'ltr'}`}>
-                  {t.about.ceoSpeech4}
-                </p>
-                <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right rtl' : 'ltr'}`}>
-                  {t.about.ceoSpeech5}
-                </p>
-                <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right rtl' : 'ltr'}`}>
-                  {t.about.ceoSpeech6}
-                </p>
+                {[t.about.ceoSpeech1, t.about.ceoSpeech2, t.about.ceoSpeech3, t.about.ceoSpeech4, t.about.ceoSpeech5, t.about.ceoSpeech6].map((speech, i) => (
+                  <p key={i} className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right rtl' : 'ltr'}`}>
+                    {speech}
+                  </p>
+                ))}
               </div>
             </div>
           </div>
@@ -723,8 +545,34 @@ function App() {
         <Services />
       </Suspense>
 
+      {/* Clients Marquee Banner */}
+      <section className="relative overflow-hidden py-8 bg-aoc-indigo border-t border-b border-white/10">
+        <div className="absolute inset-0 bg-aoc-black/40 backdrop-blur-md pointer-events-none" />
+        <div className="flex" style={{ animation: 'marquee 40s linear infinite', width: 'max-content' }}>
+          {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((logo, i) => {
+            const img = (
+              <img
+                src={logo.src}
+                alt={logo.alt}
+                loading="lazy"
+                className="max-h-full max-w-full object-contain opacity-80 hover:opacity-100 transition-opacity duration-300"
+              />
+            );
+            return (
+              <div key={i} className="flex-shrink-0 flex items-center justify-center mx-10 h-16 w-32">
+                {logo.url ? (
+                  <a href={logo.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center h-full w-full">
+                    {img}
+                  </a>
+                ) : img}
+              </div>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Projects Section */}
       <section id="projects" className="relative h-screen flex items-center overflow-hidden bg-aoc-black">
-        {/* Background images carousel - 1920x1080 images, preserve aspect ratio */}
         <div className="absolute inset-0 flex items-center justify-center">
           {sectionImages.map((img, index) => (
             <div
@@ -732,24 +580,13 @@ function App() {
               className="absolute inset-0 flex items-center justify-center transition-opacity duration-700"
               style={{ opacity: index === activeProjectIndex ? 1 : 0 }}
             >
-              <img
-                src={img}
-                alt={`Project ${index + 1}`}
-                loading="lazy"
-                className="w-full aspect-[16/9] object-cover"
-              />
+              <img src={img} alt={`Project ${index + 1}`} loading="lazy" className="w-full aspect-[16/9] object-cover" />
             </div>
           ))}
           <div className="absolute inset-0 bg-gradient-to-t from-aoc-black/80 via-aoc-indigo/30 to-transparent" />
         </div>
 
-        {/* Main content */}
-        <div
-          ref={projectsAnimation.ref}
-          className={`absolute inset-0 z-10 ${language === 'ar' ? 'rtl' : ''}`}
-        >
-
-          {/* Section title - OUR PROJECTS */}
+        <div ref={projectsAnimation.ref} className={`absolute inset-0 z-10 ${language === 'ar' ? 'rtl' : ''}`}>
           <div className={`absolute bottom-[55%] left-0 right-0 px-8 md:px-16 ${language === 'ar' ? 'text-right' : ''}`}>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-darker-grotesque font-medium tracking-[0.15em] uppercase leading-[0.9]" style={{ color: '#F2F2F2' }}>
               {t.projectsGallery.sectionTitle}
@@ -761,20 +598,18 @@ function App() {
             className={`left-0 right-0 w-full backdrop-blur-sm ${projectTransitionPhase === 'idle'
               ? 'absolute top-1/2 -translate-y-1/2 border-t border-b border-white/20 bg-aoc-black/20'
               : 'bg-aoc-black/90 backdrop-blur-xl'
-              }`}
+            }`}
           >
-            <div className={`px-4 md:px-16 py-2 md:py-3 transition-opacity duration-300 ${projectTransitionPhase !== 'idle' ? 'opacity-0' : 'opacity-100'
-              }`}>
-              {/* Learn More */}
+            <div className={`px-4 md:px-16 py-2 md:py-3 transition-opacity duration-300 ${projectTransitionPhase !== 'idle' ? 'opacity-0' : 'opacity-100'}`}>
               <button
                 onClick={handleLearnMoreClick}
                 disabled={projectTransitionPhase !== 'idle'}
                 className={`group flex items-center gap-1 md:gap-2 text-aoc-gold hover:text-aoc-white transition-colors ${language === 'ar' ? 'flex-row-reverse' : ''}`}
               >
                 <div className="flex flex-col gap-1 w-4">
-                  <span className="block h-px bg-current"></span>
-                  <span className="block h-px bg-current"></span>
-                  <span className="block h-px bg-current"></span>
+                  <span className="block h-px bg-current" />
+                  <span className="block h-px bg-current" />
+                  <span className="block h-px bg-current" />
                 </div>
                 <span className="text-[10px] md:text-sm font-inter-tight font-light tracking-[0.1em] md:tracking-[0.15em] uppercase">
                   {t.projectsGallery.learnMore}
@@ -785,109 +620,7 @@ function App() {
         </div>
       </section>
 
-      {/* NEWS SECTION - HIDDEN TEMPORARILY
-      <section id="news" className="min-h-screen flex items-center py-16 md:py-24" style={{ backgroundColor: '#f2f2f2' }}>
-        <div className={`max-w-screen-xl mx-auto px-8 w-full ${language === 'ar' ? 'rtl' : ''}`}>
-          <div
-            ref={newsAnimation.ref}
-            className="relative w-full mb-8"
-          >
-            <div
-              className={`absolute z-20 top-1/2 ${language === 'ar' ? 'right-0' : 'left-0'}`}
-              style={{
-                transform: language === 'ar'
-                  ? 'translateY(-50%) translateX(50%)'
-                  : 'translateY(-50%) translateX(-50%)'
-              }}
-            >
-              <svg
-                className="w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40"
-                viewBox="0 0 100 100"
-              >
-                <circle
-                  cx="50"
-                  cy="50"
-                  r="48"
-                  fill="none"
-                  stroke="#CAB64B"
-                  strokeWidth="2"
-                  style={{
-                    strokeDasharray: 301.6,
-                    strokeDashoffset: newsAnimation.isVisible ? 0 : 301.6,
-                    transition: 'stroke-dashoffset 1.2s ease-out',
-                    transform: 'rotate(-90deg)',
-                    transformOrigin: 'center'
-                  }}
-                />
-              </svg>
-              <h2
-                className={`absolute top-1/2 -translate-y-1/2 whitespace-nowrap text-3xl md:text-5xl lg:text-6xl font-darker-grotesque font-medium tracking-[0.15em] uppercase ${language === 'ar' ? 'right-full mr-4 md:mr-6' : 'left-full ml-4 md:ml-6'}`}
-                style={{ color: '#F2F2F2' }}
-              >
-                {t.news.title}
-              </h2>
-            </div>
-            <div className="relative w-full aspect-[16/9] md:aspect-[2/1] overflow-hidden">
-              <div
-                className="absolute inset-0 flex transition-transform duration-700 ease-in-out"
-                style={{
-                  width: `${t.news.articles.length * 100}%`,
-                  transform: `translateX(-${activeNewsIndex * (100 / t.news.articles.length)}%)`
-                }}
-              >
-                {t.news.articles.map((article, index) => (
-                  <div
-                    key={index}
-                    className="relative h-full"
-                    style={{ width: `${100 / t.news.articles.length}%` }}
-                  >
-                    <img
-                      src={article.image}
-                      alt={article.title}
-                      loading="lazy"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-              <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/30 pointer-events-none" />
-              <div className={`absolute bottom-8 md:bottom-12 ${language === 'ar' ? 'left-8 md:left-16 text-left' : 'right-8 md:right-16 text-right'}`}>
-                <h3 className="text-2xl md:text-3xl lg:text-4xl font-darker-grotesque font-normal tracking-[0.05em] text-aoc-white mb-2">
-                  {t.news.articles[activeNewsIndex].title}
-                </h3>
-                <p className="text-sm md:text-base font-inter-tight font-light italic text-aoc-white/80">
-                  {t.news.articles[activeNewsIndex].subtitle}
-                </p>
-              </div>
-              <div className={`absolute bottom-8 md:bottom-12 ${language === 'ar' ? 'right-8 md:right-16' : 'left-8 md:left-16'} flex gap-2`}>
-                {t.news.articles.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleNewsChange(index)}
-                    disabled={isSliding}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 hover:scale-125 ${index === activeNewsIndex ? 'bg-aoc-white/50' : 'bg-aoc-white'
-                      } ${isSliding ? 'cursor-not-allowed' : 'cursor-pointer'}`}
-                    aria-label={`Go to news ${index + 1}`}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-          <div className={`w-full ${language === 'ar' ? 'text-right' : ''}`}>
-            <p className="text-gray-700 font-inter-tight font-light leading-relaxed text-base md:text-lg text-justify">
-              {t.news.articles[activeNewsIndex].text}...{' '}
-              <button
-                onClick={() => setIsNewsModalOpen(true)}
-                className="font-medium underline hover:text-aoc-gold transition-colors"
-              >
-                {t.news.readMore}
-              </button>
-            </p>
-          </div>
-        </div>
-      </section>
-      END NEWS SECTION */}
-
+      {/* Contact Section */}
       <section id="contact" className={`min-h-screen bg-aoc-indigo flex items-center py-24 ${language === 'ar' ? 'rtl' : ''}`}>
         <div
           ref={contactAnimation.ref}
@@ -896,55 +629,43 @@ function App() {
           <h2 className="text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mb-4 leading-tight text-aoc-gold">
             {t.contact.title}
           </h2>
-
           <div className={`w-24 h-[1px] bg-aoc-gold mb-16 ${language === 'ar' ? 'ml-auto' : ''}`} />
 
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="grid md:grid-cols-2 gap-8">
-              <div>
-                <input
-                  type="text"
-                  placeholder={t.contact.firstName}
-                  value={formData.firstName}
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                  className="w-full bg-transparent border-b border-aoc-gold/30 py-4 text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.15em] transition-colors"
-                  required
-                />
-              </div>
-              <div>
-                <input
-                  type="text"
-                  placeholder={t.contact.lastName}
-                  value={formData.lastName}
-                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                  className="w-full bg-transparent border-b border-aoc-gold/30 py-4 text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.15em] transition-colors"
-                  required
-                />
-              </div>
-            </div>
-
-            <div>
               <input
-                type="email"
-                placeholder={t.contact.email}
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                type="text"
+                placeholder={t.contact.firstName}
+                value={formData.firstName}
+                onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
+                className="w-full bg-transparent border-b border-aoc-gold/30 py-4 text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.15em] transition-colors"
+                required
+              />
+              <input
+                type="text"
+                placeholder={t.contact.lastName}
+                value={formData.lastName}
+                onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
                 className="w-full bg-transparent border-b border-aoc-gold/30 py-4 text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.15em] transition-colors"
                 required
               />
             </div>
-
-            <div>
-              <textarea
-                placeholder={t.contact.message}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                rows={6}
-                className="w-full bg-transparent border-b border-aoc-gold/30 py-4 text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.15em] resize-none transition-colors"
-                required
-              />
-            </div>
-
+            <input
+              type="email"
+              placeholder={t.contact.email}
+              value={formData.email}
+              onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+              className="w-full bg-transparent border-b border-aoc-gold/30 py-4 text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.15em] transition-colors"
+              required
+            />
+            <textarea
+              placeholder={t.contact.message}
+              value={formData.message}
+              onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+              rows={6}
+              className="w-full bg-transparent border-b border-aoc-gold/30 py-4 text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.15em] resize-none transition-colors"
+              required
+            />
             <button
               type="submit"
               className="bg-aoc-gold text-aoc-black px-12 py-4 text-sm font-inter-tight font-light tracking-[0.2em] uppercase hover:bg-aoc-gold/90 transition-colors"
@@ -955,28 +676,15 @@ function App() {
         </div>
       </section>
 
-      {/* Fixed Bottom Bar - Glassmorphism (shows when not in hero) */}
+      {/* Fixed Bottom Bar */}
       <div ref={bottomBarRef} className={`fixed bottom-0 left-0 right-0 z-40 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 transition-opacity duration-300 ${activeSection === 'home' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
         <div className="w-full px-12 py-3 flex items-center justify-between">
-          <span className="text-aoc-white/60 text-sm font-inter-tight font-light tracking-[0.3em] uppercase">A</span>
-          <span className="text-aoc-white/60 text-sm font-inter-tight font-light tracking-[0.3em] uppercase">FOUNDATION</span>
-          <span className="text-aoc-white/60 text-sm font-inter-tight font-light tracking-[0.3em] uppercase">OF</span>
-          <span className="text-aoc-white/60 text-sm font-inter-tight font-light tracking-[0.3em] uppercase">TRUST</span>
+          {['A', 'FOUNDATION', 'OF', 'TRUST'].map((word) => (
+            <span key={word} className="text-aoc-white/60 text-sm font-inter-tight font-light tracking-[0.3em] uppercase">{word}</span>
+          ))}
         </div>
       </div>
 
-      {/* News Modal - HIDDEN TEMPORARILY
-      <Suspense fallback={null}>
-        <NewsModal
-          isOpen={isNewsModalOpen}
-          onClose={() => setIsNewsModalOpen(false)}
-          article={t.news.articles[activeNewsIndex]}
-          language={language}
-        />
-      </Suspense>
-      END News Modal */}
-
-      {/* Project Modal - Lazy loaded for better performance */}
       <Suspense fallback={null}>
         <ProjectModal
           isOpen={isProjectModalOpen}
@@ -987,12 +695,9 @@ function App() {
         />
       </Suspense>
 
-      {/* Custom Cursor - GPU-accelerated via transform */}
-      <div
-        ref={cursorRef}
-        className="custom-cursor"
-      />
-    </div >
+      {/* Custom Cursor */}
+      <div ref={cursorRef} className="custom-cursor" />
+    </div>
   );
 }
 

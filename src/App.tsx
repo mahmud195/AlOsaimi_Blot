@@ -202,9 +202,22 @@ function App() {
       },
       { root: null, rootMargin: '-50% 0px -50% 0px', threshold: 0 }
     );
-    const sections = document.querySelectorAll('section[id]');
-    sections.forEach((section) => observer.observe(section));
-    return () => sections.forEach((section) => observer.unobserve(section));
+    
+    const updateObservation = () => {
+      const sections = document.querySelectorAll('section[id]');
+      sections.forEach((section) => observer.observe(section));
+    };
+
+    updateObservation();
+
+    // Watch for lazy-loaded sections (like Services)
+    const mutObserver = new MutationObserver(updateObservation);
+    mutObserver.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      mutObserver.disconnect();
+      observer.disconnect();
+    };
   }, []);
 
   // Scroll-driven banner movement — zero re-renders via direct DOM

@@ -30,8 +30,8 @@ const aorCertificates = [
   { src: certMoMRAH, name: 'Ministry of Municipal, Rural Affairs & Housing', url: 'https://www.momah.gov.sa' },
   { src: certMoJ, name: 'Ministry of Justice', url: 'https://www.moj.gov.sa' },
   { src: certJeddahMunicipality, name: 'Jeddah Municipality', url: 'https://www.jeddah.gov.sa' },
-  { src: certModon, name: 'Modon', url: 'https://www.modon.gov.sa' },
   { src: certNWC, name: 'National Water Company', url: 'https://www.nwc.com.sa' },
+  { src: certModon, name: 'Modon', url: 'https://www.modon.gov.sa' },
   { src: certSEC, name: 'Saudi Electricity Company', url: 'https://www.se.com.sa' },
   { src: certEtimad, name: 'Etimad', url: 'https://etimad.sa' },
   { src: certKhibrah, name: 'Khibrah Platform', url: 'https://khibrah.com.sa' },
@@ -312,24 +312,47 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
                           <p className={`text-[10px] md:text-xs font-inter-tight font-bold tracking-[0.15em] text-aoc-indigo mb-4 uppercase ${language === 'ar' ? 'text-right' : ''}`}>
                             {language === 'ar' ? 'الاعتمادات والتصنيفات' : 'Accreditations & Classifications'}
                           </p>
-                          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 lg:gap-10">
-                            {aorCertificates.map((cert) => (
-                              <a
-                                key={cert.name}
-                                href={cert.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                title={cert.name}
-                                className="flex items-center justify-center hover:scale-110 transition-transform duration-300 w-[calc(33.33%-1.5rem)] sm:w-[calc(20%-2rem)]"
-                              >
-                                <img
-                                  src={cert.src}
-                                  alt={cert.name}
-                                  loading="lazy"
-                                  className="h-10 sm:h-12 md:h-14 w-full object-contain filter drop-shadow-md"
-                                />
-                              </a>
-                            ))}
+                          <div className="flex flex-col gap-6 md:gap-8 mt-4">
+                            {/* Top Row: 5 Logos */}
+                            <div className="flex items-center justify-between gap-4">
+                              {aorCertificates.slice(0, 5).map((cert) => (
+                                <a
+                                  key={cert.name}
+                                  href={cert.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title={cert.name}
+                                  className="flex flex-1 items-center justify-center hover:scale-110 transition-transform duration-300 min-w-0"
+                                >
+                                  <img
+                                    src={cert.src}
+                                    alt={cert.name}
+                                    loading="lazy"
+                                    className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto max-w-full object-contain filter drop-shadow-md"
+                                  />
+                                </a>
+                              ))}
+                            </div>
+                            {/* Bottom Row: 4 Logos (Spaced out to match top row width visually) */}
+                            <div className="flex items-center justify-center gap-8 sm:gap-12 md:gap-20">
+                              {aorCertificates.slice(5).map((cert) => (
+                                <a
+                                  key={cert.name}
+                                  href={cert.url}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  title={cert.name}
+                                  className="flex items-center justify-center hover:scale-110 transition-transform duration-300 shrink-0"
+                                >
+                                  <img
+                                    src={cert.src}
+                                    alt={cert.name}
+                                    loading="lazy"
+                                    className="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain filter drop-shadow-md"
+                                  />
+                                </a>
+                              ))}
+                            </div>
                           </div>
                         </div>
                       </div>

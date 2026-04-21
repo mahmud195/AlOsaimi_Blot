@@ -325,7 +325,7 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
                                 src={cert.src}
                                 alt={cert.name}
                                 loading="lazy"
-                                className="h-8 w-auto object-contain transition-opacity duration-300 hover:opacity-80"
+                                className="h-8 w-auto object-contain transition-opacity duration-300 hover:opacity-80 brightness-0 invert"
                               />
                             </a>
                           ))}

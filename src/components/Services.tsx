@@ -6,13 +6,13 @@ import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import aocLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Logo White.png';
 import aocMobileLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOCMobile.png';
 
-import projectManagementImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Project Management_.jpg';
-import supervisionImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Supervision.jpg';
-import designServicesImg from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Pics/Design-Services.jpg.jpeg';
+import projectManagementImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/project_management.png';
+import supervisionImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Engineering Supervision.jpg.jpeg';
+import designServicesImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Design Services.jpg';
 import surveyingImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Surveying_.jpg';
 import aorImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/A.O.R.jpg';
-import engineeringServicesImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/project_management.png';
-import bimServicesImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Engineering Supervision.jpg.jpeg';
+import engineeringServicesImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/Engineering Services.png';
+import bimServicesImg from '../assets/AlOsaimi_Website_Design 02_Folder/Pics For Website_Our Services/BIM Services Picture.jpg.jpeg';
 import beFoundLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/BeFound Sigment.png';
 
 import certEtimad from '../assets/AlOsaimi_Website_Design 02_Folder/AlOsaimi_Certificates/AlOsaimi_Certificates/Etimad.png';
@@ -307,28 +307,30 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
 
                     {/* Accreditations strip — full width row under the card, natural colors */}
                     {service.id === 'architectOfRecord' && (
-                      <div className="mt-6 pt-4 border-t border-white/10">
-                        <p className={`text-[10px] md:text-xs font-inter-tight font-light tracking-[0.15em] text-aoc-white/60 mb-3 uppercase ${language === 'ar' ? 'text-right' : ''}`}>
-                          {language === 'ar' ? 'الاعتمادات والتصنيفات' : 'Accreditations & Classifications'}
-                        </p>
-                        <div className="flex items-center justify-between gap-4 overflow-x-auto [&::-webkit-scrollbar]:hidden" style={{ scrollbarWidth: 'none' }}>
-                          {aorCertificates.map((cert) => (
-                            <a
-                              key={cert.name}
-                              href={cert.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              title={cert.name}
-                              className="shrink-0 flex items-center"
-                            >
-                              <img
-                                src={cert.src}
-                                alt={cert.name}
-                                loading="lazy"
-                                className="h-8 w-auto object-contain transition-opacity duration-300 hover:opacity-80 brightness-0 invert"
-                              />
-                            </a>
-                          ))}
+                      <div className="mt-8">
+                        <div className="rounded-lg p-5 border border-white/40" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
+                          <p className={`text-[10px] md:text-xs font-inter-tight font-bold tracking-[0.15em] text-aoc-indigo mb-4 uppercase ${language === 'ar' ? 'text-right' : ''}`}>
+                            {language === 'ar' ? 'الاعتمادات والتصنيفات' : 'Accreditations & Classifications'}
+                          </p>
+                          <div className="flex flex-wrap items-center justify-center gap-6 md:gap-8 lg:gap-10">
+                            {aorCertificates.map((cert) => (
+                              <a
+                                key={cert.name}
+                                href={cert.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title={cert.name}
+                                className="flex items-center justify-center hover:scale-110 transition-transform duration-300 w-[calc(33.33%-1.5rem)] sm:w-[calc(20%-2rem)]"
+                              >
+                                <img
+                                  src={cert.src}
+                                  alt={cert.name}
+                                  loading="lazy"
+                                  className="h-10 sm:h-12 md:h-14 w-full object-contain filter drop-shadow-md"
+                                />
+                              </a>
+                            ))}
+                          </div>
                         </div>
                       </div>
                     )}

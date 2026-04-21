@@ -546,8 +546,8 @@ function App() {
       </Suspense>
 
       {/* Clients Marquee Banner */}
-      <section className="relative overflow-hidden py-12 bg-aoc-indigo border-t border-b border-white/10">
-        <div className="absolute inset-0 bg-aoc-black/40 backdrop-blur-md pointer-events-none" />
+      <section className="relative overflow-hidden py-12" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderTop: '1px solid rgba(255,255,255,0.4)', borderBottom: '1px solid rgba(255,255,255,0.4)' }}>
+        <div className="absolute inset-0 pointer-events-none" />
         <div className="flex" style={{ animation: 'marquee 40s linear infinite', width: 'max-content' }}>
           {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((logo, i) => {
             const img = (
@@ -555,7 +555,7 @@ function App() {
                 src={logo.src}
                 alt={logo.alt}
                 loading="lazy"
-                className="max-h-full max-w-full object-contain opacity-80 hover:opacity-100 transition-opacity duration-300 brightness-0 invert"
+                className="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-300"
               />
             );
             return (

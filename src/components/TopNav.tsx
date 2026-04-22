@@ -30,7 +30,10 @@ export default function TopNav({ activeSection }: TopNavProps) {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 transition-all duration-300 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+      <nav
+        aria-label={language === 'ar' ? 'التنقل الرئيسي' : 'Primary navigation'}
+        className={`fixed top-0 left-0 right-0 z-50 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 transition-all duration-300 ${language === 'ar' ? 'rtl' : 'ltr'}`}
+      >
         <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 relative flex items-center justify-between transition-all duration-300">
           {/* Mobile: Hamburger on left, Logo center, Language right */}
           {/* Desktop: Logo left, Nav center, Language right */}
@@ -39,33 +42,44 @@ export default function TopNav({ activeSection }: TopNavProps) {
           <button
             className="md:hidden text-aoc-white/80 hover:text-aoc-white transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen
+              ? language === 'ar' ? 'إغلاق القائمة' : 'Close navigation menu'
+              : language === 'ar' ? 'فتح القائمة' : 'Open navigation menu'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
 
           {/* Logo - Different for mobile and desktop */}
-          <a href="#home" className="h-10 w-auto transition-all duration-300 md:flex-none absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
+          <a
+            href="#home"
+            aria-label={language === 'ar' ? 'الانتقال إلى الرئيسية' : 'Go to homepage'}
+            className="h-10 w-auto transition-all duration-300 md:flex-none absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0"
+          >
             {/* Mobile Logo */}
-            <img src={aocMobileLogo} alt="AOC Logo" className="h-full w-auto md:hidden" />
+            <img src={aocMobileLogo} alt="Al Osaimi Consulting logo" className="h-full w-auto md:hidden" />
             {/* Desktop Logo */}
-            <img src={aocLogo} alt="AOC Logo" className="h-full w-auto hidden md:block" />
+            <img src={aocLogo} alt="Al Osaimi Consulting logo" className="h-full w-auto hidden md:block" />
           </a>
 
           {/* Desktop Navigation - Absolutely Centered */}
-          <div className={`hidden md:flex items-center gap-8 transition-all duration-300 absolute left-1/2 -translate-x-1/2 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
+          <ul className={`hidden md:flex items-center gap-8 transition-all duration-300 absolute left-1/2 -translate-x-1/2 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
             {navItems.map((item) => (
-              <a
-                key={item.id}
-                href={item.href}
-                className={`${language === 'ar' ? 'text-base' : 'text-xs'} font-inter-tight font-light tracking-[0.2em] uppercase transition-all duration-300 ${isActive(item.id)
-                  ? 'text-aoc-gold border-b-2 border-aoc-gold pb-1'
-                  : 'text-aoc-white/80 hover:text-aoc-white'
-                  }`}
-              >
-                {item.label}
-              </a>
+              <li key={item.id}>
+                <a
+                  href={item.href}
+                  aria-current={isActive(item.id) ? 'page' : undefined}
+                  className={`${language === 'ar' ? 'text-base' : 'text-xs'} font-inter-tight font-light tracking-[0.2em] uppercase transition-all duration-300 ${isActive(item.id)
+                    ? 'text-aoc-gold border-b-2 border-aoc-gold pb-1'
+                    : 'text-aoc-white/80 hover:text-aoc-white'
+                    }`}
+                >
+                  {item.label}
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
 
         </div>
       </nav>
@@ -82,23 +96,26 @@ export default function TopNav({ activeSection }: TopNavProps) {
 
         {/* Menu Panel */}
         <div
+          id="mobile-navigation"
           className={`absolute top-[57px] ${language === 'ar' ? 'right-0' : 'left-0'} w-64 h-[calc(100vh-57px)] bg-aoc-black/30 backdrop-blur-md ${language === 'ar' ? 'border-l' : 'border-r'} border-white/10 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : language === 'ar' ? 'translate-x-full' : '-translate-x-full'}`}
         >
-          <div className="p-6 space-y-4">
+          <ul className="p-6 space-y-4">
             {navItems.map((item) => (
-              <a
-                key={item.id}
-                href={item.href}
-                onClick={handleNavClick}
-                className={`block py-3 ${language === 'ar' ? 'text-right text-lg' : 'text-left text-sm'} font-inter-tight font-light tracking-[0.15em] uppercase transition-all duration-300 ${isActive(item.id)
-                  ? 'text-aoc-gold'
-                  : 'text-aoc-white/80 hover:text-aoc-white'
-                  }`}
-              >
-                {item.label}
-              </a>
+              <li key={item.id}>
+                <a
+                  href={item.href}
+                  onClick={handleNavClick}
+                  aria-current={isActive(item.id) ? 'page' : undefined}
+                  className={`block py-3 ${language === 'ar' ? 'text-right text-lg' : 'text-left text-sm'} font-inter-tight font-light tracking-[0.15em] uppercase transition-all duration-300 ${isActive(item.id)
+                    ? 'text-aoc-gold'
+                    : 'text-aoc-white/80 hover:text-aoc-white'
+                    }`}
+                >
+                  {item.label}
+                </a>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </>

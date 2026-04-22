@@ -3,6 +3,7 @@ import { X, ChevronRight } from 'lucide-react';
 import { useLanguage } from '../LanguageContext';
 import { translations } from '../translations';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { getLocalizedText, serviceBriefs, siteCopy } from '../siteData';
 import aocLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOC Logo White.png';
 import aocMobileLogo from '../assets/AlOsaimi_Website_Design 02_Folder/Used Elements/Logos/AOCMobile.png';
 
@@ -46,7 +47,19 @@ interface Service {
   image: string;
 }
 
-function ServicesScrollView({ services, isOpen, onClose, language }: { services: Service[]; isOpen: boolean; onClose: () => void; language: string }) {
+function ServicesScrollView({
+  services,
+  isOpen,
+  onClose,
+  language,
+  initialServiceId,
+}: {
+  services: Service[];
+  isOpen: boolean;
+  onClose: () => void;
+  language: string;
+  initialServiceId: string;
+}) {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
@@ -60,17 +73,24 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
   // Lock body scroll + reset to top when opening
   useEffect(() => {
     if (isOpen) {
+      const nextIndex = Math.max(services.findIndex((service) => service.id === initialServiceId), 0);
       document.body.style.overflow = 'hidden';
-      setActiveIndex(0);
-      activeIndexRef.current = 0;
+      setActiveIndex(nextIndex);
+      activeIndexRef.current = nextIndex;
       requestAnimationFrame(() => {
-        if (scrollContainerRef.current) scrollContainerRef.current.scrollTop = 0;
+        if (scrollContainerRef.current) {
+          scrollContainerRef.current.scrollTop = 0;
+          const targetId = services[nextIndex]?.id;
+          if (targetId) {
+            scrollToService(targetId);
+          }
+        }
       });
     } else {
       document.body.style.overflow = '';
     }
     return () => { document.body.style.overflow = ''; };
-  }, [isOpen]);
+  }, [initialServiceId, isOpen, services]);
 
   // Scroll-based active detection + ring tracking (offsetTop-based, stable across style re-renders)
   useEffect(() => {
@@ -152,18 +172,27 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-aoc-indigo z-50 overflow-hidden">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="services-detail-heading"
+      className="fixed inset-0 bg-aoc-indigo z-50 overflow-hidden"
+    >
       {/* Top Navigation Bar */}
-      <nav className={`fixed top-0 left-0 right-0 z-[70] bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+      <nav
+        aria-label={language === 'ar' ? 'تنقل تفاصيل الخدمات' : 'Service detail navigation'}
+        className={`fixed top-0 left-0 right-0 z-[70] bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}
+      >
         <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
           <a href="#services" onClick={onClose} className="h-10 w-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-            <img src={aocMobileLogo} alt="AOC Logo" className="h-full w-auto md:hidden" />
-            <img src={aocLogo} alt="AOC Logo" className="h-full w-auto hidden md:block" />
+            <img src={aocMobileLogo} alt="Al Osaimi Consulting logo" className="h-full w-auto md:hidden" />
+            <img src={aocLogo} alt="Al Osaimi Consulting logo" className="h-full w-auto hidden md:block" />
           </a>
           <div className="md:hidden w-10" />
           <button
             onClick={onClose}
             className="relative w-10 h-10 flex items-center justify-center"
+            aria-label={language === 'ar' ? 'إغلاق تفاصيل الخدمات' : 'Close service details'}
           >
             <svg className="absolute inset-0 w-full h-full" viewBox="0 0 40 40">
               <circle cx="20" cy="20" r="18" fill="none" stroke="#CAB64B" strokeWidth="1" />
@@ -177,13 +206,14 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
       <div className={`h-full flex ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`} style={{ paddingTop: '64px' }}>
         {/* Sidebar — fixed, shows all 7 in order */}
         <aside className={`hidden md:flex w-56 lg:w-64 shrink-0 flex-col justify-center px-6 lg:px-8 ${language === 'ar' ? 'border-l border-white/10' : 'border-r border-white/10'}`}>
-          <nav className="space-y-5">
+          <nav aria-label={language === 'ar' ? 'قائمة الخدمات' : 'Service list'} className="space-y-5">
             {services.map((service, i) => {
               const isActive = activeIndex === i;
               return (
                 <button
                   key={service.id}
                   onClick={() => scrollToService(service.id)}
+                  aria-current={isActive ? 'true' : undefined}
                   className={`block w-full font-darker-grotesque font-medium tracking-[0.1em] uppercase truncate transition-colors duration-300 text-sm ${language === 'ar' ? 'text-right' : 'text-left'} ${isActive ? 'text-aoc-gold' : 'text-aoc-white/60 hover:text-aoc-white'}`}
                 >
                   {service.title}
@@ -221,6 +251,7 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
               const firstLine = titleWords.slice(0, half).join(' ');
               const secondLine = titleWords.slice(half).join(' ');
               const isActive = activeIndex === index;
+              const brief = serviceBriefs.find((item) => item.serviceId === service.id);
 
               return (
                 <div key={service.id} className="relative">
@@ -233,9 +264,10 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
                     </div>
                   )}
 
-                  <section
+                  <article
                     ref={el => { sectionRefs.current[service.id] = el; }}
                     data-service-id={service.id}
+                    aria-labelledby={`${service.id}-heading`}
                     className="rounded-sm overflow-visible transition-all duration-700"
                     style={{
                       background: isActive ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.08)',
@@ -250,13 +282,16 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
                       {/* Text */}
                       <div className={`flex-1 flex flex-col justify-center ${language === 'ar' ? 'text-right' : ''}`}>
                         <div className="mb-5 lg:mb-8">
-                          <h2 className="text-3xl md:text-4xl lg:text-5xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.95]">
+                          <h2
+                            id={index === 0 ? 'services-detail-heading' : `${service.id}-heading`}
+                            className="text-3xl md:text-4xl lg:text-5xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.95]"
+                          >
                             {firstLine}
                           </h2>
                           {secondLine && (
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.95]">
+                            <p className="text-3xl md:text-4xl lg:text-5xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.95]">
                               {secondLine}
-                            </h2>
+                            </p>
                           )}
                         </div>
 
@@ -269,6 +304,15 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
                             <p className="text-aoc-white/50 text-xs md:text-sm font-inter-tight font-light">
                               {language === 'ar' ? 'الموقع: ' : 'Location: '}{service.place}
                             </p>
+                          )}
+
+                          {brief && (
+                            <a
+                              href={brief.docPath}
+                              className="inline-flex items-center text-sm font-inter-tight font-light tracking-[0.08em] uppercase text-aoc-gold hover:text-aoc-white transition-colors underline"
+                            >
+                              {language === 'ar' ? 'عرض الملخص القابل للقراءة آلياً' : 'Open machine-readable brief'}
+                            </a>
                           )}
 
                           {service.id === 'designServices' && (
@@ -357,7 +401,7 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
                         </div>
                       </div>
                     )}
-                  </section>
+                  </article>
                 </div>
               );
             })}
@@ -380,6 +424,7 @@ export default function Services() {
   const { language } = useLanguage();
   const t = translations[language];
   const [isScrollViewOpen, setIsScrollViewOpen] = useState(false);
+  const [selectedServiceId, setSelectedServiceId] = useState('projectManagement');
   const carouselRef = useRef<HTMLDivElement>(null);
   const isScrollButtonPressed = useRef(false);
   const [isButtonPressed, setIsButtonPressed] = useState(false);
@@ -464,6 +509,13 @@ export default function Services() {
     if (scrollAnimationRef.current) cancelAnimationFrame(scrollAnimationRef.current);
   };
 
+  const handleScrollStep = () => {
+    carouselRef.current?.scrollBy({
+      left: language === 'ar' ? -320 : 320,
+      behavior: 'smooth',
+    });
+  };
+
   const services: Service[] = [
     {
       id: 'projectManagement',
@@ -523,15 +575,25 @@ export default function Services() {
     }
   ];
 
+  const openService = (serviceId: string) => {
+    setSelectedServiceId(serviceId);
+    setIsScrollViewOpen(true);
+  };
+
   return (
-    <section id="services" className={`min-h-screen flex items-start pt-4 md:pt-0 pb-4 ${language === 'ar' ? 'rtl' : ''}`} style={{ backgroundColor: 'rgb(0, 48, 135)' }}>
+    <section
+      id="services"
+      aria-labelledby="services-heading"
+      className={`min-h-screen flex items-start pt-4 md:pt-0 pb-12 ${language === 'ar' ? 'rtl' : ''}`}
+      style={{ backgroundColor: 'rgb(0, 48, 135)' }}
+    >
       <div className="max-w-screen-2xl mx-auto px-4 md:px-8 w-full">
         <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 items-start md:items-center ${language === 'ar' ? 'rtl' : ''}`}>
           <div
             ref={titleAnimation.ref}
             className={`space-y-4 md:space-y-8 animate-slide-right ${titleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:order-2 text-right' : ''}`}
           >
-            <h2 className={`text-3xl md:text-6xl font-darker-grotesque font-extralight tracking-[0.15em] md:tracking-[0.2em] uppercase leading-tight text-aoc-white mt-0 md:-mt-20 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
+            <h2 id="services-heading" className={`text-3xl md:text-6xl font-darker-grotesque font-extralight tracking-[0.15em] md:tracking-[0.2em] uppercase leading-tight text-aoc-white mt-0 md:-mt-20 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
               {t.services.title}
             </h2>
 
@@ -550,7 +612,7 @@ export default function Services() {
           >
             <div
               ref={carouselRef}
-              className={`flex gap-10 overflow-x-auto pb-4 ${language === 'ar' ? 'flex-row-reverse' : ''} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+              className={`services-carousel flex gap-10 overflow-x-auto pb-4 ${language === 'ar' ? 'flex-row-reverse' : ''} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
               style={{
                 scrollBehavior: 'auto',
                 scrollbarWidth: 'none',
@@ -562,21 +624,24 @@ export default function Services() {
               onMouseLeave={handleMouseLeave}
             >
               <style>{`
-                div::-webkit-scrollbar {
+                .services-carousel::-webkit-scrollbar {
                   display: none;
                 }
               `}</style>
               {[...services, ...services].map((service, index) => {
                 const isClone = index >= services.length;
+                const brief = serviceBriefs.find((item) => item.serviceId === service.id);
                 return (
-                  <div
+                  <article
                     key={`${service.id}-${index}`}
                     aria-hidden={isClone}
                     className={`flex-shrink-0 w-80 group cursor-pointer ${!isClone ? `card-deal card-stack-${index} ${cardsAnimation.isVisible ? 'visible' : ''}` : 'opacity-100'}`}
                     style={!isClone ? { transitionDelay: `${index * 0.2}s` } : {}}
                   >
-                    <div
-                      onClick={() => setIsScrollViewOpen(true)}
+                    <button
+                      type="button"
+                      onClick={() => openService(service.id)}
+                      aria-label={language === 'ar' ? `فتح تفاصيل ${service.title}` : `Open details for ${service.title}`}
                       className="relative w-80 aspect-[3/4] overflow-hidden mb-6 transition-transform duration-300 ease-out hover:scale-105"
                     >
                       <img
@@ -591,17 +656,26 @@ export default function Services() {
                           {service.title}
                         </h3>
                       </div>
-                    </div>
+                    </button>
                     <p className={`text-aoc-white/70 text-sm font-inter-tight font-light leading-relaxed mb-4 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                       {service.description}
                     </p>
                     <button
-                      onClick={() => setIsScrollViewOpen(true)}
+                      type="button"
+                      onClick={() => openService(service.id)}
                       className={`text-sm font-inter-tight font-light tracking-[0.1em] uppercase text-blue-300 hover:text-aoc-white transition-colors underline block ${language === 'ar' ? 'ml-auto mr-0' : 'mr-auto ml-0'}`}
                     >
                       {t.services.readMore}
                     </button>
-                  </div>
+                    {brief && (
+                      <a
+                        href={brief.docPath}
+                        className={`mt-3 inline-flex text-xs font-inter-tight font-light tracking-[0.08em] uppercase text-aoc-gold/90 hover:text-aoc-white transition-colors ${language === 'ar' ? 'mr-0 ml-auto' : ''}`}
+                      >
+                        {language === 'ar' ? 'ملف نصي للخدمة' : 'Text brief'}
+                      </a>
+                    )}
+                  </article>
                 );
               })}
             </div>
@@ -609,9 +683,12 @@ export default function Services() {
             <div className="relative mt-8 pt-4 h-12 hidden md:flex items-center justify-between">
               <div className={`absolute ${language === 'ar' ? 'left-0' : 'right-0'} flex items-center gap-4`}>
                   <button
+                    type="button"
+                    onClick={handleScrollStep}
                     onMouseDown={handleScrollButtonDown}
                     onMouseUp={handleScrollButtonUp}
                     onMouseLeave={handleScrollButtonUp}
+                    aria-label={language === 'ar' ? 'تمرير بطاقات الخدمات' : 'Scroll service cards'}
                     className={`flex items-center gap-4 px-8 py-3 rounded-full border-2 border-aoc-gold/50 hover:border-aoc-gold hover:bg-aoc-gold/5 transition-all group ${isButtonPressed ? 'scale-90 bg-aoc-gold/15 border-aoc-gold' : 'scale-100'} ${language === 'ar' ? 'flex-row-reverse' : ''}`}
                     style={{
                       transform: isButtonPressed ? 'scale(0.92)' : 'scale(1)',
@@ -627,6 +704,76 @@ export default function Services() {
             </div>
           </div>
         </div>
+
+        <div className="mt-12 md:mt-16 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {services.map((service) => {
+            const brief = serviceBriefs.find((item) => item.serviceId === service.id);
+            if (!brief) return null;
+
+            return (
+              <article
+                key={`${service.id}-summary`}
+                className="rounded-sm border border-white/15 bg-white/5 p-5 backdrop-blur-sm"
+              >
+                <div className="space-y-3">
+                  <h3 className="text-2xl font-darker-grotesque font-light tracking-[0.08em] uppercase text-aoc-white">
+                    {service.title}
+                  </h3>
+                  <p className="text-sm font-inter-tight font-light leading-relaxed text-aoc-white/80">
+                    {getLocalizedText(brief.summary, language)}
+                  </p>
+                  <p className="text-xs font-inter-tight font-light leading-relaxed text-aoc-white/60">
+                    {getLocalizedText(brief.audience, language)}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {brief.deliverables[language].slice(0, 3).map((item) => (
+                      <span
+                        key={`${service.id}-${item}`}
+                        className="rounded-full border border-aoc-gold/35 px-3 py-1 text-[11px] font-inter-tight font-light uppercase tracking-[0.08em] text-aoc-gold"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-4 pt-1 text-xs font-inter-tight font-light uppercase tracking-[0.08em]">
+                    <button
+                      type="button"
+                      onClick={() => openService(service.id)}
+                      className="text-blue-200 hover:text-aoc-white transition-colors"
+                    >
+                      {language === 'ar' ? 'عرض التفاصيل' : 'View details'}
+                    </button>
+                    <a href={brief.docPath} className="text-aoc-gold hover:text-aoc-white transition-colors">
+                      {language === 'ar' ? 'الملف النصي' : 'Text brief'}
+                    </a>
+                  </div>
+                </div>
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="mt-10 rounded-sm border border-white/15 bg-black/10 p-5 md:p-6">
+          <h3 className="text-2xl md:text-3xl font-darker-grotesque font-light tracking-[0.08em] uppercase text-aoc-white">
+            {language === 'ar' ? 'مرجع الخدمات القابل للاقتباس' : 'Quotable services reference'}
+          </h3>
+          <p className="mt-3 max-w-4xl text-sm md:text-base font-inter-tight font-light leading-relaxed text-aoc-white/80">
+            {language === 'ar'
+              ? 'تم نشر موجزات نصية مستقلة لكل خدمة حتى تتمكن محركات الإجابة والأنظمة الذكية وفرق المشاريع من الرجوع إلى وصف واضح ومباشر للخدمة دون الحاجة إلى فتح النوافذ التفاعلية.'
+              : 'Each core service is published as a standalone text brief so answer engines, AI systems, and project teams can reference a clear service definition without relying on interactive modals.'}
+          </p>
+          <div className="mt-4 flex flex-wrap gap-4 text-xs font-inter-tight font-light uppercase tracking-[0.08em]">
+            <a href="/services/" className="text-aoc-gold hover:text-aoc-white transition-colors">
+              {language === 'ar' ? 'صفحة الخدمات' : 'Services page'}
+            </a>
+            <a href="/services-overview.md" className="text-aoc-gold hover:text-aoc-white transition-colors">
+              {language === 'ar' ? 'نظرة عامة نصية' : 'Services markdown'}
+            </a>
+            <a href="/docs/" className="text-aoc-gold hover:text-aoc-white transition-colors">
+              {getLocalizedText(siteCopy.resourceLinks[0].label, language)}
+            </a>
+          </div>
+        </div>
       </div>
 
       <ServicesScrollView
@@ -634,6 +781,7 @@ export default function Services() {
         isOpen={isScrollViewOpen}
         onClose={() => setIsScrollViewOpen(false)}
         language={language}
+        initialServiceId={selectedServiceId}
       />
     </section>
   );

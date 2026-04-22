@@ -1,0 +1,29 @@
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/docs.css
+  Cache-Control: public, max-age=31536000, immutable
+
+/favicon.png
+  Cache-Control: public, max-age=31536000, immutable
+
+/site.webmanifest
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Cache-Control: public, max-age=3600
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+
+/llms.txt
+  Cache-Control: public, max-age=3600
+
+/llms-full.txt
+  Cache-Control: public, max-age=3600
+
+/*.md
+  Cache-Control: public, max-age=3600
+
+/*
+  Cache-Control: public, max-age=0, must-revalidate

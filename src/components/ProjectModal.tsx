@@ -91,16 +91,12 @@ function FullscreenLightbox({ images, initialIndex, alt, onClose }: FullscreenLi
 
     return (
         <div
-            role="dialog"
-            aria-modal="true"
-            aria-label="Fullscreen project image viewer"
             className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
             onWheel={handleWheel}
         >
             {/* Close button */}
             <button
                 onClick={onClose}
-                aria-label="Close fullscreen image viewer"
                 className="absolute top-4 right-4 z-[110] w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors"
             >
                 <X size={20} />
@@ -111,7 +107,6 @@ function FullscreenLightbox({ images, initialIndex, alt, onClose }: FullscreenLi
                 <button
                     onClick={handleZoomOut}
                     disabled={zoom <= 1}
-                    aria-label="Zoom out"
                     className="w-9 h-9 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors disabled:opacity-30 disabled:pointer-events-none"
                 >
                     <ZoomOut size={16} />
@@ -120,7 +115,6 @@ function FullscreenLightbox({ images, initialIndex, alt, onClose }: FullscreenLi
                 <button
                     onClick={handleZoomIn}
                     disabled={zoom >= 5}
-                    aria-label="Zoom in"
                     className="w-9 h-9 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors disabled:opacity-30 disabled:pointer-events-none"
                 >
                     <ZoomIn size={16} />
@@ -131,7 +125,6 @@ function FullscreenLightbox({ images, initialIndex, alt, onClose }: FullscreenLi
             {images.length > 1 && (
                 <button
                     onClick={handlePrev}
-                    aria-label="Previous image"
                     className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-[110] w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors bg-black/40"
                 >
                     <ChevronLeft size={20} />
@@ -142,7 +135,6 @@ function FullscreenLightbox({ images, initialIndex, alt, onClose }: FullscreenLi
             {images.length > 1 && (
                 <button
                     onClick={handleNext}
-                    aria-label="Next image"
                     className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-[110] w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors bg-black/40"
                 >
                     <ChevronRight size={20} />
@@ -350,7 +342,6 @@ function SwipeGallery({ images, alt }: SwipeGalleryProps) {
                     <button
                         onMouseDown={e => e.stopPropagation()}
                         onClick={(e) => { e.stopPropagation(); handlePrev(); }}
-                        aria-label="Previous project image"
                         className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 md:w-9 md:h-9 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-all"
                     >
                         <ChevronLeft size={16} />
@@ -362,7 +353,6 @@ function SwipeGallery({ images, alt }: SwipeGalleryProps) {
                     <button
                         onMouseDown={e => e.stopPropagation()}
                         onClick={(e) => { e.stopPropagation(); handleNext(); }}
-                        aria-label="Next project image"
                         className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 md:w-9 md:h-9 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-all"
                     >
                         <ChevronRight size={16} />
@@ -373,7 +363,6 @@ function SwipeGallery({ images, alt }: SwipeGalleryProps) {
                 <button
                     onMouseDown={e => e.stopPropagation()}
                     onClick={(e) => { e.stopPropagation(); setIsFullscreen(true); }}
-                    aria-label="Open fullscreen gallery"
                     className="absolute top-2 right-2 z-10 w-8 h-8 md:w-9 md:h-9 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-all"
                 >
                     <Maximize2 size={14} />
@@ -604,59 +593,26 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
     if (!isOpen) return null;
 
     return (
-        <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="projects-modal-heading"
-            aria-describedby="projects-modal-description"
-            className="fixed inset-0 bg-aoc-indigo z-50 overflow-hidden"
-        >
-            <div className="sr-only">
-                <h1 id="projects-modal-heading">
-                    {language === 'ar' ? 'معرض مشاريع مكتب العصيمي للاستشارات' : 'Al Osaimi Consulting project gallery'}
-                </h1>
-                <p id="projects-modal-description">
-                    {language === 'ar'
-                        ? 'تصفح المشاريع السكنية والطبية ومتعددة الاستخدامات مع صور قابلة للتكبير والتنقل حسب الفئة.'
-                        : 'Browse residential, medical, and mixed-use projects with category navigation and expandable image galleries.'}
-                </p>
-            </div>
+        <div className="fixed inset-0 bg-aoc-indigo z-50 overflow-hidden">
             {/* Top Navigation Bar */}
-            <nav
-                aria-label={language === 'ar' ? 'تنقل معرض المشاريع' : 'Project gallery navigation'}
-                className={`fixed top-0 left-0 right-0 z-[70] bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}
-            >
+            <nav className={`fixed top-0 left-0 right-0 z-[70] bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
                 <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
                     {/* Logo - left on desktop, center on mobile */}
-                    <a
-                        href="#projects"
-                        onClick={onClose}
-                        aria-label={language === 'ar' ? 'العودة إلى قسم المشاريع' : 'Return to the projects section'}
-                        className="h-10 w-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0"
-                    >
-                        <img src={aocMobileLogo} alt="Al Osaimi Consulting logo" className="h-full w-auto md:hidden" />
-                        <img src={aocLogo} alt="Al Osaimi Consulting logo" className="h-full w-auto hidden md:block" />
+                    <a href="#projects" onClick={onClose} className="h-10 w-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
+                        <img src={aocMobileLogo} alt="AOC Logo" className="h-full w-auto md:hidden" />
+                        <img src={aocLogo} alt="AOC Logo" className="h-full w-auto hidden md:block" />
                     </a>
 
                     {/* Hamburger Menu Button - Mobile Only (left side) */}
                     <button
                         className="md:hidden text-aoc-white/80 hover:text-aoc-white transition-colors"
                         onClick={() => setIsMobileCategoryOpen(!isMobileCategoryOpen)}
-                        aria-label={isMobileCategoryOpen
-                            ? (language === 'ar' ? 'إغلاق قائمة فئات المشاريع' : 'Close project category menu')
-                            : (language === 'ar' ? 'فتح قائمة فئات المشاريع' : 'Open project category menu')}
-                        aria-expanded={isMobileCategoryOpen}
-                        aria-controls="project-category-panel"
                     >
                         {isMobileCategoryOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
 
                     {/* Close button - right on mobile, right on desktop */}
-                    <button
-                        onClick={onClose}
-                        aria-label={language === 'ar' ? 'إغلاق معرض المشاريع' : 'Close project gallery'}
-                        className="relative w-10 h-10 flex items-center justify-center"
-                    >
+                    <button onClick={onClose} className="relative w-10 h-10 flex items-center justify-center">
                         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 40 40">
                             <circle cx="20" cy="20" r="18" fill="none" stroke="#CAB64B" strokeWidth="1" />
                         </svg>
@@ -667,7 +623,6 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
 
             {/* Mobile Category Slide-out Panel */}
             <div
-                id="project-category-panel"
                 className={`fixed inset-0 z-[65] md:hidden transition-all duration-300 ${isMobileCategoryOpen ? 'visible opacity-100' : 'invisible opacity-0'}`}
             >
                 {/* Backdrop */}
@@ -680,16 +635,11 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                 <div
                     className={`absolute top-[57px] ${language === 'ar' ? 'right-0' : 'left-0'} w-64 h-[calc(100vh-57px)] bg-aoc-black/30 backdrop-blur-md ${language === 'ar' ? 'border-l' : 'border-r'} border-white/10 transform transition-transform duration-300 ${isMobileCategoryOpen ? 'translate-x-0' : language === 'ar' ? 'translate-x-full' : '-translate-x-full'}`}
                 >
-                    <div
-                        role="navigation"
-                        aria-label={language === 'ar' ? 'فئات المشاريع' : 'Project categories'}
-                        className="p-6 space-y-4"
-                    >
+                    <div className="p-6 space-y-4">
                         {categories.map((cat) => (
                             <button
                                 key={cat.key}
                                 onClick={() => scrollToCategory(cat.key)}
-                                aria-current={activeCategory === cat.key ? 'true' : undefined}
                                 className={`block w-full ${language === 'ar' ? 'text-right' : 'text-left'} py-3 font-darker-grotesque font-medium tracking-[0.15em] uppercase transition-all duration-300 ${activeCategory === cat.key
                                     ? 'text-aoc-gold text-xl'
                                     : 'text-aoc-white/70 hover:text-aoc-white text-base'
@@ -707,12 +657,11 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
 
                 {/* Category Sidebar - hidden on mobile */}
                 <div className={`hidden md:flex w-56 lg:w-64 shrink-0 flex-col justify-center px-6 lg:px-8 ${language === 'ar' ? 'border-l border-white/10' : 'border-r border-white/10'}`}>
-                    <nav aria-label={language === 'ar' ? 'فئات المشاريع' : 'Project categories'} className="space-y-4">
+                    <nav className="space-y-4">
                         {categories.map((cat) => (
                             <button
                                 key={cat.key}
                                 onClick={() => scrollToCategory(cat.key)}
-                                aria-current={activeCategory === cat.key ? 'true' : undefined}
                                 className={`block w-full text-left font-darker-grotesque font-medium tracking-[0.15em] uppercase transition-all duration-300 ${language === 'ar' ? 'text-right' : ''} ${activeCategory === cat.key
                                     ? 'text-aoc-gold text-xl lg:text-2xl'
                                     : 'text-aoc-white/70 hover:text-aoc-white text-base'

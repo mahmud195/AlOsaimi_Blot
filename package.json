@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "build:github": "tsc -b && vite build --base=/AlOsaimi_Blot/",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",

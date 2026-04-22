@@ -4,7 +4,7 @@ import viteCompression from 'vite-plugin-compression';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command }) => ({
-  base: '/',
+  base: '/AlOsaimi_Blot/',
   plugins: [
     react(),
     viteCompression({ algorithm: 'gzip', ext: '.gz', threshold: 1024 }),

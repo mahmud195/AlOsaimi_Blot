@@ -68,16 +68,14 @@
     scroll-behavior: smooth;
   }
 
-  body {
-    font-family: 'Inter Tight', sans-serif;
-    background: #1c1f2a;
-    color: #f2f2f2;
-  }
-
   h1,
   h2,
   h3 {
     font-family: 'Darker Grotesque', sans-serif;
+  }
+
+  body {
+    font-family: 'Inter Tight', sans-serif;
   }
 
   /* RTL direction switch — avoid transition:all (causes layout jank) */
@@ -100,14 +98,6 @@
   .rtl nav * {
     font-family: 'Fustat', sans-serif;
   }
-
-  a:focus-visible,
-  button:focus-visible,
-  input:focus-visible,
-  textarea:focus-visible {
-    outline: 2px solid #cab64b;
-    outline-offset: 4px;
-  }
 }
 
 @layer utilities {
@@ -115,6 +105,11 @@
     writing-mode: vertical-rl;
     text-orientation: mixed;
   }
+}
+
+/* Custom Cursor Styles - Touch indicator style */
+* {
+  cursor: none !important;
 }
 
 .custom-cursor {
@@ -139,12 +134,6 @@
   background: rgba(28, 31, 42, 0.5);
   border: 2px solid rgba(242, 242, 242, 0.7);
   box-shadow: 0 0 12px rgba(28, 31, 42, 0.3);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  * {
-    cursor: none !important;
-  }
 }
 
 /* Hide custom cursor on touch devices */
@@ -320,28 +309,5 @@
 @keyframes marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  * {
-    cursor: auto !important;
-  }
-
-  .custom-cursor {
-    display: none !important;
-  }
 }
 

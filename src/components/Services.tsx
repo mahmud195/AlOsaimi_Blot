@@ -155,7 +155,7 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
     <div className="fixed inset-0 bg-aoc-indigo z-50 overflow-hidden">
       {/* Top Navigation Bar */}
       <nav className={`fixed top-0 left-0 right-0 z-[70] bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
-        <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+        <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-3 md:py-4 flex items-center justify-between">
           <a href="#services" onClick={onClose} className="h-10 w-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
             <img src={aocMobileLogo} alt="AOC Logo" className="h-full w-auto md:hidden" />
             <img src={aocLogo} alt="AOC Logo" className="h-full w-auto hidden md:block" />
@@ -174,7 +174,7 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
       </nav>
 
       {/* Main area */}
-      <div className={`h-full flex ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`} style={{ paddingTop: '64px' }}>
+      <div className={`h-full flex ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`} style={{ paddingTop: '61px' }}>
         {/* Sidebar — fixed, shows all 7 in order */}
         <aside className={`hidden md:flex w-56 lg:w-64 shrink-0 flex-col justify-center px-6 lg:px-8 ${language === 'ar' ? 'border-l border-white/10' : 'border-r border-white/10'}`}>
           <nav className="space-y-5">
@@ -196,14 +196,14 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
         {/* Scrollable content */}
         <div
           ref={scrollContainerRef}
-          className="flex-1 overflow-y-auto px-6 md:px-10 lg:px-14 pt-8 md:pt-12 pb-32 [&::-webkit-scrollbar]:hidden"
+          className="flex-1 overflow-y-auto px-4 sm:px-5 md:px-10 lg:px-14 pt-6 md:pt-12 pb-24 md:pb-32 [&::-webkit-scrollbar]:hidden"
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', contain: 'layout paint' }}
         >
           <div ref={scrollContentRef} className="max-w-5xl mx-auto relative">
             {/* Animated gold ring — tracks the active service image (direct DOM updates, zero re-renders) */}
             <div
               ref={ringEl}
-              className="absolute pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-[100]"
+              className="absolute pointer-events-none hidden md:block transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-[100]"
               style={{ opacity: 0, willChange: 'top, left, width, height' }}
             >
               <svg
@@ -226,7 +226,7 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
                 <div key={service.id} className="relative">
                   {/* Divider between cards (matching ProjectModal) */}
                   {index > 0 && (
-                    <div className="w-full flex items-center gap-4 py-10 md:py-14">
+                    <div className="w-full flex items-center gap-4 py-6 md:py-14">
                       <div className="flex-1 h-px bg-white/10" />
                       <div className="w-1 h-1 rounded-full bg-aoc-gold/60" />
                       <div className="flex-1 h-px bg-white/10" />
@@ -236,37 +236,36 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
                   <section
                     ref={el => { sectionRefs.current[service.id] = el; }}
                     data-service-id={service.id}
-                    className="rounded-sm overflow-visible transition-all duration-700"
+                    className="rounded-sm overflow-visible transition-all duration-700 p-5 sm:p-6 md:p-12"
                     style={{
                       background: isActive ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.08)',
                       border: isActive ? '1px solid rgba(202, 182, 75, 0.5)' : '1px solid rgba(202, 182, 75, 0.25)',
                       backdropFilter: isActive ? 'blur(24px)' : 'blur(16px)',
                       WebkitBackdropFilter: isActive ? 'blur(24px)' : 'blur(16px)',
                       boxShadow: isActive ? '0 0 40px rgba(202, 182, 75, 0.08), inset 0 0 30px rgba(255,255,255,0.03)' : 'none',
-                      padding: '3.5rem 3rem 3rem 3.5rem',
                     }}
                   >
-                    <div className={`flex flex-col lg:flex-row gap-8 lg:gap-14 ${language === 'ar' ? 'lg:flex-row-reverse' : ''}`}>
+                    <div className={`flex flex-col-reverse lg:flex-row gap-5 md:gap-8 lg:gap-14 ${language === 'ar' ? 'lg:flex-row-reverse' : ''}`}>
                       {/* Text */}
                       <div className={`flex-1 flex flex-col justify-center ${language === 'ar' ? 'text-right' : ''}`}>
-                        <div className="mb-5 lg:mb-8">
-                          <h2 className="text-3xl md:text-4xl lg:text-5xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.95]">
+                        <div className="mb-4 md:mb-5 lg:mb-8">
+                          <h2 className="text-[2rem] sm:text-[2.35rem] md:text-4xl lg:text-5xl font-darker-grotesque font-extralight tracking-[0.04em] md:tracking-[0.05em] uppercase text-aoc-white leading-[0.95]">
                             {firstLine}
                           </h2>
                           {secondLine && (
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.95]">
+                            <h2 className="text-[2rem] sm:text-[2.35rem] md:text-4xl lg:text-5xl font-darker-grotesque font-extralight tracking-[0.04em] md:tracking-[0.05em] uppercase text-aoc-white leading-[0.95]">
                               {secondLine}
                             </h2>
                           )}
                         </div>
 
-                        <div className="max-w-lg space-y-4">
-                          <p className="text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify">
+                        <div className="max-w-none lg:max-w-lg space-y-4">
+                          <p className="text-aoc-white/80 text-[0.95rem] md:text-base font-inter-tight font-light leading-[1.85] md:leading-relaxed text-justify">
                             {service.fullDescription}
                           </p>
 
                           {service.place && (
-                            <p className="text-aoc-white/50 text-xs md:text-sm font-inter-tight font-light">
+                            <p className="text-aoc-white/50 text-[0.75rem] md:text-sm font-inter-tight font-light">
                               {language === 'ar' ? 'الموقع: ' : 'Location: '}{service.place}
                             </p>
                           )}
@@ -292,7 +291,7 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
                       {/* Image - tracked by ring */}
                       <div
                         ref={el => { imageRefs.current[index] = el; }}
-                        className="lg:w-72 xl:w-80 shrink-0"
+                        className="w-full max-w-[15rem] sm:max-w-[17rem] lg:w-72 xl:w-80 mx-auto lg:mx-0 shrink-0"
                       >
                         <div className="w-full aspect-[3/4] overflow-hidden rounded-sm">
                           <img
@@ -312,9 +311,9 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
                           <p className={`text-[10px] md:text-xs font-inter-tight font-bold tracking-[0.15em] text-aoc-indigo mb-4 uppercase ${language === 'ar' ? 'text-right' : ''}`}>
                             {language === 'ar' ? 'الاعتمادات والتصنيفات' : 'Accreditations & Classifications'}
                           </p>
-                          <div className="flex flex-col gap-6 md:gap-8 mt-4">
+                          <div className="flex flex-col gap-5 md:gap-8 mt-4">
                             {/* Top Row: 5 Logos */}
-                            <div className="flex items-center justify-between gap-4">
+                            <div className="grid grid-cols-3 gap-4 sm:gap-5 md:flex md:items-center md:justify-between md:gap-4">
                               {aorCertificates.slice(0, 5).map((cert) => (
                                 <a
                                   key={cert.name}
@@ -334,7 +333,7 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
                               ))}
                             </div>
                             {/* Bottom Row: 4 Logos (Spaced out to match top row width visually) */}
-                            <div className="flex items-center justify-center gap-8 sm:gap-12 md:gap-20">
+                            <div className="grid grid-cols-2 gap-5 justify-items-center md:flex md:items-center md:justify-center md:gap-8 lg:gap-12">
                               {aorCertificates.slice(5).map((cert) => (
                                 <a
                                   key={cert.name}
@@ -366,7 +365,7 @@ function ServicesScrollView({ services, isOpen, onClose, language }: { services:
       </div>
 
       {/* Bottom bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-8 py-4 flex justify-between items-center text-aoc-white/50 text-xs md:text-sm font-inter-tight font-light tracking-widest">
+      <div className="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-4 md:px-8 py-3 md:py-4 flex justify-between items-center text-aoc-white/50 text-[10px] md:text-sm font-inter-tight font-light tracking-[0.18em] md:tracking-widest">
         <span>A</span>
         <span>FOUNDATION</span>
         <span>OF</span>
@@ -524,33 +523,33 @@ export default function Services() {
   ];
 
   return (
-    <section id="services" className={`min-h-screen flex items-start pt-4 md:pt-0 pb-4 ${language === 'ar' ? 'rtl' : ''}`} style={{ backgroundColor: 'rgb(0, 48, 135)' }}>
-      <div className="max-w-screen-2xl mx-auto px-4 md:px-8 w-full">
-        <div className={`grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 items-start md:items-center ${language === 'ar' ? 'rtl' : ''}`}>
+    <section id="services" className={`scroll-mt-16 min-h-screen flex items-start py-16 md:pt-0 md:pb-4 ${language === 'ar' ? 'rtl' : ''}`} style={{ backgroundColor: 'rgb(0, 48, 135)' }}>
+      <div className="max-w-screen-2xl mx-auto px-4 sm:px-5 md:px-8 w-full">
+        <div className={`grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-16 items-start md:items-center ${language === 'ar' ? 'rtl' : ''}`}>
           <div
             ref={titleAnimation.ref}
             className={`space-y-4 md:space-y-8 animate-slide-right ${titleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:order-2 text-right' : ''}`}
           >
-            <h2 className={`text-3xl md:text-6xl font-darker-grotesque font-extralight tracking-[0.15em] md:tracking-[0.2em] uppercase leading-tight text-aoc-white mt-0 md:-mt-20 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
+            <h2 className={`text-4xl sm:text-5xl md:text-6xl font-darker-grotesque font-extralight tracking-[0.12em] md:tracking-[0.2em] uppercase leading-[0.95] text-aoc-white mt-0 md:-mt-20 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
               {t.services.title}
             </h2>
 
-            <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
+            <p className={`text-aoc-white/80 text-[0.95rem] md:text-base font-inter-tight font-light leading-[1.85] md:leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
               {t.services.intro}
             </p>
 
-            <p className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
+            <p className={`text-aoc-white/80 text-[0.95rem] md:text-base font-inter-tight font-light leading-[1.85] md:leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
               {t.services.builtOn}
             </p>
           </div>
 
           <div
             ref={cardsAnimation.ref}
-            className={`md:col-span-2 relative mt-4 md:mt-16 animate-fade-in delay-300 ${cardsAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:order-1' : ''}`}
+            className={`md:col-span-2 relative mt-2 md:mt-16 animate-fade-in delay-300 ${cardsAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:order-1' : ''}`}
           >
             <div
               ref={carouselRef}
-              className={`flex gap-10 overflow-x-auto pb-4 ${language === 'ar' ? 'flex-row-reverse' : ''} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
+              className={`flex gap-5 sm:gap-6 md:gap-10 overflow-x-auto pb-3 md:pb-4 pr-4 ${language === 'ar' ? 'flex-row-reverse pl-4 pr-0' : ''} ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
               style={{
                 scrollBehavior: 'auto',
                 scrollbarWidth: 'none',
@@ -572,12 +571,12 @@ export default function Services() {
                   <div
                     key={`${service.id}-${index}`}
                     aria-hidden={isClone}
-                    className={`flex-shrink-0 w-80 group cursor-pointer ${!isClone ? `card-deal card-stack-${index} ${cardsAnimation.isVisible ? 'visible' : ''}` : 'opacity-100'}`}
+                    className={`flex-shrink-0 w-[82vw] max-w-[18rem] md:w-80 group cursor-pointer ${!isClone ? `card-deal card-stack-${index} ${cardsAnimation.isVisible ? 'visible' : ''}` : 'opacity-100'}`}
                     style={!isClone ? { transitionDelay: `${index * 0.2}s` } : {}}
                   >
                     <div
                       onClick={() => setIsScrollViewOpen(true)}
-                      className="relative w-80 aspect-[3/4] overflow-hidden mb-6 transition-transform duration-300 ease-out hover:scale-105"
+                      className="relative w-full aspect-[3/4] overflow-hidden mb-4 md:mb-6 transition-transform duration-300 ease-out hover:scale-105"
                     >
                       <img
                         src={service.image}
@@ -586,18 +585,18 @@ export default function Services() {
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                      <div className="absolute bottom-8 left-0 right-0 px-4">
-                        <h3 className={`text-xl font-darker-grotesque font-light tracking-[0.12em] uppercase text-aoc-white ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                      <div className="absolute bottom-6 md:bottom-8 left-0 right-0 px-4">
+                        <h3 className={`text-lg md:text-xl font-darker-grotesque font-light tracking-[0.1em] md:tracking-[0.12em] uppercase text-aoc-white ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                           {service.title}
                         </h3>
                       </div>
                     </div>
-                    <p className={`text-aoc-white/70 text-sm font-inter-tight font-light leading-relaxed mb-4 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
+                    <p className={`text-aoc-white/70 text-sm font-inter-tight font-light leading-[1.75] md:leading-relaxed mb-3 md:mb-4 ${language === 'ar' ? 'text-right' : 'text-left'}`}>
                       {service.description}
                     </p>
                     <button
                       onClick={() => setIsScrollViewOpen(true)}
-                      className={`text-sm font-inter-tight font-light tracking-[0.1em] uppercase text-blue-300 hover:text-aoc-white transition-colors underline block ${language === 'ar' ? 'ml-auto mr-0' : 'mr-auto ml-0'}`}
+                      className={`text-xs md:text-sm font-inter-tight font-light tracking-[0.08em] md:tracking-[0.1em] uppercase text-blue-300 hover:text-aoc-white transition-colors underline block ${language === 'ar' ? 'ml-auto mr-0' : 'mr-auto ml-0'}`}
                     >
                       {t.services.readMore}
                     </button>

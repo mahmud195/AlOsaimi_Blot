@@ -31,7 +31,7 @@ export default function TopNav({ activeSection }: TopNavProps) {
   return (
     <>
       <nav className={`fixed top-0 left-0 right-0 z-50 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 transition-all duration-300 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
-        <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 relative flex items-center justify-between transition-all duration-300">
+        <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-3 md:py-4 relative flex items-center justify-between transition-all duration-300">
           {/* Mobile: Hamburger on left, Logo center, Language right */}
           {/* Desktop: Logo left, Nav center, Language right */}
 
@@ -50,6 +50,8 @@ export default function TopNav({ activeSection }: TopNavProps) {
             {/* Desktop Logo */}
             <img src={aocLogo} alt="AOC Logo" className="h-full w-auto hidden md:block" />
           </a>
+
+          <div className="md:hidden w-6" aria-hidden="true" />
 
           {/* Desktop Navigation - Absolutely Centered */}
           <div className={`hidden md:flex items-center gap-8 transition-all duration-300 absolute left-1/2 -translate-x-1/2 ${language === 'ar' ? 'flex-row-reverse' : ''}`}>
@@ -82,15 +84,15 @@ export default function TopNav({ activeSection }: TopNavProps) {
 
         {/* Menu Panel */}
         <div
-          className={`absolute top-[57px] ${language === 'ar' ? 'right-0' : 'left-0'} w-64 h-[calc(100vh-57px)] bg-aoc-black/30 backdrop-blur-md ${language === 'ar' ? 'border-l' : 'border-r'} border-white/10 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : language === 'ar' ? 'translate-x-full' : '-translate-x-full'}`}
+          className={`absolute top-[61px] ${language === 'ar' ? 'right-0' : 'left-0'} w-[88vw] max-w-64 h-[calc(100vh-61px)] bg-aoc-black/30 backdrop-blur-md ${language === 'ar' ? 'border-l' : 'border-r'} border-white/10 transform transition-transform duration-300 ${isMobileMenuOpen ? 'translate-x-0' : language === 'ar' ? 'translate-x-full' : '-translate-x-full'}`}
         >
-          <div className="p-6 space-y-4">
+          <div className="p-5 space-y-2">
             {navItems.map((item) => (
               <a
                 key={item.id}
                 href={item.href}
                 onClick={handleNavClick}
-                className={`block py-3 ${language === 'ar' ? 'text-right text-lg' : 'text-left text-sm'} font-inter-tight font-light tracking-[0.15em] uppercase transition-all duration-300 ${isActive(item.id)
+                className={`block py-2.5 ${language === 'ar' ? 'text-right text-base' : 'text-left text-sm'} font-inter-tight font-light tracking-[0.12em] uppercase transition-all duration-300 ${isActive(item.id)
                   ? 'text-aoc-gold'
                   : 'text-aoc-white/80 hover:text-aoc-white'
                   }`}

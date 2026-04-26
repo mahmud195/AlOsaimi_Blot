@@ -323,7 +323,7 @@ function App() {
   }, []);
 
   return (
-    <div className={`bg-aoc-black text-aoc-white overflow-x-hidden ${language === 'ar' ? 'rtl' : 'ltr'}`}>
+    <div className={`bg-aoc-black text-aoc-white overflow-x-clip ${language === 'ar' ? 'rtl' : 'ltr'}`}>
       {/* Intro Animation Overlay */}
       {!introComplete && (
         <div
@@ -370,9 +370,9 @@ function App() {
       </div>
 
       {/* Hero Video */}
-      <section id="home" className="relative min-h-screen md:h-screen flex items-center justify-center overflow-hidden">
+      <section id="home" className="relative min-h-[100svh] md:min-h-screen md:h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 w-full h-full">
-          <div className="relative w-full h-full md:aspect-auto aspect-video md:min-h-screen">
+          <div className="relative w-full h-full aspect-[9/16] sm:aspect-[3/4] md:aspect-auto md:min-h-screen">
             <video
               autoPlay
               muted
@@ -390,17 +390,17 @@ function App() {
         </div>
 
         {/* Scrolling Banner */}
-        <div className={`absolute left-0 right-0 z-20 w-screen overflow-hidden ${language === 'ar' ? 'top-[65%]' : 'top-[70%]'}`}>
+        <div className={`absolute left-0 right-0 z-20 w-screen overflow-hidden ${language === 'ar' ? 'top-[63%] md:top-[65%]' : 'top-[66%] md:top-[70%]'}`}>
           {language === 'ar' ? (
             <div className="flex whitespace-nowrap" style={{ width: 'max-content' }}>
               {['الثقة', '•', 'الابتكار', '•', 'الدقة', '•', 'الثقة', '•', 'الابتكار', '•', 'الدقة', '•', 'الثقة', '•', 'الابتكار', '•', 'الدقة', '•'].map((word, i) => (
-                <span key={i} className={`text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white ${word === '•' ? 'mx-6' : 'mx-12'}`}>{word}</span>
+                <span key={i} className={`text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl font-fustat font-extralight text-aoc-white ${word === '•' ? 'mx-4 sm:mx-6' : 'mx-8 sm:mx-12'}`}>{word}</span>
               ))}
             </div>
           ) : (
             <div ref={bannerElRef} className="flex whitespace-nowrap" style={{ width: 'max-content' }}>
               {[...Array(6)].map((_, i) => (
-                <span key={i} className="text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mx-4 text-aoc-white">
+                <span key={i} className="text-[2rem] sm:text-4xl md:text-5xl lg:text-6xl font-darker-grotesque font-extralight tracking-[0.16em] md:tracking-[0.2em] uppercase mx-3 sm:mx-4 text-aoc-white">
                   {t.hero.title}
                 </span>
               ))}
@@ -409,18 +409,18 @@ function App() {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-2 md:left-8 z-30">
-          <div className="flex flex-col items-center gap-2 px-3 py-4 border border-aoc-white/30 rounded-full">
-            <span className="text-aoc-white/80 text-xs font-inter-tight font-light tracking-[0.15em] uppercase writing-vertical">SCROLL</span>
-            <ChevronDown className="text-aoc-white/80 animate-bounce" size={16} strokeWidth={1} />
+        <div className="absolute bottom-5 left-3 md:bottom-8 md:left-8 z-30">
+          <div className="flex flex-col items-center gap-1.5 px-2.5 py-3 md:px-3 md:py-4 border border-aoc-white/30 rounded-full">
+            <span className="text-aoc-white/80 text-[10px] md:text-xs font-inter-tight font-light tracking-[0.12em] md:tracking-[0.15em] uppercase writing-vertical">SCROLL</span>
+            <ChevronDown className="w-3.5 h-3.5 md:w-4 md:h-4 text-aoc-white/80 animate-bounce" strokeWidth={1} />
           </div>
         </div>
 
         {/* Hero Bottom Bar */}
         <div className="absolute bottom-0 left-0 right-0 z-30">
-          <div className="w-full px-4 py-4 relative flex items-center justify-between">
+          <div className="w-full px-3 py-3 md:px-4 md:py-4 relative flex items-center justify-between">
             <div className="hidden md:block w-20" />
-            <div className="flex items-center gap-3 md:gap-6 md:absolute md:left-[55%] md:-translate-x-1/2">
+            <div className="flex items-center gap-2.5 md:gap-6 md:absolute md:left-[55%] md:-translate-x-1/2">
               <a href="https://www.linkedin.com/company/alosaimiconsulting/" target="_blank" rel="noopener noreferrer" className="text-aoc-white/80 hover:text-aoc-white transition-colors">
                 <Linkedin className="w-4 h-4 md:w-[22px] md:h-[22px]" />
               </a>
@@ -433,7 +433,7 @@ function App() {
             </div>
             <div className="flex items-center">
               <a href="https://www.befound.design/" target="_blank" rel="noopener noreferrer">
-                <img src={beFoundLogo} alt="BeFound Design Studio" className="h-6 w-auto" />
+                <img src={beFoundLogo} alt="BeFound Design Studio" className="h-5 md:h-6 w-auto" />
               </a>
             </div>
           </div>
@@ -441,17 +441,17 @@ function App() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="min-h-screen bg-aoc-indigo flex flex-col justify-center py-24 gap-16 md:gap-32">
-        <div ref={aboutAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 md:px-8 w-full ${language === 'ar' ? 'rtl' : ''}`}>
+      <section id="about" className="scroll-mt-16 min-h-screen bg-aoc-indigo flex flex-col justify-center py-16 md:py-24 gap-12 md:gap-32">
+        <div ref={aboutAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 sm:px-5 md:px-8 w-full ${language === 'ar' ? 'rtl' : ''}`}>
           <div className="relative">
             <div
               ref={aboutTitleAnimation.ref}
-              className={`absolute top-20 md:top-10 z-20 animate-slide-right ${aboutTitleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'right-[5%] md:right-[8.5%]' : 'left-0 md:left-[3.5rem]'}`}
+              className={`static mb-6 md:mb-0 md:absolute md:top-10 z-20 animate-slide-right ${aboutTitleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'text-right md:right-[8.5%]' : 'md:left-[3.5rem]'}`}
             >
-              <h2 className={`md:hidden text-4xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-right' : ''}`}>
+              <h2 className={`md:hidden text-[3rem] sm:text-[3.5rem] font-darker-grotesque font-extralight tracking-[0.08em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-right' : ''}`}>
                 {t.about.title.split('\n')[0]}
               </h2>
-              <h2 className={`md:hidden text-4xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white -mt-1 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
+              <h2 className={`md:hidden text-[3rem] sm:text-[3.5rem] font-darker-grotesque font-extralight tracking-[0.08em] uppercase leading-[0.85] text-aoc-white -mt-2 ${language === 'ar' ? 'text-right' : ''}`}>
                 {t.about.title.split('\n')[1]}
               </h2>
               <h2 className={`hidden md:block text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-left' : ''}`}>
@@ -465,10 +465,10 @@ function App() {
             <div className="relative w-full flex flex-col md:block">
               <div
                 ref={aboutImageAnimation.ref}
-                className={`relative pt-16 md:pt-16 w-[80%] md:w-[50%] mx-auto animate-fade-in ${aboutImageAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:mr-[15%] md:ml-auto' : 'md:ml-[17%] md:mr-auto'}`}
+                className={`relative pt-0 md:pt-16 w-full max-w-[17rem] md:max-w-none md:w-[50%] mx-auto animate-fade-in ${aboutImageAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:mr-[15%] md:ml-auto' : 'md:ml-[17%] md:mr-auto'}`}
               >
                 <svg
-                  className={`absolute z-10 w-16 h-16 md:w-32 md:h-32 top-[55%] -translate-y-1/2 ${language === 'ar' ? '-right-8 md:-right-16' : '-left-8 md:-left-16'}`}
+                  className={`absolute z-10 w-14 h-14 md:w-32 md:h-32 top-[54%] -translate-y-1/2 ${language === 'ar' ? '-right-6 md:-right-16' : '-left-6 md:-left-16'}`}
                   viewBox="0 0 100 100"
                 >
                   <circle
@@ -489,13 +489,13 @@ function App() {
                 </div>
               </div>
 
-              <div className={`relative md:absolute z-10 p-4 md:p-12 mt-6 md:mt-0 md:top-1/2 md:-translate-y-1/4 w-full md:w-[60%] overflow-hidden ${language === 'ar' ? 'md:left-0 text-right' : 'md:right-0'}`}>
+              <div className={`relative md:absolute z-10 p-0 md:p-12 mt-8 md:mt-0 md:top-1/2 md:-translate-y-1/4 w-full md:w-[60%] overflow-hidden ${language === 'ar' ? 'md:left-0 text-right' : 'md:right-0'}`}>
                 <div ref={aboutTextAnimation.ref} className={`animate-slide-left ${aboutTextAnimation.isVisible ? 'visible' : ''}`}>
                   <div className="space-y-4 md:space-y-6">
-                    <p className={`text-aoc-white/80 text-sm md:text-[1.35rem] font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
+                    <p className={`text-aoc-white/80 text-[0.95rem] md:text-[1.35rem] font-inter-tight font-light leading-[1.85] md:leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
                       {t.about.paragraph1}
                     </p>
-                    <p className={`text-aoc-white/80 text-sm md:text-[1.35rem] font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
+                    <p className={`text-aoc-white/80 text-[0.95rem] md:text-[1.35rem] font-inter-tight font-light leading-[1.85] md:leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
                       {t.about.paragraph2}
                     </p>
                   </div>
@@ -506,15 +506,15 @@ function App() {
         </div>
 
         {/* CEO Speech */}
-        <div ref={ceoAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 md:px-12 lg:px-24 w-full ${language === 'ar' ? 'rtl' : ''}`}>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div ref={ceoAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 sm:px-5 md:px-12 lg:px-24 w-full ${language === 'ar' ? 'rtl' : ''}`}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-center">
             <div className={`col-span-1 lg:col-span-3 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
-              <h2 className="text-5xl md:text-6xl lg:text-[4rem] xl:text-[4.5rem] font-darker-grotesque font-light tracking-[0.05em] uppercase leading-[0.85] text-aoc-white whitespace-pre-line">
+              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4rem] xl:text-[4.5rem] font-darker-grotesque font-light tracking-[0.05em] uppercase leading-[0.85] text-aoc-white whitespace-pre-line">
                 CEO'S{'\n'}<span className="font-normal">SPEECH</span>
               </h2>
             </div>
 
-            <div className={`col-span-1 lg:col-span-5 flex flex-col md:flex-row items-center justify-center gap-6`}>
+            <div className={`col-span-1 lg:col-span-5 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6`}>
               <div className="flex-shrink-0">
                 <svg className="w-20 h-20 md:w-28 md:h-28" viewBox="0 0 100 100">
                   <circle
@@ -542,9 +542,9 @@ function App() {
             </div>
 
             <div className="col-span-1 lg:col-span-4">
-              <div className={`space-y-4 animate-slide-left ${ceoAnimation.isVisible ? 'visible' : ''}`}>
+              <div className={`space-y-3 md:space-y-4 animate-slide-left ${ceoAnimation.isVisible ? 'visible' : ''}`}>
                 {[t.about.ceoSpeech1, t.about.ceoSpeech2, t.about.ceoSpeech3, t.about.ceoSpeech4, t.about.ceoSpeech5, t.about.ceoSpeech6].map((speech, i) => (
-                  <p key={i} className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right rtl' : 'ltr'}`}>
+                  <p key={i} className={`text-aoc-white/80 text-[0.95rem] md:text-base font-inter-tight font-light leading-[1.8] md:leading-relaxed text-justify ${language === 'ar' ? 'text-right rtl' : 'ltr'}`}>
                     {speech}
                   </p>
                 ))}
@@ -559,7 +559,7 @@ function App() {
       </Suspense>
 
       {/* Clients Marquee Banner */}
-      <section className="relative overflow-hidden py-12" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderTop: '1px solid rgba(255,255,255,0.4)', borderBottom: '1px solid rgba(255,255,255,0.4)' }}>
+      <section className="relative overflow-hidden py-8 md:py-12" style={{ background: 'rgba(255, 255, 255, 0.85)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', borderTop: '1px solid rgba(255,255,255,0.4)', borderBottom: '1px solid rgba(255,255,255,0.4)' }}>
         <div className="absolute inset-0 pointer-events-none" />
         <div className="flex" style={{ animation: 'marquee 40s linear infinite', width: 'max-content' }}>
           {[...CLIENT_LOGOS, ...CLIENT_LOGOS].map((logo, i) => {
@@ -572,7 +572,7 @@ function App() {
               />
             );
             return (
-              <div key={i} className="flex-shrink-0 flex items-center justify-center mx-10 h-24 w-48">
+              <div key={i} className="flex-shrink-0 flex items-center justify-center mx-6 md:mx-10 h-16 md:h-24 w-32 md:w-48">
                 {logo.url ? (
                   <a href={logo.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center h-full w-full">
                     {img}
@@ -585,7 +585,7 @@ function App() {
       </section>
 
       {/* Projects Section */}
-      <section id="projects" className="relative h-screen flex items-center overflow-hidden bg-aoc-black">
+      <section id="projects" className="scroll-mt-16 relative h-[62svh] min-h-[24rem] sm:h-[68svh] md:h-screen flex items-center overflow-hidden bg-aoc-black">
         <div className="absolute inset-0 flex items-center justify-center">
           {sectionImages.map((img, index) => (
             <div
@@ -593,15 +593,15 @@ function App() {
               className="absolute inset-0 flex items-center justify-center transition-opacity duration-700"
               style={{ opacity: index === activeProjectIndex ? 1 : 0 }}
             >
-              <img src={img} alt={`Project ${index + 1}`} loading="lazy" className="w-full aspect-[16/9] object-cover" />
+              <img src={img} alt={`Project ${index + 1}`} loading="lazy" className="w-full h-full object-cover" />
             </div>
           ))}
           <div className="absolute inset-0 bg-gradient-to-t from-aoc-black/80 via-aoc-indigo/30 to-transparent" />
         </div>
 
         <div ref={projectsAnimation.ref} className={`absolute inset-0 z-10 ${language === 'ar' ? 'rtl' : ''}`}>
-          <div className={`absolute bottom-[55%] left-0 right-0 px-8 md:px-16 ${language === 'ar' ? 'text-right' : ''}`}>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-darker-grotesque font-medium tracking-[0.15em] uppercase leading-[0.9]" style={{ color: '#F2F2F2' }}>
+          <div className={`absolute bottom-[56%] md:bottom-[55%] left-0 right-0 px-5 md:px-16 ${language === 'ar' ? 'text-right' : ''}`}>
+            <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-darker-grotesque font-medium tracking-[0.12em] md:tracking-[0.15em] uppercase leading-[0.9]" style={{ color: '#F2F2F2' }}>
               {t.projectsGallery.sectionTitle}
             </h2>
           </div>
@@ -613,18 +613,18 @@ function App() {
               : 'bg-aoc-black/90 backdrop-blur-xl'
             }`}
           >
-            <div className={`px-4 md:px-16 py-2 md:py-3 transition-opacity duration-300 ${projectTransitionPhase !== 'idle' ? 'opacity-0' : 'opacity-100'}`}>
+            <div className={`px-3 md:px-16 py-2.5 md:py-3 transition-opacity duration-300 ${projectTransitionPhase !== 'idle' ? 'opacity-0' : 'opacity-100'}`}>
               <button
                 onClick={handleLearnMoreClick}
                 disabled={projectTransitionPhase !== 'idle'}
-                className={`group flex items-center gap-1 md:gap-2 text-aoc-gold hover:text-aoc-white transition-colors ${language === 'ar' ? 'flex-row-reverse' : ''}`}
+                className={`group flex items-center gap-1.5 md:gap-2 text-aoc-gold hover:text-aoc-white transition-colors ${language === 'ar' ? 'flex-row-reverse' : ''}`}
               >
                 <div className="flex flex-col gap-1 w-4">
                   <span className="block h-px bg-current" />
                   <span className="block h-px bg-current" />
                   <span className="block h-px bg-current" />
                 </div>
-                <span className="text-[10px] md:text-sm font-inter-tight font-light tracking-[0.1em] md:tracking-[0.15em] uppercase">
+                <span className="text-[10px] md:text-sm font-inter-tight font-light tracking-[0.12em] md:tracking-[0.15em] uppercase">
                   {t.projectsGallery.learnMore}
                 </span>
               </button>
@@ -634,24 +634,24 @@ function App() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className={`min-h-screen bg-aoc-indigo flex items-center py-24 ${language === 'ar' ? 'rtl' : ''}`}>
+      <section id="contact" className={`scroll-mt-16 min-h-screen bg-aoc-indigo flex items-center py-16 md:py-24 ${language === 'ar' ? 'rtl' : ''}`}>
         <div
           ref={contactAnimation.ref}
-          className={`max-w-3xl mx-auto px-8 w-full animate-slide-up ${contactAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'text-right' : ''}`}
+          className={`max-w-3xl mx-auto px-4 sm:px-5 md:px-8 w-full animate-slide-up ${contactAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'text-right' : ''}`}
         >
-          <h2 className="text-6xl font-darker-grotesque font-extralight tracking-[0.2em] uppercase mb-4 leading-tight text-aoc-gold">
+          <h2 className="text-[3.5rem] sm:text-[4.5rem] md:text-6xl font-darker-grotesque font-extralight tracking-[0.12em] md:tracking-[0.2em] uppercase mb-3 md:mb-4 leading-[0.9] md:leading-tight text-aoc-gold">
             {t.contact.title}
           </h2>
-          <div className={`w-24 h-[1px] bg-aoc-gold mb-16 ${language === 'ar' ? 'ml-auto' : ''}`} />
+          <div className={`w-24 h-[1px] bg-aoc-gold mb-10 md:mb-16 ${language === 'ar' ? 'ml-auto' : ''}`} />
 
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="grid md:grid-cols-2 gap-8">
+          <form onSubmit={handleSubmit} className="space-y-6 md:space-y-8">
+            <div className="grid md:grid-cols-2 gap-6 md:gap-8">
               <input
                 type="text"
                 placeholder={t.contact.firstName}
                 value={formData.firstName}
                 onChange={(e) => setFormData(prev => ({ ...prev, firstName: e.target.value }))}
-                className="w-full bg-transparent border-b border-aoc-gold/30 py-4 text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.15em] transition-colors"
+                className="w-full bg-transparent border-b border-aoc-gold/30 py-3 md:py-4 text-base text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.08em] md:tracking-[0.15em] transition-colors"
                 required
               />
               <input
@@ -659,7 +659,7 @@ function App() {
                 placeholder={t.contact.lastName}
                 value={formData.lastName}
                 onChange={(e) => setFormData(prev => ({ ...prev, lastName: e.target.value }))}
-                className="w-full bg-transparent border-b border-aoc-gold/30 py-4 text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.15em] transition-colors"
+                className="w-full bg-transparent border-b border-aoc-gold/30 py-3 md:py-4 text-base text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.08em] md:tracking-[0.15em] transition-colors"
                 required
               />
             </div>
@@ -668,7 +668,7 @@ function App() {
               placeholder={t.contact.email}
               value={formData.email}
               onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-              className="w-full bg-transparent border-b border-aoc-gold/30 py-4 text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.15em] transition-colors"
+              className="w-full bg-transparent border-b border-aoc-gold/30 py-3 md:py-4 text-base text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.08em] md:tracking-[0.15em] transition-colors"
               required
             />
             <textarea
@@ -676,12 +676,12 @@ function App() {
               value={formData.message}
               onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
               rows={6}
-              className="w-full bg-transparent border-b border-aoc-gold/30 py-4 text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.15em] resize-none transition-colors"
+              className="w-full bg-transparent border-b border-aoc-gold/30 py-3 md:py-4 text-base text-aoc-white placeholder-aoc-white/40 focus:border-aoc-gold focus:outline-none font-inter-tight font-light tracking-[0.08em] md:tracking-[0.15em] resize-none transition-colors"
               required
             />
             <button
               type="submit"
-              className="bg-aoc-gold text-aoc-black px-12 py-4 text-sm font-inter-tight font-light tracking-[0.2em] uppercase hover:bg-aoc-gold/90 transition-colors"
+              className="w-full sm:w-auto bg-aoc-gold text-aoc-black px-8 md:px-12 py-3.5 md:py-4 text-xs md:text-sm font-inter-tight font-light tracking-[0.14em] md:tracking-[0.2em] uppercase hover:bg-aoc-gold/90 transition-colors"
             >
               {t.contact.send}
             </button>
@@ -691,9 +691,9 @@ function App() {
 
       {/* Fixed Bottom Bar */}
       <div ref={bottomBarRef} className={`fixed bottom-0 left-0 right-0 z-40 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 transition-opacity duration-300 ${activeSection === 'home' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        <div className="w-full px-12 py-3 flex items-center justify-between">
+        <div className="w-full px-4 md:px-12 py-2.5 md:py-3 flex items-center justify-between">
           {['A', 'FOUNDATION', 'OF', 'TRUST'].map((word) => (
-            <span key={word} className="text-aoc-white/60 text-sm font-inter-tight font-light tracking-[0.3em] uppercase">{word}</span>
+            <span key={word} className="text-aoc-white/60 text-[10px] md:text-sm font-inter-tight font-light tracking-[0.18em] md:tracking-[0.3em] uppercase">{word}</span>
           ))}
         </div>
       </div>

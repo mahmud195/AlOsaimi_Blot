@@ -28,7 +28,7 @@ export default function NewsModal({ isOpen, onClose, article, language }: NewsMo
         <div className="fixed inset-0 bg-aoc-indigo z-50 overflow-y-auto">
             {/* Top Navigation Bar */}
             <nav className={`fixed top-0 left-0 right-0 z-50 bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
-                <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+                <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-3 md:py-4 flex items-center justify-between">
                     {/* Mobile: X button on left */}
                     <button
                         onClick={onClose}
@@ -63,35 +63,35 @@ export default function NewsModal({ isOpen, onClose, article, language }: NewsMo
             </nav>
 
             {/* Main content */}
-            <div className={`min-h-screen pt-20 pb-16 flex flex-col lg:flex-row ${language === 'ar' ? 'lg:flex-row-reverse' : ''}`}>
+            <div className={`min-h-screen pt-[72px] md:pt-20 pb-14 md:pb-16 flex flex-col lg:flex-row ${language === 'ar' ? 'lg:flex-row-reverse' : ''}`}>
 
                 {/* Left side - Title and description */}
-                <div className={`lg:w-1/2 flex flex-col justify-center px-8 lg:px-16 py-8 lg:py-16 ${language === 'ar' ? 'text-right' : ''}`}>
+                <div className={`lg:w-1/2 flex flex-col justify-center px-4 sm:px-5 lg:px-16 py-6 md:py-8 lg:py-16 ${language === 'ar' ? 'text-right' : ''}`}>
                     {/* Title */}
                     <div className="mb-8 lg:mb-12">
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-darker-grotesque font-extralight tracking-[0.05em] uppercase text-aoc-white leading-[0.9] mb-4">
+                        <h1 className="text-[2.75rem] sm:text-[3.4rem] md:text-5xl lg:text-6xl xl:text-7xl font-darker-grotesque font-extralight tracking-[0.04em] md:tracking-[0.05em] uppercase text-aoc-white leading-[0.9] mb-3 md:mb-4">
                             {article.title}
                         </h1>
-                        <h2 className="text-xl md:text-2xl lg:text-3xl font-darker-grotesque font-extralight tracking-[0.05em] text-aoc-gold">
+                        <h2 className="text-lg md:text-2xl lg:text-3xl font-darker-grotesque font-extralight tracking-[0.04em] md:tracking-[0.05em] text-aoc-gold">
                             {article.subtitle}
                         </h2>
                     </div>
 
                     {/* Full Description */}
                     <div className="max-w-lg space-y-6">
-                        <p className="text-aoc-white/80 text-base lg:text-lg font-inter-tight font-light leading-relaxed text-justify">
+                        <p className="text-aoc-white/80 text-[0.95rem] md:text-base lg:text-lg font-inter-tight font-light leading-[1.85] lg:leading-relaxed text-justify">
                             {article.text}
                         </p>
                     </div>
                 </div>
 
                 {/* Right side - Image with decorative circle */}
-                <div className="lg:w-1/2 relative flex items-center justify-center p-8 lg:p-16">
+                <div className="lg:w-1/2 relative flex items-center justify-center p-4 sm:p-5 lg:p-16">
                     {/* Image container */}
                     <div className="relative w-full max-w-xl">
                         {/* Decorative Circle */}
                         <svg
-                            className="absolute z-20 w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 top-1/2"
+                            className="absolute z-20 w-16 h-16 md:w-32 md:h-32 lg:w-40 lg:h-40 top-1/2"
                             style={{
                                 transform: 'translateY(-50%) translateX(-50%)',
                                 left: language === 'ar' ? 'auto' : '0',
@@ -122,7 +122,7 @@ export default function NewsModal({ isOpen, onClose, article, language }: NewsMo
             </div>
 
             {/* Bottom bar */}
-            <div className="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-8 py-4 flex justify-between items-center text-aoc-white/50 text-xs md:text-sm font-inter-tight font-light tracking-widest">
+            <div className="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-4 md:px-8 py-3 md:py-4 flex justify-between items-center text-aoc-white/50 text-[10px] md:text-sm font-inter-tight font-light tracking-[0.18em] md:tracking-widest">
                 <span>A</span>
                 <span>FOUNDATION</span>
                 <span>OF</span>

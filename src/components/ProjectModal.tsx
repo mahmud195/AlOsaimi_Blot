@@ -97,25 +97,25 @@ function FullscreenLightbox({ images, initialIndex, alt, onClose }: FullscreenLi
             {/* Close button */}
             <button
                 onClick={onClose}
-                className="absolute top-4 right-4 z-[110] w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors"
+                className="absolute top-3 right-3 md:top-4 md:right-4 z-[110] w-9 h-9 md:w-10 md:h-10 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors"
             >
                 <X size={20} />
             </button>
 
             {/* Zoom controls */}
-            <div className="absolute top-4 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-3">
+            <div className="absolute top-3 md:top-4 left-1/2 -translate-x-1/2 z-[110] flex items-center gap-2 md:gap-3">
                 <button
                     onClick={handleZoomOut}
                     disabled={zoom <= 1}
-                    className="w-9 h-9 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors disabled:opacity-30 disabled:pointer-events-none"
+                    className="w-8 h-8 md:w-9 md:h-9 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors disabled:opacity-30 disabled:pointer-events-none"
                 >
                     <ZoomOut size={16} />
                 </button>
-                <span className="text-white/70 text-sm font-inter-tight font-light min-w-[3rem] text-center">{Math.round(zoom * 100)}%</span>
+                <span className="text-white/70 text-xs md:text-sm font-inter-tight font-light min-w-[2.5rem] md:min-w-[3rem] text-center">{Math.round(zoom * 100)}%</span>
                 <button
                     onClick={handleZoomIn}
                     disabled={zoom >= 5}
-                    className="w-9 h-9 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors disabled:opacity-30 disabled:pointer-events-none"
+                    className="w-8 h-8 md:w-9 md:h-9 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors disabled:opacity-30 disabled:pointer-events-none"
                 >
                     <ZoomIn size={16} />
                 </button>
@@ -125,7 +125,7 @@ function FullscreenLightbox({ images, initialIndex, alt, onClose }: FullscreenLi
             {images.length > 1 && (
                 <button
                     onClick={handlePrev}
-                    className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 z-[110] w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors bg-black/40"
+                    className="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 z-[110] w-9 h-9 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors bg-black/40"
                 >
                     <ChevronLeft size={20} />
                 </button>
@@ -135,7 +135,7 @@ function FullscreenLightbox({ images, initialIndex, alt, onClose }: FullscreenLi
             {images.length > 1 && (
                 <button
                     onClick={handleNext}
-                    className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 z-[110] w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors bg-black/40"
+                    className="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 z-[110] w-9 h-9 md:w-12 md:h-12 rounded-full border border-white/30 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-colors bg-black/40"
                 >
                     <ChevronRight size={20} />
                 </button>
@@ -154,7 +154,7 @@ function FullscreenLightbox({ images, initialIndex, alt, onClose }: FullscreenLi
                     src={images[currentIndex]}
                     alt={`${alt} ${currentIndex + 1}`}
                     draggable={false}
-                    className="max-w-[90vw] max-h-[85vh] object-contain select-none pointer-events-none"
+                    className="max-w-[86vw] md:max-w-[90vw] max-h-[72vh] md:max-h-[85vh] object-contain select-none pointer-events-none"
                     style={{
                         transform: `translate(${pan.x}px, ${pan.y}px) scale(${zoom})`,
                         transition: isPanning ? 'none' : 'transform 0.2s ease',
@@ -342,7 +342,7 @@ function SwipeGallery({ images, alt }: SwipeGalleryProps) {
                     <button
                         onMouseDown={e => e.stopPropagation()}
                         onClick={(e) => { e.stopPropagation(); handlePrev(); }}
-                        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 md:w-9 md:h-9 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-all"
+                        className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-7 h-7 md:w-9 md:h-9 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-all"
                     >
                         <ChevronLeft size={16} />
                     </button>
@@ -353,7 +353,7 @@ function SwipeGallery({ images, alt }: SwipeGalleryProps) {
                     <button
                         onMouseDown={e => e.stopPropagation()}
                         onClick={(e) => { e.stopPropagation(); handleNext(); }}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-8 h-8 md:w-9 md:h-9 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-all"
+                        className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-7 h-7 md:w-9 md:h-9 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-all"
                     >
                         <ChevronRight size={16} />
                     </button>
@@ -363,7 +363,7 @@ function SwipeGallery({ images, alt }: SwipeGalleryProps) {
                 <button
                     onMouseDown={e => e.stopPropagation()}
                     onClick={(e) => { e.stopPropagation(); setIsFullscreen(true); }}
-                    className="absolute top-2 right-2 z-10 w-8 h-8 md:w-9 md:h-9 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-all"
+                    className="absolute top-2 right-2 z-10 w-7 h-7 md:w-9 md:h-9 rounded-full bg-black/40 border border-white/20 flex items-center justify-center text-white hover:border-aoc-gold hover:text-aoc-gold transition-all"
                 >
                     <Maximize2 size={14} />
                 </button>
@@ -371,7 +371,7 @@ function SwipeGallery({ images, alt }: SwipeGalleryProps) {
 
             {/* Pagination dots */}
             {images.length > 1 && (
-                <div className="flex justify-center gap-2.5 mt-3">
+                <div className="flex justify-center gap-2 md:gap-2.5 mt-2.5 md:mt-3">
                     {images.map((_, idx) => (
                         <button
                             key={idx}
@@ -379,7 +379,7 @@ function SwipeGallery({ images, alt }: SwipeGalleryProps) {
                                 if (isAnimating || idx === currentIndex) return;
                                 triggerTransition(currentIndex, idx);
                             }}
-                            className="relative w-4 h-4 flex items-center justify-center"
+                            className="relative w-3.5 h-3.5 md:w-4 md:h-4 flex items-center justify-center"
                             aria-label={`Go to image ${idx + 1}`}
                         >
                             {/* The dot */}
@@ -596,7 +596,7 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
         <div className="fixed inset-0 bg-aoc-indigo z-50 overflow-hidden">
             {/* Top Navigation Bar */}
             <nav className={`fixed top-0 left-0 right-0 z-[70] bg-aoc-black/30 backdrop-blur-md border-b border-white/10 ${language === 'ar' ? 'rtl' : 'ltr'}`}>
-                <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-4 flex items-center justify-between">
+                <div className="max-w-screen-2xl mx-auto px-4 md:px-8 py-3 md:py-4 flex items-center justify-between">
                     {/* Logo - left on desktop, center on mobile */}
                     <a href="#projects" onClick={onClose} className="h-10 w-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
                         <img src={aocMobileLogo} alt="AOC Logo" className="h-full w-auto md:hidden" />
@@ -633,16 +633,16 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
 
                 {/* Menu Panel */}
                 <div
-                    className={`absolute top-[57px] ${language === 'ar' ? 'right-0' : 'left-0'} w-64 h-[calc(100vh-57px)] bg-aoc-black/30 backdrop-blur-md ${language === 'ar' ? 'border-l' : 'border-r'} border-white/10 transform transition-transform duration-300 ${isMobileCategoryOpen ? 'translate-x-0' : language === 'ar' ? 'translate-x-full' : '-translate-x-full'}`}
+                    className={`absolute top-[61px] ${language === 'ar' ? 'right-0' : 'left-0'} w-[88vw] max-w-64 h-[calc(100vh-61px)] bg-aoc-black/30 backdrop-blur-md ${language === 'ar' ? 'border-l' : 'border-r'} border-white/10 transform transition-transform duration-300 ${isMobileCategoryOpen ? 'translate-x-0' : language === 'ar' ? 'translate-x-full' : '-translate-x-full'}`}
                 >
-                    <div className="p-6 space-y-4">
+                    <div className="p-5 space-y-2">
                         {categories.map((cat) => (
                             <button
                                 key={cat.key}
                                 onClick={() => scrollToCategory(cat.key)}
-                                className={`block w-full ${language === 'ar' ? 'text-right' : 'text-left'} py-3 font-darker-grotesque font-medium tracking-[0.15em] uppercase transition-all duration-300 ${activeCategory === cat.key
-                                    ? 'text-aoc-gold text-xl'
-                                    : 'text-aoc-white/70 hover:text-aoc-white text-base'
+                                className={`block w-full ${language === 'ar' ? 'text-right' : 'text-left'} py-2.5 font-darker-grotesque font-medium tracking-[0.12em] uppercase transition-all duration-300 ${activeCategory === cat.key
+                                    ? 'text-aoc-gold text-lg'
+                                    : 'text-aoc-white/70 hover:text-aoc-white text-sm'
                                     }`}
                             >
                                 {cat.label}
@@ -653,7 +653,7 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
             </div>
 
             {/* Main content area */}
-            <div className={`h-full pb-16 flex ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`} style={{ paddingTop: '80px' }}>
+            <div className={`h-full pb-14 md:pb-16 flex ${language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`} style={{ paddingTop: '72px' }}>
 
                 {/* Category Sidebar - hidden on mobile */}
                 <div className={`hidden md:flex w-56 lg:w-64 shrink-0 flex-col justify-center px-6 lg:px-8 ${language === 'ar' ? 'border-l border-white/10' : 'border-r border-white/10'}`}>
@@ -676,14 +676,14 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                 {/* Projects Content - Vertical scroll, ALL projects grouped by category */}
                 <div
                     ref={scrollContainerRef}
-                    className="flex-1 overflow-y-auto px-6 md:px-10 lg:px-14 pt-14 pb-4 md:pt-16 md:pb-6 [&::-webkit-scrollbar]:hidden"
+                    className="flex-1 overflow-y-auto px-4 sm:px-5 md:px-10 lg:px-14 pt-6 md:pt-16 pb-20 md:pb-6 [&::-webkit-scrollbar]:hidden"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', WebkitOverflowScrolling: 'touch', overscrollBehavior: 'contain', contain: 'layout paint' }}
                 >
                     <div ref={scrollContentRef} className="max-w-5xl mx-auto relative">
                         {/* Animated Ring — direct DOM updates, zero re-renders on scroll */}
                         <div
                             ref={ringEl}
-                            className="absolute pointer-events-none transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-[100]"
+                            className="absolute pointer-events-none hidden md:block transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] z-[100]"
                             style={{ opacity: 0, willChange: 'top, left, width, height' }}
                         >
                             <svg
@@ -711,11 +711,11 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                                 {/* Category section anchor - invisible but tracked for scroll */}
                                 <div
                                     ref={el => { sectionRefs.current[cat.key] = el; }}
-                                    className="h-10 w-full"
+                                    className="h-6 md:h-10 w-full"
                                 />
 
                                 {/* Projects in this category */}
-                                <div className="space-y-0 pb-16 md:pb-24">
+                                <div className="space-y-0 pb-12 md:pb-24">
                                     {projects.map(({ project, globalIndex }, index) => {
                                         const galleryImages = galleryMap[project.title] || [];
                                         const allImages = [project.image, ...galleryImages];
@@ -729,7 +729,7 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                                             >
                                                 {/* Divider between cards */}
                                                 {index > 0 && (
-                                                    <div className="w-full flex items-center gap-4 py-10 md:py-14">
+                                                    <div className="w-full flex items-center gap-4 py-6 md:py-14">
                                                         <div className="flex-1 h-px bg-white/10" />
                                                         <div className="w-1 h-1 rounded-full bg-aoc-gold/60" />
                                                         <div className="flex-1 h-px bg-white/10" />
@@ -737,7 +737,7 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                                                 )}
                                                 {/* Project Card — Glassmorphism panel */}
                                                 <div
-                                                    className="rounded-sm overflow-visible transition-all duration-700"
+                                                    className="rounded-sm overflow-visible transition-all duration-700 p-5 sm:p-6 md:p-12"
                                                     style={{
                                                         background: globalIndex === activeProjectIndex
                                                             ? 'rgba(255,255,255,0.14)'
@@ -754,13 +754,12 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                                                         boxShadow: globalIndex === activeProjectIndex
                                                             ? '0 0 40px rgba(202, 182, 75, 0.08), inset 0 0 30px rgba(255,255,255,0.03)'
                                                             : 'none',
-                                                        padding: '3.5rem 3rem 3rem 3.5rem',
                                                     }}
                                                 >
-                                                <div className={`flex flex-col md:flex-row gap-6 md:gap-8 ${language === 'ar' ? 'md:flex-row-reverse' : ''}`}>
+                                                <div className={`flex flex-col md:flex-row gap-5 md:gap-8 ${language === 'ar' ? 'md:flex-row-reverse' : ''}`}>
                                                     {/* Image with decorative circle + swipeable gallery */}
                                                     <div 
-                                                        className="relative md:w-[45%] shrink-0"
+                                                        className="relative w-full max-w-[15rem] sm:max-w-[17rem] md:max-w-none mx-auto md:mx-0 md:w-[45%] shrink-0"
                                                         ref={el => { projectImageRefs.current[globalIndex] = el; }}
                                                     >
                                                         {/* Instagram-style swipeable gallery */}
@@ -770,16 +769,16 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
                                                     {/* Text content - title first, then description */}
                                                     <div className={`flex-1 flex flex-col justify-center ${language === 'ar' ? 'text-right' : ''}`}>
                                                         {/* Project Title & Info - above description */}
-                                                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-darker-grotesque font-medium tracking-[0.15em] uppercase leading-[0.9] mb-4" style={{ color: '#F2F2F2' }}>
+                                                        <h2 className="text-[2rem] sm:text-[2.35rem] md:text-4xl lg:text-5xl font-darker-grotesque font-medium tracking-[0.12em] md:tracking-[0.15em] uppercase leading-[0.9] mb-3 md:mb-4" style={{ color: '#F2F2F2' }}>
                                                             {project.title}
                                                         </h2>
-                                                        <div className={`flex items-center gap-3 mb-5 text-aoc-white/60 font-inter-tight font-light text-sm ${language === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
+                                                        <div className={`flex items-center gap-2 md:gap-3 mb-4 md:mb-5 text-aoc-white/60 font-inter-tight font-light text-[0.8rem] md:text-sm ${language === 'ar' ? 'flex-row-reverse justify-end' : ''}`}>
                                                             <span>{project.year}</span>
                                                             <span>/</span>
                                                             <span>{project.location}</span>
                                                         </div>
 
-                                                        <p className="text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify">
+                                                        <p className="text-aoc-white/80 text-[0.95rem] md:text-base font-inter-tight font-light leading-[1.85] md:leading-relaxed text-justify">
                                                             {project.description}
                                                         </p>
                                                     </div>
@@ -796,7 +795,7 @@ export default function ProjectModal({ isOpen, onClose, allProjects, categories,
             </div>
 
             {/* Bottom bar */}
-            <div className="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-8 py-4 flex justify-between items-center text-aoc-white/50 text-xs md:text-sm font-inter-tight font-light tracking-widest z-[70]">
+            <div className="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-4 md:px-8 py-3 md:py-4 flex justify-between items-center text-aoc-white/50 text-[10px] md:text-sm font-inter-tight font-light tracking-[0.18em] md:tracking-widest z-[70]">
                 <span>A</span>
                 <span>FOUNDATION</span>
                 <span>OF</span>

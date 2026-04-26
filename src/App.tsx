@@ -441,17 +441,17 @@ function App() {
       </section>
 
       {/* About Section */}
-      <section id="about" className="scroll-mt-16 min-h-screen bg-aoc-indigo flex flex-col justify-center py-16 md:py-24 gap-12 md:gap-32">
-        <div ref={aboutAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 sm:px-5 md:px-8 w-full ${language === 'ar' ? 'rtl' : ''}`}>
+      <section id="about" className="min-h-screen bg-aoc-indigo flex flex-col justify-center py-24 gap-16 md:gap-32">
+        <div ref={aboutAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 md:px-8 w-full ${language === 'ar' ? 'rtl' : ''}`}>
           <div className="relative">
             <div
               ref={aboutTitleAnimation.ref}
-              className={`static mb-6 md:mb-0 md:absolute md:top-10 z-20 animate-slide-right ${aboutTitleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'text-right md:right-[8.5%]' : 'md:left-[3.5rem]'}`}
+              className={`absolute top-20 md:top-10 z-20 animate-slide-right ${aboutTitleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'right-[5%] md:right-[8.5%]' : 'left-0 md:left-[3.5rem]'}`}
             >
-              <h2 className={`md:hidden text-[3rem] sm:text-[3.5rem] font-darker-grotesque font-extralight tracking-[0.08em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-right' : ''}`}>
+              <h2 className={`md:hidden text-4xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-right' : ''}`}>
                 {t.about.title.split('\n')[0]}
               </h2>
-              <h2 className="md:hidden text-[3rem] sm:text-[3.5rem] font-darker-grotesque font-extralight tracking-[0.08em] uppercase leading-[0.85] text-aoc-white -mt-2 text-right">
+              <h2 className={`md:hidden text-4xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white -mt-1 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
                 {t.about.title.split('\n')[1]}
               </h2>
               <h2 className={`hidden md:block text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-left' : ''}`}>
@@ -465,10 +465,10 @@ function App() {
             <div className="relative w-full flex flex-col md:block">
               <div
                 ref={aboutImageAnimation.ref}
-                className={`relative pt-0 md:pt-16 w-full max-w-[17rem] md:max-w-none md:w-[50%] mx-auto animate-fade-in ${aboutImageAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:mr-[15%] md:ml-auto' : 'md:ml-[17%] md:mr-auto'}`}
+                className={`relative pt-16 md:pt-16 w-[80%] md:w-[50%] mx-auto animate-fade-in ${aboutImageAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'md:mr-[15%] md:ml-auto' : 'md:ml-[17%] md:mr-auto'}`}
               >
                 <svg
-                  className={`absolute z-10 w-14 h-14 md:w-32 md:h-32 top-[54%] -translate-y-1/2 ${language === 'ar' ? '-right-6 md:-right-16' : '-left-6 md:-left-16'}`}
+                  className={`absolute z-10 w-16 h-16 md:w-32 md:h-32 top-[55%] -translate-y-1/2 ${language === 'ar' ? '-right-8 md:-right-16' : '-left-8 md:-left-16'}`}
                   viewBox="0 0 100 100"
                 >
                   <circle
@@ -489,13 +489,13 @@ function App() {
                 </div>
               </div>
 
-              <div className={`relative md:absolute z-10 p-0 md:p-12 mt-8 md:mt-0 md:top-1/2 md:-translate-y-1/4 w-full md:w-[60%] overflow-hidden ${language === 'ar' ? 'md:left-0 text-right' : 'md:right-0'}`}>
+              <div className={`relative md:absolute z-10 p-4 md:p-12 mt-6 md:mt-0 md:top-1/2 md:-translate-y-1/4 w-full md:w-[60%] overflow-hidden ${language === 'ar' ? 'md:left-0 text-right' : 'md:right-0'}`}>
                 <div ref={aboutTextAnimation.ref} className={`animate-slide-left ${aboutTextAnimation.isVisible ? 'visible' : ''}`}>
                   <div className="space-y-4 md:space-y-6">
-                    <p className={`text-aoc-white/80 text-[0.95rem] md:text-[1.35rem] font-inter-tight font-light leading-[1.85] md:leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
+                    <p className={`text-aoc-white/80 text-sm md:text-[1.35rem] font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
                       {t.about.paragraph1}
                     </p>
-                    <p className={`text-aoc-white/80 text-[0.95rem] md:text-[1.35rem] font-inter-tight font-light leading-[1.85] md:leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
+                    <p className={`text-aoc-white/80 text-sm md:text-[1.35rem] font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right' : ''}`}>
                       {t.about.paragraph2}
                     </p>
                   </div>
@@ -506,15 +506,15 @@ function App() {
         </div>
 
         {/* CEO Speech */}
-        <div ref={ceoAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 sm:px-5 md:px-12 lg:px-24 w-full ${language === 'ar' ? 'rtl' : ''}`}>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 lg:gap-12 items-center">
+        <div ref={ceoAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 md:px-12 lg:px-24 w-full ${language === 'ar' ? 'rtl' : ''}`}>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className={`col-span-1 lg:col-span-3 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
-              <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-[4rem] xl:text-[4.5rem] font-darker-grotesque font-light tracking-[0.05em] uppercase leading-[0.85] text-aoc-white whitespace-pre-line">
+              <h2 className="text-5xl md:text-6xl lg:text-[4rem] xl:text-[4.5rem] font-darker-grotesque font-light tracking-[0.05em] uppercase leading-[0.85] text-aoc-white whitespace-pre-line">
                 CEO'S{'\n'}<span className="font-normal">SPEECH</span>
               </h2>
             </div>
 
-            <div className={`col-span-1 lg:col-span-5 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6`}>
+            <div className="col-span-1 lg:col-span-5 flex flex-col md:flex-row items-center justify-center gap-6">
               <div className="flex-shrink-0">
                 <svg className="w-20 h-20 md:w-28 md:h-28" viewBox="0 0 100 100">
                   <circle
@@ -542,9 +542,9 @@ function App() {
             </div>
 
             <div className="col-span-1 lg:col-span-4">
-              <div className={`space-y-3 md:space-y-4 animate-slide-left ${ceoAnimation.isVisible ? 'visible' : ''}`}>
+              <div className={`space-y-4 animate-slide-left ${ceoAnimation.isVisible ? 'visible' : ''}`}>
                 {[t.about.ceoSpeech1, t.about.ceoSpeech2, t.about.ceoSpeech3, t.about.ceoSpeech4, t.about.ceoSpeech5, t.about.ceoSpeech6].map((speech, i) => (
-                  <p key={i} className={`text-aoc-white/80 text-[0.95rem] md:text-base font-inter-tight font-light leading-[1.8] md:leading-relaxed text-justify ${language === 'ar' ? 'text-right rtl' : 'ltr'}`}>
+                  <p key={i} className={`text-aoc-white/80 text-sm md:text-base font-inter-tight font-light leading-relaxed text-justify ${language === 'ar' ? 'text-right rtl' : 'ltr'}`}>
                     {speech}
                   </p>
                 ))}

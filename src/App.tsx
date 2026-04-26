@@ -444,22 +444,24 @@ function App() {
       <section id="about" className="min-h-screen bg-aoc-indigo flex flex-col justify-center py-24 gap-16 md:gap-32">
         <div ref={aboutAnimation.ref} className={`max-w-screen-2xl mx-auto px-4 md:px-8 w-full ${language === 'ar' ? 'rtl' : ''}`}>
           <div className="relative">
-            <div
-              ref={aboutTitleAnimation.ref}
-              className={`absolute top-20 md:top-10 z-20 animate-slide-right ${aboutTitleAnimation.isVisible ? 'visible' : ''} ${language === 'ar' ? 'right-[5%] md:right-[8.5%]' : 'left-0 md:left-[3.5rem]'}`}
-            >
-              <h2 className={`md:hidden text-4xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-right' : ''}`}>
-                {t.about.title.split('\n')[0]}
-              </h2>
-              <h2 className={`md:hidden text-4xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white -mt-1 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
-                {t.about.title.split('\n')[1]}
-              </h2>
-              <h2 className={`hidden md:block text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-left' : ''}`}>
-                {t.about.title.split('\n')[0]}
-              </h2>
-              <h2 className={`hidden md:block text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white -mt-2 ${language === 'ar' ? 'text-left' : 'text-right'}`}>
-                {t.about.title.split('\n')[1]}
-              </h2>
+            <div className={`absolute top-20 md:top-10 z-20 w-max ${language === 'ar' ? 'right-[5%] md:right-[8.5%]' : 'left-[12%] -translate-x-1/2 md:left-[18%] md:-translate-x-1/2'}`}>
+              <div
+                ref={aboutTitleAnimation.ref}
+                className={`animate-slide-right ${aboutTitleAnimation.isVisible ? 'visible' : ''}`}
+              >
+                <h2 className={`md:hidden text-4xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-right' : ''}`}>
+                  {t.about.title.split('\n')[0]}
+                </h2>
+                <h2 className={`md:hidden text-4xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white -mt-1 ${language === 'ar' ? 'text-right' : 'text-right'}`}>
+                  {t.about.title.split('\n')[1]}
+                </h2>
+                <h2 className={`hidden md:block text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-left' : ''}`}>
+                  {t.about.title.split('\n')[0]}
+                </h2>
+                <h2 className={`hidden md:block text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white -mt-2 ${language === 'ar' ? 'text-left' : 'text-right'}`}>
+                  {t.about.title.split('\n')[1]}
+                </h2>
+              </div>
             </div>
 
             <div className="relative w-full flex flex-col md:block">

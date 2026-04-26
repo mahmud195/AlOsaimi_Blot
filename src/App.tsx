@@ -451,7 +451,7 @@ function App() {
               <h2 className={`md:hidden text-[3rem] sm:text-[3.5rem] font-darker-grotesque font-extralight tracking-[0.08em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-right' : ''}`}>
                 {t.about.title.split('\n')[0]}
               </h2>
-              <h2 className={`md:hidden text-[3rem] sm:text-[3.5rem] font-darker-grotesque font-extralight tracking-[0.08em] uppercase leading-[0.85] text-aoc-white -mt-2 ${language === 'ar' ? 'text-right' : ''}`}>
+              <h2 className="md:hidden text-[3rem] sm:text-[3.5rem] font-darker-grotesque font-extralight tracking-[0.08em] uppercase leading-[0.85] text-aoc-white -mt-2 text-right">
                 {t.about.title.split('\n')[1]}
               </h2>
               <h2 className={`hidden md:block text-8xl lg:text-9xl font-darker-grotesque font-extralight tracking-[0.1em] uppercase leading-[0.85] text-aoc-white ${language === 'ar' ? 'text-left' : ''}`}>

@@ -1,0 +1,87 @@
+.aoc-intro-overlay {
+  background: rgba(10, 12, 20, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  opacity: 1;
+}
+
+.aoc-intro-overlay svg {
+  opacity: 1;
+  transition: opacity 0.2s ease-out;
+}
+
+.aoc-intro-overlay circle {
+  stroke-dasharray: 942;
+  stroke-dashoffset: 942;
+  transform: rotate(-90deg);
+  transform-origin: 160px 160px;
+}
+
+.aoc-intro-overlay.is-drawing circle {
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.aoc-intro-overlay.is-expanding svg,
+.aoc-intro-overlay.is-done svg {
+  opacity: 0;
+}
+
+.aoc-intro-overlay.is-done {
+  opacity: 0;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: opacity 0.6s ease-out, backdrop-filter 0.6s ease-out;
+}
+
+.aoc-glass-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(202, 182, 75, 0.25);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: none;
+}
+
+.aoc-glass-card.is-active {
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(202, 182, 75, 0.5);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 0 40px rgba(202, 182, 75, 0.08), inset 0 0 30px rgba(255, 255, 255, 0.03);
+}
+
+.aoc-honeypot {
+  position: absolute !important;
+  left: -9999px !important;
+  width: 1px !important;
+  height: 1px !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.aoc-gallery img {
+  transition: transform 0.4s ease-out, opacity 0.4s ease-out;
+}
+
+.aoc-form-success {
+  color: #CAB64B;
+}
+
+.aoc-form-error {
+  color: rgba(242, 242, 242, 0.8);
+}
+
+body.admin-bar .aoc-site > [data-top-nav-wrapper] nav,
+body.admin-bar [data-services-modal] nav,
+body.admin-bar [data-project-modal] nav {
+  top: 32px;
+}
+
+@media (max-width: 782px) {
+  body.admin-bar .aoc-site > [data-top-nav-wrapper] nav,
+  body.admin-bar [data-services-modal] nav,
+  body.admin-bar [data-project-modal] nav {
+    top: 46px;
+  }
+}
+

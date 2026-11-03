@@ -13,17 +13,41 @@ if (!defined('ABSPATH')) {
 
 require_once get_template_directory() . '/inc/helpers.php';
 require_once get_template_directory() . '/inc/content.php';
+require_once get_template_directory() . '/inc/cms.php';
+require_once get_template_directory() . '/inc/gutenberg.php';
+require_once get_template_directory() . '/inc/page-editor.php';
+require_once get_template_directory() . '/inc/shortcodes.php';
 require_once get_template_directory() . '/inc/contact.php';
 require_once get_template_directory() . '/inc/admin.php';
+require_once get_template_directory() . '/inc/global-fields.php';
 
 function aoc_theme_setup(): void
 {
     add_theme_support('title-tag');
     add_theme_support('post-thumbnails');
+    add_theme_support('editor-styles');
+    add_theme_support('wp-block-styles');
+    add_theme_support('align-wide');
+    add_theme_support('responsive-embeds');
+    add_theme_support('custom-logo', [
+        'height' => 80,
+        'width' => 260,
+        'flex-height' => true,
+        'flex-width' => true,
+    ]);
     add_theme_support('html5', ['search-form', 'comment-form', 'comment-list', 'gallery', 'caption', 'style', 'script']);
     register_nav_menus([
         'primary' => __('Primary Navigation', 'alosaimi-consulting'),
     ]);
+
+    $editor_styles = [];
+    $dist_css = aoc_first_matching_asset('assets/dist/index-*.css');
+    if ($dist_css) {
+        $editor_styles[] = 'assets/dist/' . basename($dist_css);
+    }
+    $editor_styles[] = 'assets/css/wp-overrides.css';
+    $editor_styles[] = 'assets/css/editor.css';
+    add_editor_style($editor_styles);
 }
 add_action('after_setup_theme', 'aoc_theme_setup');
 
@@ -100,7 +124,7 @@ function aoc_head_meta(): void
 
     $description = 'ALOSAIMI CONSULTING - Professional consulting services built on a foundation of trust and excellence.';
     $canonical = home_url(add_query_arg([], $GLOBALS['wp']->request ?? ''));
-    $og_image = aoc_asset_url('video_poster.jpg');
+    $og_image = aoc_media_url('video_poster.jpg');
     ?>
     <meta name="description" content="<?php echo esc_attr($description); ?>" />
     <link rel="canonical" href="<?php echo esc_url($canonical ?: home_url('/')); ?>" />
@@ -161,4 +185,3 @@ function aoc_tracking_body(): void
     <?php
 }
 add_action('wp_body_open', 'aoc_tracking_body');
-

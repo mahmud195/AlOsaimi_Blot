@@ -22,7 +22,7 @@ $language_attributes = preg_replace('/lang="[^"]*"/', 'lang="' . esc_attr($langu
     <meta http-equiv="X-Content-Type-Options" content="nosniff" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
     <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()" />
-    <link rel="icon" type="image/png" href="<?php echo esc_url(aoc_asset_url($data['media']['favicon'])); ?>" />
+    <link rel="icon" type="image/png" href="<?php echo esc_url(aoc_media_url($data['media']['favicon'])); ?>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <?php

@@ -16,7 +16,7 @@
   }
 
   function initIntro() {
-    const overlay = qs('[data-intro-overlay]');
+    const overlay = qs('[data-intro-overlay], .aoc-intro-overlay');
     if (!overlay) return;
 
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -26,6 +26,10 @@
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
 
+    const viewportDiagonal = Math.hypot(window.innerWidth || 0, window.innerHeight || 0);
+    const introScale = Math.max(4, Math.ceil(viewportDiagonal / 250));
+    overlay.style.setProperty('--aoc-intro-scale', String(introScale));
+
     const timers = [
       window.setTimeout(() => overlay.classList.add('is-drawing'), 150),
       window.setTimeout(() => {
@@ -33,8 +37,8 @@
         document.body.style.overflow = '';
         document.documentElement.style.overflow = '';
       }, 1300),
-      window.setTimeout(() => overlay.classList.add('is-done'), 1400),
-      window.setTimeout(() => overlay.remove(), 2100),
+      window.setTimeout(() => overlay.classList.add('is-done'), 2050),
+      window.setTimeout(() => overlay.remove(), 2750),
     ];
 
     window.addEventListener('beforeunload', () => timers.forEach(window.clearTimeout), { once: true });
@@ -106,11 +110,17 @@
     backdrop?.addEventListener('click', () => toggle(false));
     qsa('[data-mobile-nav-link]').forEach((link) => link.addEventListener('click', () => toggle(false)));
 
-    const bottomBar = qs('[data-bottom-bar]');
-    const links = qsa('[data-nav-link]');
+    const bottomBar = qs('[data-bottom-bar], .aoc-bottom-bar');
+    const links = qsa('[data-nav-link], .aoc-block-header a[href^="#"], .aoc-bottom-bar a[href^="#"]');
+    const linkTarget = (link) => {
+      if (link.dataset.navLink) return link.dataset.navLink;
+      const href = link.getAttribute('href') || '';
+      const hashIndex = href.indexOf('#');
+      return hashIndex >= 0 ? href.slice(hashIndex + 1) : '';
+    };
     const setActive = (id) => {
       links.forEach((link) => {
-        const active = link.dataset.navLink === id;
+        const active = linkTarget(link) === id;
         link.classList.toggle('text-aoc-gold', active);
         link.classList.toggle('border-b-2', active && !link.hasAttribute('data-mobile-nav-link'));
         link.classList.toggle('border-aoc-gold', active && !link.hasAttribute('data-mobile-nav-link'));
@@ -140,7 +150,7 @@
   }
 
   function initHeroBanner() {
-    const banner = qs('[data-hero-banner]');
+    const banner = qs('[data-hero-banner], .aoc-hero-banner');
     if (!banner) return;
 
     let offset = 0;
@@ -169,7 +179,7 @@
   }
 
   function initProjectBackgrounds() {
-    const slides = qsa('[data-project-bg]');
+    const slides = qsa('[data-project-bg], .aoc-project-bg');
     if (slides.length <= 1) return;
     let index = 0;
     window.setInterval(() => {
@@ -181,8 +191,8 @@
   }
 
   function initServiceCarousel() {
-    const carousel = qs('[data-service-carousel]');
-    const holdButton = qs('[data-service-scroll-button]');
+    const carousel = qs('[data-service-carousel], .aoc-service-carousel');
+    const holdButton = qs('[data-service-scroll-button], .aoc-service-scroll-button');
     if (!carousel) return;
 
     let isDragging = false;
@@ -321,7 +331,7 @@
       document.body.style.overflow = '';
     };
 
-    qsa('[data-open-services]').forEach((button) => button.addEventListener('click', open));
+    qsa('[data-open-services], .aoc-open-services').forEach((button) => button.addEventListener('click', open));
     qsa('[data-close-services]', modal).forEach((button) => button.addEventListener('click', close));
     scrollEl?.addEventListener('scroll', update, { passive: true });
     window.addEventListener('resize', update);
@@ -339,8 +349,8 @@
 
   function initProjectsModal() {
     const modal = qs('[data-project-modal]');
-    const trigger = qs('[data-open-projects]');
-    const learnBar = qs('[data-project-learn-bar]');
+    const trigger = qs('[data-open-projects], .aoc-open-projects');
+    const learnBar = qs('[data-project-learn-bar], .aoc-project-learn-bar');
     const learnInner = qs('[data-project-learn-inner]');
     const topNav = qs('[data-main-nav]');
     const bottomBar = qs('[data-bottom-bar]');

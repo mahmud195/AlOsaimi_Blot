@@ -37,7 +37,7 @@ $service_count = count($services);
                                 style="<?php echo esc_attr(!$clone ? 'transition-delay:' . ($index * 0.2) . 's;' : ''); ?>"
                             >
                                 <button type="button" class="relative w-full aspect-[3/4] overflow-hidden mb-4 md:mb-6 transition-transform duration-300 ease-out hover:scale-105 text-left" data-open-services>
-                                    <img src="<?php echo esc_url(aoc_asset_url($service['image'])); ?>" alt="<?php echo esc_attr($localized['title']); ?>" loading="lazy" class="w-full h-full object-cover" />
+                                    <img src="<?php echo esc_url(aoc_media_url($service['image'])); ?>" alt="<?php echo esc_attr($localized['title']); ?>" loading="lazy" class="w-full h-full object-cover" />
                                     <span class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></span>
                                     <span class="absolute bottom-6 md:bottom-8 left-0 right-0 px-4">
                                         <span class="block text-lg md:text-xl font-darker-grotesque font-light tracking-[0.1em] md:tracking-[0.12em] uppercase text-aoc-white <?php echo esc_attr('ar' === $language ? 'text-right' : 'text-left'); ?>"><?php echo esc_html($localized['title']); ?></span>
@@ -66,8 +66,8 @@ $service_count = count($services);
         <nav class="fixed top-0 left-0 right-0 z-[70] bg-aoc-black/30 backdrop-blur-md border-b border-white/10 <?php echo esc_attr('ar' === $language ? 'rtl' : 'ltr'); ?>">
             <div class="max-w-screen-2xl mx-auto px-4 md:px-8 py-3 md:py-4 flex items-center justify-between">
                 <a href="#services" class="h-10 w-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0" data-close-services>
-                    <img src="<?php echo esc_url(aoc_asset_url($data['media']['logo_mobile'])); ?>" alt="AOC Logo" class="h-full w-auto md:hidden" />
-                    <img src="<?php echo esc_url(aoc_asset_url($data['media']['logo_white'])); ?>" alt="AOC Logo" class="h-full w-auto hidden md:block" />
+                    <img src="<?php echo esc_url(aoc_media_url($data['media']['logo_mobile'])); ?>" alt="AOC Logo" class="h-full w-auto md:hidden" />
+                    <img src="<?php echo esc_url(aoc_media_url($data['media']['logo_white'])); ?>" alt="AOC Logo" class="h-full w-auto hidden md:block" />
                 </a>
                 <div class="md:hidden w-10"></div>
                 <button type="button" data-close-services class="relative w-10 h-10 flex items-center justify-center" aria-label="<?php esc_attr_e('Close services', 'alosaimi-consulting'); ?>">
@@ -104,7 +104,7 @@ $service_count = count($services);
                             <?php if ($index > 0) : ?>
                                 <div class="w-full flex items-center gap-4 py-6 md:py-14"><div class="flex-1 h-px bg-white/10"></div><div class="w-1 h-1 rounded-full bg-aoc-gold/60"></div><div class="flex-1 h-px bg-white/10"></div></div>
                             <?php endif; ?>
-                            <section class="rounded-sm overflow-visible transition-all duration-700 p-5 sm:p-6 md:p-12 aoc-glass-card <?php echo 0 === $index ? 'is-active' : ''; ?>">
+                            <section class="rounded-sm overflow-visible transition-all duration-700 p-5 sm:p-6 md:p-12 aoc-glass-card <?php echo esc_attr(0 === $index ? 'is-active' : ''); ?>">
                                 <div class="flex flex-col-reverse lg:flex-row gap-5 md:gap-8 lg:gap-14 <?php echo esc_attr('ar' === $language ? 'lg:flex-row-reverse' : ''); ?>">
                                     <div class="flex-1 flex flex-col justify-center <?php echo esc_attr('ar' === $language ? 'text-right' : ''); ?>">
                                         <div class="mb-4 md:mb-5 lg:mb-8">
@@ -117,13 +117,13 @@ $service_count = count($services);
                                             <?php if ('designServices' === $service['id']) : ?>
                                                 <div class="mt-5">
                                                     <p class="text-[10px] md:text-xs font-inter-tight font-light tracking-[0.1em] text-aoc-white/60 mb-2 uppercase"><?php echo esc_html($t['services']['creativePartner']); ?></p>
-                                                    <a href="<?php echo esc_url($data['social']['befound']); ?>" target="_blank" rel="noopener noreferrer" class="inline-block transition-opacity hover:opacity-80"><img src="<?php echo esc_url(aoc_asset_url($data['media']['befound'])); ?>" alt="BeFound Design Studio" class="h-6 w-auto" /></a>
+                                                    <a href="<?php echo esc_url($data['social']['befound']); ?>" target="_blank" rel="noopener noreferrer" class="inline-block transition-opacity hover:opacity-80"><img src="<?php echo esc_url(aoc_media_url($data['media']['befound'])); ?>" alt="BeFound Design Studio" class="h-6 w-auto" /></a>
                                                 </div>
                                             <?php endif; ?>
                                         </div>
                                     </div>
                                     <div class="w-full max-w-[15rem] sm:max-w-[17rem] lg:w-72 xl:w-80 mx-auto lg:mx-0 shrink-0" data-services-image>
-                                        <div class="w-full aspect-[3/4] overflow-hidden rounded-sm"><img src="<?php echo esc_url(aoc_asset_url($service['image'])); ?>" alt="<?php echo esc_attr($localized['title']); ?>" loading="lazy" class="w-full h-full object-cover" /></div>
+                                        <div class="w-full aspect-[3/4] overflow-hidden rounded-sm"><img src="<?php echo esc_url(aoc_media_url($service['image'])); ?>" alt="<?php echo esc_attr($localized['title']); ?>" loading="lazy" class="w-full h-full object-cover" /></div>
                                     </div>
                                 </div>
 
@@ -134,12 +134,12 @@ $service_count = count($services);
                                             <div class="flex flex-col gap-5 md:gap-8 mt-4">
                                                 <div class="grid grid-cols-3 gap-4 sm:gap-5 md:flex md:items-center md:justify-between md:gap-4">
                                                     <?php foreach (array_slice($data['certificates'], 0, 5) as $cert) : ?>
-                                                        <a href="<?php echo esc_url($cert['url']); ?>" target="_blank" rel="noopener noreferrer" title="<?php echo esc_attr($cert['name']); ?>" class="flex flex-1 items-center justify-center hover:scale-110 transition-transform duration-300 min-w-0"><img src="<?php echo esc_url(aoc_asset_url($cert['image'])); ?>" alt="<?php echo esc_attr($cert['name']); ?>" loading="lazy" class="h-8 sm:h-10 md:h-12 lg:h-14 w-auto max-w-full object-contain filter drop-shadow-md" /></a>
+                                                        <a href="<?php echo esc_url($cert['url']); ?>" target="_blank" rel="noopener noreferrer" title="<?php echo esc_attr($cert['name']); ?>" class="flex flex-1 items-center justify-center hover:scale-110 transition-transform duration-300 min-w-0"><img src="<?php echo esc_url(aoc_media_url($cert['image'])); ?>" alt="<?php echo esc_attr($cert['name']); ?>" loading="lazy" class="h-8 sm:h-10 md:h-12 lg:h-14 w-auto max-w-full object-contain filter drop-shadow-md" /></a>
                                                     <?php endforeach; ?>
                                                 </div>
                                                 <div class="grid grid-cols-2 gap-5 justify-items-center md:flex md:items-center md:justify-center md:gap-8 lg:gap-12">
                                                     <?php foreach (array_slice($data['certificates'], 5) as $cert) : ?>
-                                                        <a href="<?php echo esc_url($cert['url']); ?>" target="_blank" rel="noopener noreferrer" title="<?php echo esc_attr($cert['name']); ?>" class="flex items-center justify-center hover:scale-110 transition-transform duration-300 shrink-0"><img src="<?php echo esc_url(aoc_asset_url($cert['image'])); ?>" alt="<?php echo esc_attr($cert['name']); ?>" loading="lazy" class="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain filter drop-shadow-md" /></a>
+                                                        <a href="<?php echo esc_url($cert['url']); ?>" target="_blank" rel="noopener noreferrer" title="<?php echo esc_attr($cert['name']); ?>" class="flex items-center justify-center hover:scale-110 transition-transform duration-300 shrink-0"><img src="<?php echo esc_url(aoc_media_url($cert['image'])); ?>" alt="<?php echo esc_attr($cert['name']); ?>" loading="lazy" class="h-8 sm:h-10 md:h-12 lg:h-14 w-auto object-contain filter drop-shadow-md" /></a>
                                                     <?php endforeach; ?>
                                                 </div>
                                             </div>
@@ -154,8 +154,10 @@ $service_count = count($services);
         </div>
 
         <div class="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-4 md:px-8 py-3 md:py-4 flex justify-between items-center text-aoc-white/50 text-[10px] md:text-sm font-inter-tight font-light tracking-[0.18em] md:tracking-widest">
-            <span>A</span><span>FOUNDATION</span><span>OF</span><span>TRUST</span>
+            <?php
+            $bar_text = function_exists('aoc_global_get') ? aoc_global_get('bottom_bar_text', 'A FOUNDATION OF TRUST') : 'A FOUNDATION OF TRUST';
+            foreach (array_filter(explode(' ', $bar_text)) as $word) :
+            ?><span><?php echo esc_html($word); ?></span><?php endforeach; ?>
         </div>
     </div>
 </section>
-

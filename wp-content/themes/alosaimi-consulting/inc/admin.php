@@ -64,7 +64,10 @@ function aoc_render_settings_page(): void
     ?>
     <div class="wrap">
         <h1><?php esc_html_e('Al Osaimi Settings', 'alosaimi-consulting'); ?></h1>
-        <p><?php esc_html_e('Use these fields for contact routing, tracking IDs, and optional structured content overrides. Leave the JSON override empty to use the migrated React content exactly.', 'alosaimi-consulting'); ?></p>
+        <p><?php esc_html_e('Use these fields for contact routing and tracking IDs. Homepage content is editable from the Al Osaimi Content menu.', 'alosaimi-consulting'); ?></p>
+        <p>
+            <a class="button button-secondary" href="<?php echo esc_url(admin_url('admin.php?page=aoc-content')); ?>"><?php esc_html_e('Open Al Osaimi Content', 'alosaimi-consulting'); ?></a>
+        </p>
         <form method="post" action="options.php">
             <?php settings_fields('aoc_settings'); ?>
             <table class="form-table" role="presentation">
@@ -96,7 +99,7 @@ function aoc_render_settings_page(): void
                     <th scope="row"><label for="aoc_site_content_json"><?php esc_html_e('Content override JSON', 'alosaimi-consulting'); ?></label></th>
                     <td>
                         <textarea name="aoc_site_content_json" id="aoc_site_content_json" rows="14" class="large-text code"><?php echo esc_textarea(get_option('aoc_site_content_json', '')); ?></textarea>
-                        <p class="description"><?php esc_html_e('Optional. Paste only the keys you need to override. The default source structure is shown below for reference.', 'alosaimi-consulting'); ?></p>
+                        <p class="description"><?php esc_html_e('Advanced fallback only. Normal editing should be done from Al Osaimi Content. Paste only the keys you need to override.', 'alosaimi-consulting'); ?></p>
                         <details>
                             <summary><?php esc_html_e('Show default content structure', 'alosaimi-consulting'); ?></summary>
                             <pre style="max-height: 420px; overflow: auto; background: #111; color: #eee; padding: 16px;"><?php echo esc_html($sample); ?></pre>
@@ -109,4 +112,3 @@ function aoc_render_settings_page(): void
     </div>
     <?php
 }
-

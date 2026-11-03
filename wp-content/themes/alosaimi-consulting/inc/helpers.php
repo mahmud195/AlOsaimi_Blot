@@ -7,6 +7,29 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+/* ── PHP 8.0 polyfills (safe on older hosts) ────────────────────────── */
+if (!function_exists('str_starts_with')) {
+    function str_starts_with(string $haystack, string $needle): bool
+    {
+        return 0 === strncmp($haystack, $needle, strlen($needle));
+    }
+}
+if (!function_exists('str_ends_with')) {
+    function str_ends_with(string $haystack, string $needle): bool
+    {
+        if ('' === $needle) {
+            return true;
+        }
+        return substr($haystack, -strlen($needle)) === $needle;
+    }
+}
+if (!function_exists('str_contains')) {
+    function str_contains(string $haystack, string $needle): bool
+    {
+        return '' === $needle || false !== strpos($haystack, $needle);
+    }
+}
+
 function aoc_first_matching_asset(string $pattern): ?string
 {
     $files = glob(get_template_directory() . '/' . ltrim($pattern, '/'));
@@ -28,6 +51,21 @@ function aoc_url_path(string $relative): string
 function aoc_asset_url(string $relative, string $bucket = 'source'): string
 {
     return get_template_directory_uri() . '/assets/' . rawurlencode($bucket) . '/' . aoc_url_path($relative);
+}
+
+function aoc_media_url(string $value, string $bucket = 'source'): string
+{
+    $value = trim($value);
+
+    if ('' === $value) {
+        return '';
+    }
+
+    if (preg_match('#^(https?:)?//#i', $value) || str_starts_with($value, 'data:')) {
+        return $value;
+    }
+
+    return aoc_asset_url($value, $bucket);
 }
 
 function aoc_asset_path(string $relative, string $bucket = 'source'): string
@@ -93,6 +131,10 @@ function aoc_icon(string $name, string $class = '', int $size = 24): string
 
 function aoc_gallery_urls(string $relative_directory): array
 {
+    if ('' === trim($relative_directory)) {
+        return [];
+    }
+
     $base_path = aoc_asset_path($relative_directory);
     $files = glob($base_path . DIRECTORY_SEPARATOR . '*.{jpg,jpeg,png,webp}', GLOB_BRACE);
     if (!$files) {
@@ -107,9 +149,75 @@ function aoc_gallery_urls(string $relative_directory): array
         if (preg_match('/^01\.jpe?g$/i', $basename)) {
             continue;
         }
-        $urls[] = aoc_asset_url(trim($relative_directory, '/') . '/' . $basename);
+        $urls[] = aoc_media_url(trim($relative_directory, '/') . '/' . $basename);
     }
 
     return $urls;
 }
 
+/**
+ * Custom WordPress menu walker that preserves the Al Osaimi nav design.
+ *
+ * Outputs bare <a> tags (no <ul>/<li> wrapping) so the existing
+ * flexbox navigation and JavaScript (data-nav-link, data-mobile-nav-link)
+ * continue to work exactly as before.
+ */
+class AOC_Nav_Walker extends Walker_Nav_Menu
+{
+    private $mode;     // 'desktop' or 'mobile'
+    private $language; // 'en' or 'ar'
+
+    public function __construct(string $mode = 'desktop', string $language = 'en')
+    {
+        $this->mode     = $mode;
+        $this->language = $language;
+    }
+
+    public function start_el(&$output, $item, $depth = 0, $args = null, $id = 0): void
+    {
+        $href  = $item->url ?: '#';
+        $label = $item->title;
+
+        // Derive section id from href (#about → about)
+        $section_id = '';
+        if (preg_match('/#([a-z]+)$/i', $href, $m)) {
+            $section_id = strtolower($m[1]);
+        }
+
+        if ('mobile' === $this->mode) {
+            $language_classes = 'text-left text-sm';
+            if ('ar' === $this->language) {
+                $language_classes = 'text-right text-base';
+            }
+
+            $classes = 'block py-2.5 ' . $language_classes . ' font-inter-tight font-light tracking-[0.12em] uppercase transition-all duration-300 text-aoc-white/80 hover:text-aoc-white';
+
+            $output .= '<a href="' . esc_url($href) . '" data-mobile-nav-link'
+                . ($section_id ? ' data-nav-link="' . esc_attr($section_id) . '"' : '')
+                . ' class="' . esc_attr($classes) . '">'
+                . esc_html($label)
+                . '</a>';
+        } else {
+            $language_classes = 'text-xs';
+            if ('ar' === $this->language) {
+                $language_classes = 'text-base';
+            }
+
+            $classes = $language_classes . ' font-inter-tight font-light tracking-[0.2em] uppercase transition-all duration-300 text-aoc-white/80 hover:text-aoc-white';
+
+            $output .= '<a href="' . esc_url($href) . '"'
+                . ($section_id ? ' data-nav-link="' . esc_attr($section_id) . '"' : '')
+                . ' class="' . esc_attr($classes) . '">'
+                . esc_html($label)
+                . '</a>';
+        }
+    }
+
+    public function end_el(&$output, $item, $depth = 0, $args = null): void
+    {
+        // No closing tag needed – bare <a> tags
+    }
+
+    public function start_lvl(&$output, $depth = 0, $args = null): void {}
+    public function end_lvl(&$output, $depth = 0, $args = null): void {}
+}

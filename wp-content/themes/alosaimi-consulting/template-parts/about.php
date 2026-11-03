@@ -26,7 +26,7 @@ $about_title = explode("\n", $t['about']['title']);
                         <circle cx="50" cy="50" r="48" fill="none" stroke="#CAB64B" stroke-width="2" class="circle-draw"></circle>
                     </svg>
                     <div class="relative aspect-[4/5] md:h-[600px] md:aspect-auto overflow-hidden">
-                        <img src="<?php echo esc_url(aoc_asset_url($data['media']['about_image'])); ?>" alt="Architecture" loading="lazy" class="w-full h-full object-cover" />
+                        <img src="<?php echo esc_url(aoc_media_url($data['media']['about_image'])); ?>" alt="Architecture" loading="lazy" class="w-full h-full object-cover" />
                     </div>
                 </div>
 
@@ -72,4 +72,3 @@ $about_title = explode("\n", $t['about']['title']);
         </div>
     </div>
 </section>
-

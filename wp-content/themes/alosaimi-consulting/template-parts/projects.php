@@ -14,7 +14,7 @@ $global_index = 0;
     <div class="absolute inset-0 flex items-center justify-center">
         <?php foreach ($data['media']['project_section_images'] as $index => $image) : ?>
             <div class="absolute inset-0 flex items-center justify-center transition-opacity duration-700" data-project-bg="<?php echo esc_attr((string) $index); ?>" style="opacity:<?php echo 0 === $index ? '1' : '0'; ?>;">
-                <img src="<?php echo esc_url(aoc_asset_url($image)); ?>" alt="<?php echo esc_attr('Project ' . ($index + 1)); ?>" loading="lazy" class="w-full h-full object-cover" />
+                <img src="<?php echo esc_url(aoc_media_url($image)); ?>" alt="<?php echo esc_attr('Project ' . ($index + 1)); ?>" loading="lazy" class="w-full h-full object-cover" />
             </div>
         <?php endforeach; ?>
         <div class="absolute inset-0 bg-gradient-to-t from-aoc-black/80 via-aoc-indigo/30 to-transparent"></div>
@@ -40,8 +40,8 @@ $global_index = 0;
     <nav class="fixed top-0 left-0 right-0 z-[70] bg-aoc-black/30 backdrop-blur-md border-b border-white/10 <?php echo esc_attr('ar' === $language ? 'rtl' : 'ltr'); ?>">
         <div class="max-w-screen-2xl mx-auto px-4 md:px-8 py-3 md:py-4 flex items-center justify-between">
             <a href="#projects" data-close-projects class="h-10 w-auto absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
-                <img src="<?php echo esc_url(aoc_asset_url($data['media']['logo_mobile'])); ?>" alt="AOC Logo" class="h-full w-auto md:hidden" />
-                <img src="<?php echo esc_url(aoc_asset_url($data['media']['logo_white'])); ?>" alt="AOC Logo" class="h-full w-auto hidden md:block" />
+                <img src="<?php echo esc_url(aoc_media_url($data['media']['logo_mobile'])); ?>" alt="AOC Logo" class="h-full w-auto md:hidden" />
+                <img src="<?php echo esc_url(aoc_media_url($data['media']['logo_white'])); ?>" alt="AOC Logo" class="h-full w-auto hidden md:block" />
             </a>
             <button type="button" class="md:hidden text-aoc-white/80 hover:text-aoc-white transition-colors" data-project-category-toggle>
                 <span data-open-icon><?php echo aoc_icon('menu', '', 24); ?></span>
@@ -89,13 +89,14 @@ $global_index = 0;
                             <?php foreach ($cat_projects as $local_index => $project) : ?>
                                 <?php
                                 $localized = $project[$language];
-                                $all_images = array_merge([aoc_asset_url($project['image'])], aoc_gallery_urls($project['folder']));
+                                $gallery_images = $project['gallery'] ?? [];
+                                $all_images = $gallery_images ? $gallery_images : array_merge([aoc_media_url($project['image'])], aoc_gallery_urls($project['folder'] ?? ''));
                                 ?>
                                 <div class="relative" data-project-card data-project-index="<?php echo esc_attr((string) $global_index); ?>">
                                     <?php if ($local_index > 0) : ?>
                                         <div class="w-full flex items-center gap-4 py-6 md:py-14"><div class="flex-1 h-px bg-white/10"></div><div class="w-1 h-1 rounded-full bg-aoc-gold/60"></div><div class="flex-1 h-px bg-white/10"></div></div>
                                     <?php endif; ?>
-                                    <div class="rounded-sm overflow-visible transition-all duration-700 p-5 sm:p-6 md:p-12 aoc-glass-card <?php echo 0 === $global_index ? 'is-active' : ''; ?>">
+                                    <div class="rounded-sm overflow-visible transition-all duration-700 p-5 sm:p-6 md:p-12 aoc-glass-card <?php echo esc_attr(0 === $global_index ? 'is-active' : ''); ?>">
                                         <div class="flex flex-col md:flex-row gap-5 md:gap-8 <?php echo esc_attr('ar' === $language ? 'md:flex-row-reverse' : ''); ?>">
                                             <div class="relative w-full max-w-[15rem] sm:max-w-[17rem] md:max-w-none mx-auto md:mx-0 md:w-[45%] shrink-0" data-project-image>
                                                 <div class="relative select-none group aoc-gallery" data-gallery="<?php echo esc_attr(wp_json_encode($all_images)); ?>">
@@ -111,7 +112,7 @@ $global_index = 0;
                                                         <div class="flex justify-center gap-2 md:gap-2.5 mt-2.5 md:mt-3" data-gallery-dots>
                                                             <?php foreach ($all_images as $dot_index => $_image) : ?>
                                                                 <button type="button" data-gallery-dot="<?php echo esc_attr((string) $dot_index); ?>" class="relative w-3.5 h-3.5 md:w-4 md:h-4 flex items-center justify-center" aria-label="<?php echo esc_attr('Go to image ' . ($dot_index + 1)); ?>">
-                                                                    <span class="w-1.5 h-1.5 rounded-full transition-colors duration-300 <?php echo 0 === $dot_index ? 'bg-aoc-gold' : 'bg-white/50 hover:bg-white/70'; ?>"></span>
+                                                                    <span class="w-1.5 h-1.5 rounded-full transition-colors duration-300 <?php echo esc_attr(0 === $dot_index ? 'bg-aoc-gold' : 'bg-white/50 hover:bg-white/70'); ?>"></span>
                                                                     <?php if (0 === $dot_index) : ?><span class="absolute inset-0 rounded-full border border-aoc-gold transition-opacity duration-300"></span><?php endif; ?>
                                                                 </button>
                                                             <?php endforeach; ?>
@@ -139,7 +140,10 @@ $global_index = 0;
     </div>
 
     <div class="fixed bottom-0 left-0 right-0 bg-aoc-black/30 backdrop-blur-md border-t border-white/10 px-4 md:px-8 py-3 md:py-4 flex justify-between items-center text-aoc-white/50 text-[10px] md:text-sm font-inter-tight font-light tracking-[0.18em] md:tracking-widest z-[70]">
-        <span>A</span><span>FOUNDATION</span><span>OF</span><span>TRUST</span>
+        <?php
+        $bar_text = function_exists('aoc_global_get') ? aoc_global_get('bottom_bar_text', 'A FOUNDATION OF TRUST') : 'A FOUNDATION OF TRUST';
+        foreach (array_filter(explode(' ', $bar_text)) as $word) :
+        ?><span><?php echo esc_html($word); ?></span><?php endforeach; ?>
     </div>
 </div>
 
@@ -156,4 +160,3 @@ $global_index = 0;
         <img src="" alt="" draggable="false" class="max-w-[86vw] md:max-w-[90vw] max-h-[72vh] md:max-h-[85vh] object-contain select-none pointer-events-none" data-lightbox-image />
     </div>
 </div>
-

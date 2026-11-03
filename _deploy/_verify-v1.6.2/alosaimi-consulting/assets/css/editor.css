@@ -1,0 +1,48 @@
+.editor-styles-wrapper {
+  background: #050509;
+  color: #F2F2F2;
+}
+
+.editor-styles-wrapper .aoc-block-header,
+.editor-styles-wrapper .aoc-bottom-bar,
+.editor-styles-wrapper .aoc-intro-overlay {
+  position: relative !important;
+  inset: auto !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+.editor-styles-wrapper .aoc-block-header {
+  margin-bottom: 24px;
+  border: 1px dashed rgba(202, 182, 75, 0.45);
+  background: rgba(5, 5, 9, 0.95);
+}
+
+.editor-styles-wrapper .aoc-intro-overlay {
+  min-height: 220px;
+  margin: 0;
+  background: rgba(10, 12, 20, 0.92);
+}
+
+.editor-styles-wrapper .aoc-block-hero {
+  min-height: 720px;
+}
+
+.editor-styles-wrapper .aoc-hero-content,
+.editor-styles-wrapper .aoc-hero-banner {
+  pointer-events: auto;
+}
+
+.editor-styles-wrapper .aoc-bottom-bar {
+  margin-top: 24px;
+  border: 1px dashed rgba(202, 182, 75, 0.45);
+}
+
+.editor-styles-wrapper .aoc-section {
+  border-top: 1px solid rgba(202, 182, 75, 0.18);
+}
+
+.editor-styles-wrapper .aoc-contact-form input,
+.editor-styles-wrapper .aoc-contact-form textarea {
+  pointer-events: none;
+}

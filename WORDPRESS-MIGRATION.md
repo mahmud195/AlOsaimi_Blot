@@ -4,6 +4,12 @@ Custom theme path:
 
 `wp-content/themes/alosaimi-consulting`
 
+## Current Platform Target
+
+- WordPress: theme metadata is updated for WordPress 7.0.
+- PHP: requires PHP 8.3 or newer.
+- Recommended Hostinger setting: use PHP 8.5 if available; otherwise use PHP 8.4 or 8.3.
+
 ## What Was Migrated
 
 - React single-page structure was converted into PHP template parts.
@@ -42,6 +48,42 @@ No required plugins are used.
 
 In WordPress Admin:
 
+`Al Osaimi Content`
+
+Editable content types:
+
+- Services
+- Projects
+- Project categories
+- Clients
+- Certificates / accreditations
+
+Editors can add, update, draft, reorder, or delete those items without touching code. Use each item's Main image field to replace the built-in migrated image, and use the project gallery field to select extra Media Library images.
+
+## Free Page Editing
+
+The migrated homepage design remains controlled by `Al Osaimi Content` so it can keep the original animation, modals, galleries, and bilingual behavior.
+
+The homepage can be rearranged with the normal free WordPress block editor. The theme creates a `Home` page automatically, fills it with one shortcode block per section, and sets it as the static front page.
+
+Use WordPress Shortcode blocks to move full migrated sections around:
+
+- `[aoc_section name="intro"]`
+- `[aoc_section name="top-nav"]`
+- `[aoc_section name="hero"]`
+- `[aoc_section name="about"]`
+- `[aoc_section name="services"]`
+- `[aoc_section name="clients"]`
+- `[aoc_section name="projects"]`
+- `[aoc_section name="contact"]`
+- `[aoc_section name="bottom-bar"]`
+
+Use `[aoc_homepage]` to render the full migrated homepage in one block. Individual text/images for Services, Projects, Clients, and Certificates still come from `Al Osaimi Content`.
+
+In WordPress Admin, go to `Pages -> Home -> Edit`, or use the `Edit Home Page` button in `Al Osaimi Content`.
+
+Global settings remain in:
+
 `Appearance -> Al Osaimi Settings`
 
 Available settings:
@@ -52,9 +94,9 @@ Available settings:
 - Microsoft Clarity ID
 - Google Search Console verification
 - Bing Webmaster verification
-- Optional JSON content overrides
+- Advanced JSON content overrides
 
-Leave the JSON override empty to use the exact migrated React content. Paste only the keys that need to change when overriding content.
+Leave the JSON override empty unless a developer needs a low-level fallback override.
 
 ## Contact Form
 
@@ -117,9 +159,11 @@ Deployment steps:
 2. Upload `wp-content/themes/alosaimi-consulting`.
 3. Activate the theme from `Appearance -> Themes`.
 4. Set the homepage as a static front page in `Settings -> Reading`.
-5. Configure contact recipient and tracking IDs in `Appearance -> Al Osaimi Settings`.
-6. Verify permalinks in `Settings -> Permalinks`.
-7. Test English and Arabic URLs.
+5. Open any WordPress admin page once as an administrator so the migrated Services, Projects, Clients, and Certificates are seeded into the database.
+6. Edit homepage content in `Al Osaimi Content`.
+7. Configure contact recipient and tracking IDs in `Appearance -> Al Osaimi Settings`.
+8. Verify permalinks in `Settings -> Permalinks`.
+9. Test English and Arabic URLs.
 
 ## Testing Checklist
 
@@ -150,4 +194,3 @@ Deployment steps:
 
 - The original React source includes `LanguageContext`, but no visible `setLanguage` UI call was wired. The WordPress version adds a small nav-aligned EN/AR switch to make the required bilingual behavior accessible.
 - Local PHP lint could not be run in this repository environment because the `php` executable is not installed. Run `php -l` on the theme files in the WordPress/PHP environment before production deployment.
-

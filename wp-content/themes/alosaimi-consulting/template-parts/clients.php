@@ -13,13 +13,12 @@ $clients = array_merge($data['clients'], $data['clients']);
             <div class="flex-shrink-0 flex items-center justify-center mx-6 md:mx-10 h-16 md:h-24 w-32 md:w-48">
                 <?php if (!empty($logo['url'])) : ?>
                     <a href="<?php echo esc_url($logo['url']); ?>" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center h-full w-full">
-                        <img src="<?php echo esc_url(aoc_asset_url($logo['image'])); ?>" alt="<?php echo esc_attr($logo['alt']); ?>" loading="lazy" class="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-300" />
+                        <img src="<?php echo esc_url(aoc_media_url($logo['image'])); ?>" alt="<?php echo esc_attr($logo['alt']); ?>" loading="lazy" class="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-300" />
                     </a>
                 <?php else : ?>
-                    <img src="<?php echo esc_url(aoc_asset_url($logo['image'])); ?>" alt="<?php echo esc_attr($logo['alt']); ?>" loading="lazy" class="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-300" />
+                    <img src="<?php echo esc_url(aoc_media_url($logo['image'])); ?>" alt="<?php echo esc_attr($logo['alt']); ?>" loading="lazy" class="max-h-full max-w-full object-contain hover:scale-105 transition-transform duration-300" />
                 <?php endif; ?>
             </div>
         <?php endforeach; ?>
     </div>
 </section>
-

@@ -1,0 +1,213 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "useRootPaddingAwareAlignments": true,
+    "layout": {
+      "contentSize": "1180px",
+      "wideSize": "1440px"
+    },
+    "color": {
+      "custom": true,
+      "customDuotone": false,
+      "customGradient": false,
+      "defaultPalette": false,
+      "palette": [
+        {
+          "slug": "aoc-black",
+          "name": "AOC Black",
+          "color": "#050509"
+        },
+        {
+          "slug": "aoc-navy",
+          "name": "AOC Navy",
+          "color": "#003087"
+        },
+        {
+          "slug": "aoc-gold",
+          "name": "AOC Gold",
+          "color": "#CAB64B"
+        },
+        {
+          "slug": "aoc-white",
+          "name": "AOC White",
+          "color": "#F2F2F2"
+        },
+        {
+          "slug": "aoc-muted",
+          "name": "AOC Muted",
+          "color": "#9EA3AF"
+        }
+      ]
+    },
+    "spacing": {
+      "padding": true,
+      "margin": true,
+      "blockGap": true,
+      "units": ["px", "rem", "em", "%", "vh", "vw"],
+      "spacingSizes": [
+        {
+          "slug": "20",
+          "name": "20px",
+          "size": "20px"
+        },
+        {
+          "slug": "40",
+          "name": "40px",
+          "size": "40px"
+        },
+        {
+          "slug": "80",
+          "name": "80px",
+          "size": "80px"
+        },
+        {
+          "slug": "120",
+          "name": "120px",
+          "size": "120px"
+        }
+      ]
+    },
+    "typography": {
+      "customFontSize": true,
+      "fontStyle": true,
+      "fontWeight": true,
+      "letterSpacing": true,
+      "lineHeight": true,
+      "textTransform": true,
+      "fontFamilies": [
+        {
+          "slug": "darker-grotesque",
+          "name": "Darker Grotesque",
+          "fontFamily": "\"Darker Grotesque\", sans-serif",
+          "fontFace": [
+            {
+              "fontFamily": "Darker Grotesque",
+              "fontStyle": "normal",
+              "fontWeight": "300",
+              "src": ["file:./assets/dist/DarkerGrotesque-Light-nhvDWv9A.ttf"]
+            },
+            {
+              "fontFamily": "Darker Grotesque",
+              "fontStyle": "normal",
+              "fontWeight": "400",
+              "src": ["file:./assets/dist/DarkerGrotesque-Regular-BBQFj0XF.ttf"]
+            },
+            {
+              "fontFamily": "Darker Grotesque",
+              "fontStyle": "normal",
+              "fontWeight": "700",
+              "src": ["file:./assets/dist/DarkerGrotesque-Bold-DXFT-KzD.ttf"]
+            },
+            {
+              "fontFamily": "Darker Grotesque",
+              "fontStyle": "normal",
+              "fontWeight": "800",
+              "src": ["file:./assets/dist/DarkerGrotesque-ExtraBold-DEG_vP23.ttf"]
+            }
+          ]
+        },
+        {
+          "slug": "inter-tight",
+          "name": "Inter Tight",
+          "fontFamily": "\"Inter Tight\", sans-serif",
+          "fontFace": [
+            {
+              "fontFamily": "Inter Tight",
+              "fontStyle": "normal",
+              "fontWeight": "400",
+              "src": ["file:./assets/dist/InterTight-Regular-DKLnBQXx.ttf"]
+            },
+            {
+              "fontFamily": "Inter Tight",
+              "fontStyle": "normal",
+              "fontWeight": "200",
+              "src": ["file:./assets/dist/InterTight-ExtraLight-CvGJFGPv.ttf"]
+            }
+          ]
+        }
+      ],
+      "fontSizes": [
+        {
+          "slug": "small",
+          "name": "Small",
+          "size": "14px"
+        },
+        {
+          "slug": "medium",
+          "name": "Medium",
+          "size": "18px"
+        },
+        {
+          "slug": "large",
+          "name": "Large",
+          "size": "32px"
+        },
+        {
+          "slug": "display",
+          "name": "Display",
+          "size": "clamp(54px, 9vw, 132px)"
+        }
+      ]
+    },
+    "blocks": {
+      "core/group": {
+        "spacing": {
+          "padding": true,
+          "margin": true
+        }
+      },
+      "core/columns": {
+        "spacing": {
+          "blockGap": true,
+          "padding": true,
+          "margin": true
+        }
+      },
+      "core/button": {
+        "border": {
+          "radius": true
+        }
+      }
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "#050509",
+      "text": "#F2F2F2"
+    },
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--inter-tight)",
+      "lineHeight": "1.45"
+    },
+    "elements": {
+      "button": {
+        "color": {
+          "background": "transparent",
+          "text": "#F2F2F2"
+        },
+        "border": {
+          "color": "#CAB64B",
+          "radius": "999px",
+          "style": "solid",
+          "width": "1px"
+        },
+        "spacing": {
+          "padding": {
+            "top": "12px",
+            "right": "24px",
+            "bottom": "12px",
+            "left": "24px"
+          }
+        },
+        "typography": {
+          "fontFamily": "var(--wp--preset--font-family--inter-tight)",
+          "fontSize": "14px",
+          "textTransform": "uppercase",
+          "letterSpacing": "0.12em"
+        }
+      }
+    }
+  }
+}

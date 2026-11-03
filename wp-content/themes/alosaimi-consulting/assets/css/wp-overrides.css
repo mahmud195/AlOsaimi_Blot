@@ -1,4 +1,11 @@
 .aoc-intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
   background: rgba(10, 12, 20, 0.92);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
@@ -6,8 +13,14 @@
 }
 
 .aoc-intro-overlay svg {
+  width: min(380px, 74vw);
+  height: min(380px, 74vw);
   opacity: 1;
-  transition: opacity 0.2s ease-out;
+  overflow: visible;
+  transform: scale(1);
+  transform-origin: center;
+  transition: opacity 0.2s ease-out, transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
 }
 
 .aoc-intro-overlay circle {
@@ -22,9 +35,19 @@
   transition: stroke-dashoffset 1s linear;
 }
 
-.aoc-intro-overlay.is-expanding svg,
+.aoc-intro-overlay.is-expanding svg {
+  opacity: 1;
+  transform: scale(var(--aoc-intro-scale, 8));
+}
+
+.aoc-intro-overlay.is-expanding circle {
+  stroke-width: 1;
+  transition: stroke-dashoffset 1s linear, stroke-width 0.75s ease-out;
+}
+
 .aoc-intro-overlay.is-done svg {
   opacity: 0;
+  transform: scale(var(--aoc-intro-scale, 8));
 }
 
 .aoc-intro-overlay.is-done {
@@ -85,3 +108,1032 @@ body.admin-bar [data-project-modal] nav {
   }
 }
 
+/* Gutenberg-first editable page structure */
+.aoc-site .wp-block-group,
+.aoc-site .wp-block-cover,
+.aoc-page-content .wp-block-group,
+.aoc-full-width .wp-block-group {
+  box-sizing: border-box;
+}
+
+.aoc-block-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: minmax(160px, 260px) 1fr auto;
+  align-items: center;
+  gap: clamp(16px, 3vw, 42px);
+  padding: 20px clamp(20px, 5vw, 72px);
+  background: linear-gradient(180deg, rgba(5, 5, 9, 0.82), rgba(5, 5, 9, 0));
+  color: #F2F2F2;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+body.admin-bar .aoc-block-header {
+  top: 32px;
+}
+
+.aoc-header-logo {
+  width: min(260px, 34vw);
+  margin: 0;
+}
+
+.aoc-header-logo img,
+.aoc-footer-partner img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.aoc-block-header .wp-block-navigation {
+  justify-content: center;
+  color: #F2F2F2;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+}
+
+.aoc-block-header .wp-block-navigation a {
+  color: rgba(242, 242, 242, 0.78);
+  text-decoration: none;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.aoc-block-header .wp-block-navigation a:hover,
+.aoc-block-header .wp-block-navigation a.text-aoc-gold {
+  color: #CAB64B;
+}
+
+.aoc-social-links {
+  margin: 0;
+  gap: 10px;
+}
+
+.aoc-social-links .wp-social-link {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(202, 182, 75, 0.28);
+}
+
+.aoc-block-hero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background: #050509;
+}
+
+.aoc-block-hero .wp-block-cover__background {
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.aoc-block-hero .wp-block-cover__inner-container {
+  position: static;
+  width: 100%;
+  height: 100%;
+}
+
+.aoc-hero-content {
+  position: absolute;
+  left: clamp(20px, 6vw, 90px);
+  right: clamp(20px, 6vw, 90px);
+  bottom: clamp(145px, 22vh, 250px);
+  z-index: 2;
+  max-width: 980px;
+}
+
+.aoc-hero-title {
+  margin: 0;
+  color: #F2F2F2;
+  font-family: "Darker Grotesque", sans-serif;
+  font-size: clamp(56px, 9vw, 146px);
+  font-weight: 800;
+  line-height: 0.85;
+  text-transform: uppercase;
+}
+
+.aoc-hero-subtitle {
+  margin-top: 14px;
+  color: #CAB64B;
+  font-family: "Inter Tight", sans-serif;
+  font-size: clamp(18px, 3vw, 38px);
+  font-weight: 200;
+  text-transform: uppercase;
+}
+
+.aoc-hero-banner {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: clamp(64px, 11vh, 132px);
+  z-index: 3;
+  overflow: hidden;
+  border-top: 1px solid rgba(242, 242, 242, 0.2);
+  border-bottom: 1px solid rgba(242, 242, 242, 0.2);
+  background: rgba(5, 5, 9, 0.24);
+  white-space: nowrap;
+}
+
+.aoc-hero-banner-text {
+  margin: 0;
+  padding: 14px 0;
+  color: #F2F2F2;
+  font-family: "Darker Grotesque", sans-serif;
+  font-size: clamp(32px, 6vw, 82px);
+  font-weight: 300;
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.aoc-section {
+  background: #050509;
+  color: #F2F2F2;
+  padding: clamp(84px, 11vw, 168px) clamp(20px, 5vw, 80px);
+}
+
+.aoc-section > * {
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.aoc-section-heading,
+.aoc-small-section-heading {
+  margin: 0 0 clamp(28px, 5vw, 72px);
+  color: #F2F2F2;
+  font-family: "Darker Grotesque", sans-serif;
+  font-weight: 800;
+  line-height: 0.82;
+  text-transform: uppercase;
+}
+
+.aoc-section-heading {
+  font-size: clamp(54px, 9vw, 132px);
+}
+
+.aoc-small-section-heading {
+  font-size: clamp(38px, 6vw, 82px);
+}
+
+.aoc-subheading,
+.aoc-card-title,
+.aoc-ceo-name {
+  color: #F2F2F2;
+  font-family: "Darker Grotesque", sans-serif;
+  font-weight: 700;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.aoc-lead,
+.aoc-copy,
+.aoc-card-copy,
+.aoc-card-meta,
+.aoc-kicker {
+  color: rgba(242, 242, 242, 0.76);
+  font-family: "Inter Tight", sans-serif;
+  font-weight: 300;
+  line-height: 1.65;
+}
+
+.aoc-lead {
+  max-width: 820px;
+  font-size: clamp(18px, 2vw, 26px);
+}
+
+.aoc-copy,
+.aoc-card-copy {
+  font-size: 16px;
+}
+
+.aoc-card-meta,
+.aoc-kicker {
+  color: #CAB64B;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.aoc-about-columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(260px, 0.9fr) minmax(0, 1fr);
+  gap: clamp(28px, 5vw, 72px);
+  align-items: start;
+}
+
+.aoc-about-image {
+  overflow: hidden;
+  border: 1px solid rgba(202, 182, 75, 0.24);
+}
+
+.aoc-about-image img,
+.aoc-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.aoc-about-image img {
+  aspect-ratio: 3 / 4;
+}
+
+.aoc-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(18px, 3vw, 34px);
+}
+
+.aoc-service-card,
+.aoc-project-card {
+  min-width: 0;
+  padding: clamp(18px, 2.6vw, 30px);
+  border: 1px solid rgba(202, 182, 75, 0.22);
+  background: rgba(255, 255, 255, 0.055);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.aoc-service-card .aoc-card-image img,
+.aoc-project-card .aoc-card-image img {
+  aspect-ratio: 4 / 3;
+}
+
+.aoc-card-title {
+  margin: 20px 0 10px;
+  font-size: clamp(28px, 3vw, 42px);
+}
+
+.aoc-section-actions {
+  margin-top: 42px;
+}
+
+.aoc-outline-button .wp-block-button__link,
+.aoc-contact-form button {
+  border: 1px solid #CAB64B;
+  border-radius: 999px;
+  background: transparent;
+  color: #F2F2F2;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.aoc-outline-button .wp-block-button__link:hover,
+.aoc-contact-form button:hover {
+  background: #CAB64B;
+  color: #050509;
+}
+
+.aoc-logo-marquee,
+.aoc-logo-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(90px, 1fr));
+  gap: 18px;
+}
+
+.aoc-logo-card {
+  display: flex;
+  min-height: 96px;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.aoc-logo-card img {
+  max-width: 100%;
+  max-height: 58px;
+  object-fit: contain;
+}
+
+.aoc-contact-section {
+  min-height: 92vh;
+}
+
+.aoc-contact-info {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  max-width: 980px;
+  margin: 0 0 42px;
+}
+
+.aoc-contact-info a,
+.aoc-contact-info div {
+  display: block;
+  border: 1px solid rgba(202, 182, 75, 0.3);
+  color: inherit;
+  padding: 16px 20px;
+  text-decoration: none;
+  transition: border-color 0.25s ease;
+}
+
+.aoc-contact-info a:hover {
+  border-color: #CAB64B;
+}
+
+.aoc-contact-info span {
+  display: block;
+  margin-bottom: 8px;
+  color: #CAB64B;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.aoc-contact-info strong {
+  display: block;
+  color: rgba(242, 242, 242, 0.86);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  line-height: 1.55;
+}
+
+.aoc-contact-frame {
+  position: relative;
+  width: 100%;
+  border: 1px solid rgba(202, 182, 75, 0.42);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.025);
+  padding: clamp(22px, 3vw, 34px);
+}
+
+.aoc-contact-form-frame {
+  display: grid;
+  gap: clamp(24px, 3vw, 34px);
+}
+
+.aoc-contact-frame-label {
+  display: block;
+  margin: 0 0 16px;
+  color: #CAB64B;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.aoc-contact-fields-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(22px, 3vw, 34px);
+}
+
+.aoc-contact-line-input {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(202, 182, 75, 0.32);
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: #F2F2F2;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.12em;
+  line-height: 1.8;
+  padding: 12px 0 14px;
+  transition: border-color 0.25s ease;
+}
+
+.aoc-contact-line-input::placeholder {
+  color: rgba(242, 242, 242, 0.42);
+}
+
+.aoc-contact-line-input:focus {
+  border-bottom-color: #CAB64B;
+}
+
+.aoc-contact-message-field {
+  display: grid;
+  gap: 12px;
+  padding-top: 6px;
+}
+
+.aoc-contact-message-input {
+  width: 100%;
+  min-height: 230px;
+  border: 0;
+  border-bottom: 1px solid rgba(202, 182, 75, 0.32);
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: #F2F2F2;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  resize: vertical;
+  transition: border-color 0.25s ease;
+}
+
+.aoc-contact-message-input::placeholder {
+  color: rgba(242, 242, 242, 0.42);
+}
+
+.aoc-contact-message-input:focus {
+  border-bottom-color: #CAB64B;
+}
+
+.aoc-contact-divider {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  margin: 10px 0 -4px;
+}
+
+.aoc-contact-divider span {
+  display: block;
+  flex: 1;
+  height: 1px;
+  background: rgba(242, 242, 242, 0.14);
+}
+
+.aoc-contact-divider i {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(202, 182, 75, 0.75);
+}
+
+.aoc-contact-details-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.aoc-contact-detail-item {
+  display: block;
+  min-height: auto;
+  padding: 0 0 24px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.aoc-contact-detail-item + .aoc-contact-detail-item {
+  border-top: 1px solid rgba(202, 182, 75, 0.28);
+  padding: 24px 0 0;
+}
+
+.aoc-contact-detail-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+  color: #CAB64B;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.aoc-contact-icon {
+  display: inline-flex;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(202, 182, 75, 0.5);
+  border-radius: 999px;
+  color: #CAB64B;
+  transition: border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+}
+
+.aoc-contact-icon svg {
+  width: 17px;
+  height: 17px;
+}
+
+.aoc-contact-detail-item strong {
+  display: block;
+  color: rgba(242, 242, 242, 0.88);
+  font-family: "Inter Tight", sans-serif;
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 300;
+  letter-spacing: 0.04em;
+  line-height: 1.55;
+}
+
+.aoc-contact-detail-item:hover strong {
+  color: #F2F2F2;
+}
+
+.aoc-contact-detail-item:hover .aoc-contact-icon {
+  border-color: #CAB64B;
+  background: rgba(202, 182, 75, 0.16);
+  color: #F2F2F2;
+}
+
+.rtl .aoc-contact-frame-label,
+.rtl .aoc-contact-line-input,
+.rtl .aoc-contact-detail-label {
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.rtl .aoc-contact-line-input,
+.rtl .aoc-contact-message-input {
+  letter-spacing: 0;
+  text-align: right;
+}
+
+.aoc-contact-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  max-width: 980px;
+}
+
+.aoc-contact-form label {
+  display: grid;
+  gap: 8px;
+  color: #CAB64B;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.aoc-contact-form input,
+.aoc-contact-form textarea {
+  width: 100%;
+  border: 0;
+  border-bottom: 1px solid rgba(242, 242, 242, 0.35);
+  border-radius: 0;
+  background: transparent;
+  color: #F2F2F2;
+  font: inherit;
+  letter-spacing: 0;
+  outline: none;
+  padding: 12px 0;
+}
+
+.aoc-contact-form textarea,
+.aoc-contact-message-field,
+.aoc-contact-form button,
+.aoc-contact-form [data-contact-message] {
+  grid-column: 1 / -1;
+}
+
+.aoc-contact-form button {
+  justify-self: start;
+  padding: 14px 26px;
+}
+
+.aoc-bottom-bar {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 45;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 16px;
+  padding: 12px clamp(20px, 5vw, 72px);
+  border-top: 1px solid rgba(242, 242, 242, 0.16);
+  background: rgba(5, 5, 9, 0.86);
+  color: #F2F2F2;
+  opacity: 0;
+  pointer-events: none;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: opacity 0.3s ease;
+}
+
+.aoc-footer-trust,
+.aoc-footer-copy {
+  margin: 0;
+  color: rgba(242, 242, 242, 0.78);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.aoc-footer-partner {
+  width: 120px;
+  margin: 0 auto;
+}
+
+@media (max-width: 1100px) {
+  .aoc-block-header {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    justify-items: center;
+    padding: 16px 20px;
+  }
+
+  .aoc-block-header .wp-block-navigation {
+    font-size: 11px;
+  }
+
+  .aoc-about-columns,
+  .aoc-card-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .aoc-logo-marquee,
+  .aoc-logo-grid {
+    grid-template-columns: repeat(4, minmax(90px, 1fr));
+  }
+}
+
+@media (max-width: 782px) {
+  body.admin-bar .aoc-block-header {
+    top: 46px;
+  }
+
+  .aoc-block-header .wp-block-navigation__container {
+    gap: 12px;
+    justify-content: center;
+  }
+
+  .aoc-hero-content {
+    bottom: 168px;
+  }
+
+  .aoc-about-columns,
+  .aoc-card-grid,
+  .aoc-contact-form {
+    grid-template-columns: 1fr;
+  }
+
+  .aoc-contact-info {
+    grid-template-columns: 1fr;
+  }
+
+  .aoc-contact-fields-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .aoc-contact-message-input {
+    min-height: 170px;
+  }
+
+  .aoc-contact-detail-item,
+  .rtl .aoc-contact-detail-item {
+    padding: 0 0 18px;
+  }
+
+  .aoc-contact-detail-item + .aoc-contact-detail-item,
+  .rtl .aoc-contact-detail-item + .aoc-contact-detail-item {
+    border-top: 1px solid rgba(202, 182, 75, 0.28);
+    border-left: 0;
+    border-right: 0;
+    padding: 18px 0 0;
+  }
+
+  .aoc-logo-marquee,
+  .aoc-logo-grid {
+    grid-template-columns: repeat(2, minmax(90px, 1fr));
+  }
+
+  .aoc-bottom-bar {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+}
+
+/* Restore the original Al Osaimi visual identity on Gutenberg-rendered pages. */
+.aoc-block-header {
+  grid-template-columns: minmax(120px, 180px) 1fr auto;
+  min-height: 64px;
+  padding: 12px clamp(16px, 3vw, 32px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(28, 31, 42, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.aoc-header-logo {
+  width: auto;
+  height: 40px;
+}
+
+.aoc-header-logo img {
+  width: auto;
+  height: 40px;
+}
+
+.aoc-block-header .wp-block-navigation {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  justify-self: auto;
+  transform: translate(-50%, -50%);
+  gap: 32px;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+}
+
+.aoc-language-switch {
+  position: absolute;
+  right: clamp(16px, 3vw, 32px);
+  top: 50%;
+  justify-content: flex-end;
+  margin: 0;
+  transform: translateY(-50%);
+}
+
+.aoc-language-button,
+.aoc-language-button .wp-block-button__link {
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: rgba(242, 242, 242, 0.8) !important;
+  font-family: "Inter Tight", sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.aoc-language-button .wp-block-button__link:hover {
+  color: #CAB64B !important;
+}
+
+.aoc-block-hero {
+  min-height: 100svh;
+}
+
+.aoc-block-hero .wp-block-cover__background,
+.aoc-block-hero .wp-block-cover__background.has-background-dim {
+  background: linear-gradient(to bottom, rgba(28, 31, 42, 0.48), rgba(0, 48, 135, 0.12), rgba(5, 5, 9, 0.48)) !important;
+  opacity: 1 !important;
+}
+
+.aoc-block-hero .wp-block-cover__video-background {
+  object-fit: cover;
+}
+
+.aoc-hero-content,
+.aoc-hero-title,
+.aoc-hero-subtitle {
+  display: none !important;
+}
+
+.aoc-hero-banner {
+  top: 70%;
+  bottom: auto;
+  border: 0;
+  background: transparent;
+}
+
+.aoc-hero-banner-text {
+  padding-left: 18px;
+  font-size: clamp(32px, 5vw, 60px);
+  font-weight: 200;
+  letter-spacing: 0.2em;
+  line-height: 1;
+}
+
+.aoc-hero-scroll {
+  position: absolute;
+  left: 24px;
+  bottom: 32px;
+  z-index: 30;
+}
+
+.aoc-hero-scroll-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 12px;
+  border: 1px solid rgba(242, 242, 242, 0.3);
+  border-radius: 999px;
+  color: rgba(242, 242, 242, 0.8);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 11px;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+.aoc-hero-bottom-row {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px clamp(16px, 3vw, 32px);
+}
+
+.aoc-hero-social-links,
+.aoc-hero-bottom-row .aoc-social-links {
+  position: absolute;
+  left: 55%;
+  transform: translateX(-50%);
+}
+
+.aoc-hero-social-links {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.aoc-hero-social-links a {
+  color: rgba(242, 242, 242, 0.8);
+  transition: color 0.25s ease;
+}
+
+.aoc-hero-social-links a:hover {
+  color: #F2F2F2;
+}
+
+.aoc-social-links .wp-social-link {
+  background: transparent;
+  border: 0;
+}
+
+.aoc-hero-bottom-row > .wp-social-link {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: rgba(242, 242, 242, 0.8) !important;
+  background: transparent !important;
+  transform: translateY(-50%);
+}
+
+.aoc-hero-bottom-row > .wp-social-link:nth-of-type(1) {
+  left: calc(55% - 46px);
+}
+
+.aoc-hero-bottom-row > .wp-social-link:nth-of-type(2) {
+  left: 55%;
+  transform: translate(-50%, -50%);
+}
+
+.aoc-hero-bottom-row > .wp-social-link:nth-of-type(3) {
+  left: calc(55% + 46px);
+}
+
+.aoc-social-links .wp-social-link a {
+  color: rgba(242, 242, 242, 0.8);
+}
+
+.aoc-hero-befound {
+  width: auto;
+  max-width: none;
+  margin: 0 0 0 auto;
+}
+
+.aoc-hero-befound img {
+  width: auto;
+  height: 24px;
+  max-width: none;
+  object-fit: contain;
+}
+
+.aoc-section {
+  color: #F2F2F2;
+  padding: clamp(64px, 8vw, 112px) clamp(16px, 4vw, 48px);
+}
+
+.aoc-about-section,
+.aoc-services-section,
+.aoc-contact-section {
+  background: #003087;
+}
+
+.aoc-clients-section {
+  padding-top: 32px;
+  padding-bottom: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.aoc-projects-section {
+  background: #050509;
+}
+
+.aoc-section-heading,
+.aoc-small-section-heading {
+  font-weight: 300;
+  letter-spacing: 0.16em;
+}
+
+.aoc-services-section .aoc-section-heading {
+  text-align: right;
+}
+
+.aoc-about-section .aoc-section-heading {
+  width: max-content;
+  max-width: none;
+  font-size: clamp(64px, 8vw, 118px);
+  line-height: 0.85;
+  letter-spacing: 0.1em;
+}
+
+.aoc-contact-section .aoc-section-heading {
+  color: #CAB64B;
+}
+
+.aoc-logo-marquee,
+.aoc-logo-grid {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 5vw, 56px);
+}
+
+.aoc-logo-card {
+  width: 160px;
+  min-height: 84px;
+  border: 0;
+  background: transparent;
+}
+
+.aoc-logo-card img {
+  max-height: 72px;
+}
+
+.aoc-bottom-bar {
+  padding: 10px clamp(16px, 4vw, 48px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(5, 5, 9, 0.3);
+}
+
+.aoc-bottom-bar-words {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aoc-bottom-bar-words span {
+  color: rgba(242, 242, 242, 0.6);
+  font-family: "Inter Tight", sans-serif;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 782px) {
+  .aoc-block-header {
+    grid-template-columns: 1fr auto 1fr;
+    gap: 8px;
+  }
+
+  .aoc-block-header .wp-block-navigation {
+    position: static;
+    transform: none;
+    grid-column: 1 / -1;
+    order: 3;
+    gap: 14px;
+    font-size: 10px;
+  }
+
+  .aoc-header-logo {
+    justify-self: center;
+  }
+
+  .aoc-hero-banner {
+    top: 66%;
+  }
+
+  .aoc-hero-bottom-row .aoc-social-links {
+    position: static;
+    transform: none;
+  }
+
+  .aoc-hero-social-links,
+  .aoc-hero-bottom-row > .wp-social-link {
+    position: static;
+    transform: none;
+  }
+}

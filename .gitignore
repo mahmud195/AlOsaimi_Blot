@@ -32,3 +32,8 @@ wp-content/cache/
 wp-content/index.php
 wp-content/themes/index.php
 wp-content/themes/twentytwenty*/
+
+# added by archive 2026-11-03
+node_modules/
+dist/
+.cache/

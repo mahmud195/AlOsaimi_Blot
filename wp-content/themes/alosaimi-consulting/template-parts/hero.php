@@ -16,11 +16,11 @@ $t = $args['t'];
                 loop
                 playsinline
                 preload="auto"
-                poster="<?php echo esc_url(aoc_asset_url($data['media']['hero_poster'])); ?>"
+                poster="<?php echo esc_url(aoc_media_url($data['media']['hero_poster'])); ?>"
                 disableRemotePlayback
                 class="absolute inset-0 w-full h-full object-cover"
             >
-                <source src="<?php echo esc_url(aoc_asset_url($data['media']['hero_video'])); ?>" type="video/mp4" />
+                <source src="<?php echo esc_url(aoc_media_url($data['media']['hero_video'])); ?>" type="video/mp4" />
             </video>
         </div>
         <div class="absolute inset-0 bg-gradient-to-b from-aoc-black/60 via-aoc-indigo/20 to-aoc-black/70"></div>
@@ -44,7 +44,7 @@ $t = $args['t'];
 
     <div class="absolute bottom-5 left-3 md:bottom-8 md:left-8 z-30">
         <div class="flex flex-col items-center gap-1.5 px-2.5 py-3 md:px-3 md:py-4 border border-aoc-white/30 rounded-full">
-            <span class="text-aoc-white/80 text-[10px] md:text-xs font-inter-tight font-light tracking-[0.12em] md:tracking-[0.15em] uppercase writing-vertical">SCROLL</span>
+            <span class="text-aoc-white/80 text-[10px] md:text-xs font-inter-tight font-light tracking-[0.12em] md:tracking-[0.15em] uppercase writing-vertical"><?php echo esc_html('ar' === $language ? 'تصفح' : 'SCROLL'); ?></span>
             <?php echo aoc_icon('chevron-down', 'w-3.5 h-3.5 md:w-4 md:h-4 text-aoc-white/80 animate-bounce', 16); ?>
         </div>
     </div>
@@ -59,10 +59,9 @@ $t = $args['t'];
             </div>
             <div class="flex items-center">
                 <a href="<?php echo esc_url($data['social']['befound']); ?>" target="_blank" rel="noopener noreferrer">
-                    <img src="<?php echo esc_url(aoc_asset_url($data['media']['befound'])); ?>" alt="BeFound Design Studio" class="h-5 md:h-6 w-auto" />
+                    <img src="<?php echo esc_url(aoc_media_url($data['media']['befound'])); ?>" alt="BeFound Design Studio" class="h-5 md:h-6 w-auto" />
                 </a>
             </div>
         </div>
     </div>
 </section>
-
